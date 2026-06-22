@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Cozyla Widgets</string>
+  <string name="app_status">Clock and Week Calendar widgets are installed. Add them from the launcher widget picker.</string>
+  <string name="clock_widget_title">Cozyla Clock</string>
+  <string name="clock_widget_description">Clock widget for tablet testing</string>
+
+  <string name="calendar_widget_name">Week Calendar</string>
+  <string name="calendar_widget_description">Resizable Monday-first week or workweek calendar</string>
+  <string name="calendar_widget_loading">Loading calendars&#8230;</string>
+  <string name="calendar_widget_permission_required">Calendar access required</string>
+  <string name="calendar_widget_no_events">No events</string>
+  <string name="calendar_widget_update_failed">Calendar unavailable. Tap refresh.</string>
+  <string name="calendar_widget_all_day">All day</string>
+  <string name="calendar_widget_all_day_short">ALL DAY</string>
+  <string name="calendar_widget_today">Today</string>
+  <string name="calendar_widget_previous_week">Previous week</string>
+  <string name="calendar_widget_next_week">Next week</string>
+  <string name="calendar_widget_refresh">Refresh calendar</string>
+  <string name="calendar_widget_settings">Calendar widget settings</string>
+
+  <string name="calendar_config_title">Week Calendar</string>
+  <string name="calendar_config_subtitle">Choose a layout and any calendars synced to this device.</string>
+  <string name="calendar_config_view_label">View</string>
+  <string name="calendar_config_week">Week (Monday-Sunday)</string>
+  <string name="calendar_config_workweek">Workweek (Monday-Friday)</string>
+  <string name="calendar_config_time_range_label">Timeline hours</string>
+  <string name="calendar_config_start_time">From</string>
+  <string name="calendar_config_end_time">To</string>
+  <string name="calendar_config_midnight_end">%1$s (midnight)</string>
+  <string name="calendar_config_invalid_time_range">Choose an end time later than the start time.</string>
+  <string name="calendar_config_calendars_label">Calendars</string>
+  <string name="calendar_config_loading">Loading synced calendars&#8230;</string>
+  <string name="calendar_config_permission_explanation">Calendar access is required to show events in the widget. Accounts stay managed by Android and Google Calendar.</string>
+  <string name="calendar_config_permission_denied">Calendar access is off. Grant access to choose synced calendars.</string>
+  <string name="calendar_config_no_calendars">No visible calendars were found. Add a Google account to Android and enable Calendar sync, then reopen this setup.</string>
+  <string name="calendar_config_load_failed">Calendars could not be loaded. Check Android Calendar sync and try again.</string>
+  <string name="calendar_config_select_one">Select at least one calendar.</string>
+  <string name="calendar_config_grant_access">Grant calendar access</string>
+  <string name="calendar_config_cancel">Cancel</string>
+  <string name="calendar_config_save">Add widget</string>
+  <string name="calendar_config_update">Save changes</string>
+</resources>

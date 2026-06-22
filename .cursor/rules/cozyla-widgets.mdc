@@ -1,0 +1,39 @@
+---
+description: Cozyla Android widget project rules
+globs:
+  - "**/*"
+alwaysApply: true
+---
+
+# Cozyla Widgets Rules
+
+This project builds a native Android App Widget for a Cozyla Android tablet.
+
+Read and follow `AGENTS.md` before making changes. This is a public repository, so its Public Repository Security Rules are mandatory. Never copy local credentials, calendar data, account details, device identifiers, ignored files, or private tool output into the repository. Run both privacy checks before pushing public history.
+
+- Treat standard Android App Widgets as the baseline architecture unless device testing proves otherwise.
+- Be direct about bad assumptions. Developer mode alone does not imply ADB access or deployability. A ping response is not an install path.
+- Cozyla support docs say the standard launcher supports adding and resizing widgets; validate that on-device before building launcher bypasses.
+- Resizing is the main quality risk. Every widget change must preserve compact, default, wide, square, and large tablet placements without cropped, stale, overlapping, or awkwardly empty content.
+- Keep widget code dependency-light, but install dependencies that materially improve correctness, testability, or maintainability. Do not introduce Compose, React Native, Flutter, or backend services without a concrete requirement.
+- Keep device/IP configuration out of source unless it is explicitly non-secret documentation.
+- Never commit real device IPs, MAC addresses, serial numbers, pairing ports, private build IDs, screenshots, signing keys, or local environment files.
+- Verify with `./gradlew testDebugUnitTest`, `./gradlew lintDebug`, and `./gradlew assembleDebug` before saying the project builds.
+- Verify install/debug readiness with `adb devices -l`; do not infer it from `ping`.
+- Keep generated APK/AAB files, signing material, and local SDK paths out of git.
+- Commit and push completed changes after tests pass unless explicitly told not to.
+- Step back when requirements drift. Prefer reliable product behavior over adding features that make the widget harder to resize, test, or install.
+- Increment `versionCode` for every APK intended for tablet installation. Keep `versionName` readable and pre-release semver-like.
+- Use `scripts/push-widget.sh <widget-id>` for local build/test/install once the tablet is visible in `adb devices -l`.
+- Structure each widget as its own provider, layout, metadata XML, tests, and README entry. Shared code is allowed, but widget identity must stay explicit.
+
+## Android Widget Standards
+
+- Provider metadata must preserve explicit sizing: `minWidth`, `minHeight`, `targetCellWidth`, `targetCellHeight`, `resizeMode`, description, and preview layout.
+- Rectangular widgets should fill all four launcher-grid edges. Do not render a decorative card floating inside unused widget bounds.
+- Use responsive layout breakpoints or exact layouts when the same content cannot fit cleanly across sizes.
+- Minimum touch targets are 48dp by 48dp.
+- Text must use bounded lines and ellipsizing or alternate content at smaller sizes. Never rely on one Cozyla grid size.
+- Use accurate widget picker previews. `previewLayout` is required for Android 12+ behavior; add `previewImage` before supporting older widget pickers seriously.
+- Avoid long-running work in `AppWidgetProvider`; use background work for network/calendar sync and then update `RemoteViews`.
+- Do not treat `updatePeriodMillis` as an exact clock. If users need fresh data, provide an explicit refresh/update path.

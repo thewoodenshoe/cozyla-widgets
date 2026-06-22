@@ -1,0 +1,46 @@
+# Gradle
+.gradle/
+build/
+*/build/
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Android local config
+local.properties
+.env
+.env.*
+!.env.example
+docs/local/
+keystore.properties
+google-services.json
+
+# Signing keys and credentials
+*.jks
+*.keystore
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Generated Android artifacts
+*.apk
+*.ap_
+*.aab
+*.dex
+captures/
+screenshots/
+screenrecordings/
+*.heic
+*.hprof
+
+# JVM / OS noise
+*.class
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

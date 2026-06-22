@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="app_background">#F8F6F0</color>
+  <color name="widget_background">#23605B</color>
+  <color name="widget_border">#347B75</color>
+  <color name="widget_text_primary">#FFFFFF</color>
+  <color name="widget_text_secondary">#D9EEE9</color>
+
+  <color name="calendar_widget_background">#F7F8FA</color>
+  <color name="calendar_widget_border">#D7DCE2</color>
+  <color name="calendar_widget_text">#17202A</color>
+  <color name="calendar_widget_secondary">#5F6B76</color>
+  <color name="calendar_widget_today">#146C5A</color>
+  <color name="calendar_widget_today_text">#FFFFFF</color>
+  <color name="calendar_widget_event_default">#DCECE8</color>
+  <color name="calendar_widget_event_text">#16211F</color>
+  <color name="calendar_widget_empty">#8A949E</color>
+  <color name="calendar_widget_grid">#D8DEE3</color>
+  <color name="calendar_widget_now">#E34D59</color>
+  <color name="calendar_config_accent">#146C5A</color>
+  <color name="calendar_config_surface">#FFFFFF</color>
+  <color name="calendar_config_text">#17202A</color>
+  <color name="calendar_config_secondary">#5F6B76</color>
+</resources>

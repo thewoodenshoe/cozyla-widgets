@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@drawable/calendar_widget_background"
+  android:orientation="vertical"
+  android:padding="8dp"
+  tools:ignore="HardcodedText">
+
+  <TextView
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:gravity="center_vertical"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    android:text="Jun 22-28"
+    android:textColor="@color/calendar_widget_text"
+    android:textSize="15sp"
+    android:textStyle="bold" />
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:orientation="horizontal">
+
+    <LinearLayout style="@style/CalendarWidgetDayColumn">
+      <TextView style="@style/CalendarWidgetDayLabel" android:text="MON\n22" />
+      <TextView style="@style/CalendarWidgetEvent" android:text="9:00 Team sync" android:visibility="visible" />
+      <TextView style="@style/CalendarWidgetEvent" android:text="1:30 Review" android:visibility="visible" />
+    </LinearLayout>
+    <LinearLayout style="@style/CalendarWidgetDayColumn">
+      <TextView style="@style/CalendarWidgetDayLabel" android:text="TUE\n23" />
+      <TextView style="@style/CalendarWidgetEvent" android:text="10:00 Project" android:visibility="visible" />
+    </LinearLayout>
+    <LinearLayout style="@style/CalendarWidgetDayColumn">
+      <TextView style="@style/CalendarWidgetDayLabel" android:text="WED\n24" />
+      <TextView style="@style/CalendarWidgetEvent" android:text="All day Launch" android:visibility="visible" />
+      <TextView style="@style/CalendarWidgetEvent" android:text="3:00 Check-in" android:visibility="visible" />
+    </LinearLayout>
+    <LinearLayout style="@style/CalendarWidgetDayColumn">
+      <TextView style="@style/CalendarWidgetDayLabel" android:text="THU\n25" />
+      <TextView style="@style/CalendarWidgetEvent" android:text="11:00 Planning" android:visibility="visible" />
+    </LinearLayout>
+    <LinearLayout style="@style/CalendarWidgetDayColumn">
+      <TextView style="@style/CalendarWidgetDayLabel" android:text="FRI\n26" />
+      <TextView style="@style/CalendarWidgetEvent" android:text="2:00 Demo" android:visibility="visible" />
+    </LinearLayout>
+    <LinearLayout style="@style/CalendarWidgetDayColumn">
+      <TextView style="@style/CalendarWidgetDayLabel" android:text="SAT\n27" />
+      <TextView style="@style/CalendarWidgetEvent" android:text="No events" android:visibility="visible" />
+    </LinearLayout>
+    <LinearLayout style="@style/CalendarWidgetDayColumn">
+      <TextView style="@style/CalendarWidgetDayLabel" android:text="SUN\n28" />
+      <TextView style="@style/CalendarWidgetEvent" android:text="4:00 Dinner" android:visibility="visible" />
+    </LinearLayout>
+  </LinearLayout>
+</LinearLayout>

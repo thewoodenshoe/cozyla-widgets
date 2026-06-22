@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <style name="AppTheme" parent="android:style/Theme.Material.Light.NoActionBar">
+    <item name="android:windowBackground">@color/app_background</item>
+    <item name="android:fontFamily">sans</item>
+  </style>
+
+  <style name="AppTheme.CalendarConfiguration" parent="android:style/Theme.Material.Light.NoActionBar">
+    <item name="android:windowBackground">@color/app_background</item>
+    <item name="android:fontFamily">sans</item>
+    <item name="android:colorAccent">@color/calendar_config_accent</item>
+    <item name="android:navigationBarColor">@color/calendar_config_surface</item>
+    <item name="android:statusBarColor">@color/calendar_config_surface</item>
+    <item name="android:windowLightStatusBar">true</item>
+  </style>
+
+  <style name="CalendarWidgetDayColumn">
+    <item name="android:layout_width">0dp</item>
+    <item name="android:layout_height">match_parent</item>
+    <item name="android:layout_weight">1</item>
+    <item name="android:orientation">vertical</item>
+    <item name="android:paddingLeft">2dp</item>
+    <item name="android:paddingRight">2dp</item>
+  </style>
+
+  <style name="CalendarWidgetDayLabel">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">36dp</item>
+    <item name="android:gravity">center</item>
+    <item name="android:maxLines">2</item>
+    <item name="android:textColor">@color/calendar_widget_secondary</item>
+    <item name="android:textSize">11sp</item>
+    <item name="android:textStyle">bold</item>
+  </style>
+
+  <style name="CalendarWidgetEvent">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">0dp</item>
+    <item name="android:layout_weight">1</item>
+    <item name="android:layout_marginTop">2dp</item>
+    <item name="android:background">@drawable/calendar_event_background</item>
+    <item name="android:ellipsize">end</item>
+    <item name="android:fontFamily">sans</item>
+    <item name="android:gravity">center_vertical</item>
+    <item name="android:maxLines">3</item>
+    <item name="android:paddingLeft">5dp</item>
+    <item name="android:paddingTop">3dp</item>
+    <item name="android:paddingRight">4dp</item>
+    <item name="android:paddingBottom">3dp</item>
+    <item name="android:textColor">@color/calendar_widget_event_text</item>
+    <item name="android:textSize">10sp</item>
+    <item name="android:visibility">gone</item>
+  </style>
+
+  <style name="CalendarWidgetTimelineDayLabel">
+    <item name="android:layout_width">0dp</item>
+    <item name="android:layout_height">36dp</item>
+    <item name="android:layout_weight">1</item>
+    <item name="android:gravity">center</item>
+    <item name="android:maxLines">2</item>
+    <item name="android:textColor">@color/calendar_widget_secondary</item>
+    <item name="android:textSize">10sp</item>
+    <item name="android:textStyle">bold</item>
+  </style>
+
+  <style name="CalendarWidgetAllDayColumn">
+    <item name="android:layout_width">0dp</item>
+    <item name="android:layout_height">match_parent</item>
+    <item name="android:layout_weight">1</item>
+    <item name="android:orientation">vertical</item>
+    <item name="android:paddingLeft">1dp</item>
+    <item name="android:paddingRight">1dp</item>
+  </style>
+
+  <style name="CalendarWidgetAllDayEvent">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">18dp</item>
+    <item name="android:layout_marginTop">1dp</item>
+    <item name="android:ellipsize">end</item>
+    <item name="android:gravity">center_vertical</item>
+    <item name="android:maxLines">1</item>
+    <item name="android:paddingLeft">3dp</item>
+    <item name="android:paddingRight">2dp</item>
+    <item name="android:textColor">@color/calendar_widget_event_text</item>
+    <item name="android:textSize">8sp</item>
+    <item name="android:visibility">gone</item>
+  </style>
+
+  <style name="CalendarWidgetHourLabel">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">0dp</item>
+    <item name="android:layout_weight">1</item>
+    <item name="android:gravity">top|end</item>
+    <item name="android:maxLines">1</item>
+    <item name="android:paddingRight">4dp</item>
+    <item name="android:textColor">@color/calendar_widget_secondary</item>
+    <item name="android:textSize">7sp</item>
+  </style>
+
+  <style name="CalendarWidgetHourRow">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">0dp</item>
+    <item name="android:layout_weight">1</item>
+    <item name="android:background">@drawable/calendar_timeline_hour_background</item>
+  </style>
+
+  <style name="CalendarWidgetTimelineDayColumn">
+    <item name="android:layout_width">0dp</item>
+    <item name="android:layout_height">match_parent</item>
+    <item name="android:layout_weight">1</item>
+    <item name="android:background">@drawable/calendar_timeline_column_background</item>
+  </style>
+
+  <style name="CalendarWidgetTimelineEvent">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">1dp</item>
+    <item name="android:ellipsize">end</item>
+    <item name="android:gravity">top</item>
+    <item name="android:maxLines">3</item>
+    <item name="android:paddingLeft">3dp</item>
+    <item name="android:paddingTop">1dp</item>
+    <item name="android:paddingRight">2dp</item>
+    <item name="android:paddingBottom">1dp</item>
+    <item name="android:textColor">@color/calendar_widget_event_text</item>
+    <item name="android:textSize">8sp</item>
+    <item name="android:visibility">gone</item>
+  </style>
+
+  <style name="CalendarWidgetNowLine">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">1dp</item>
+    <item name="android:background">@color/calendar_widget_now</item>
+    <item name="android:visibility">gone</item>
+  </style>
+</resources>

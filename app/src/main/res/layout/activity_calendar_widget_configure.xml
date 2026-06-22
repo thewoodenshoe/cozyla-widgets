@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/calendar_config_surface"
+    android:orientation="vertical"
+    android:paddingLeft="24dp"
+    android:paddingTop="24dp"
+    android:paddingRight="24dp"
+    android:paddingBottom="18dp">
+
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/calendar_config_title"
+      android:textColor="@color/calendar_config_text"
+      android:textSize="24sp"
+      android:textStyle="bold" />
+
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="6dp"
+      android:text="@string/calendar_config_subtitle"
+      android:textColor="@color/calendar_config_secondary"
+      android:textSize="15sp" />
+  </LinearLayout>
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:orientation="vertical"
+    android:paddingLeft="24dp"
+    android:paddingTop="20dp"
+    android:paddingRight="24dp"
+    android:paddingBottom="12dp">
+
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/calendar_config_view_label"
+      android:textColor="@color/calendar_config_text"
+      android:textSize="14sp"
+      android:textStyle="bold" />
+
+    <RadioGroup
+      android:id="@+id/calendar_mode_group"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:orientation="horizontal">
+
+      <RadioButton
+        android:id="@+id/calendar_mode_week"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_weight="1"
+        android:checked="true"
+        android:text="@string/calendar_config_week" />
+
+      <RadioButton
+        android:id="@+id/calendar_mode_workweek"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_weight="1"
+        android:text="@string/calendar_config_workweek" />
+    </RadioGroup>
+
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="18dp"
+      android:text="@string/calendar_config_time_range_label"
+      android:textColor="@color/calendar_config_text"
+      android:textSize="14sp"
+      android:textStyle="bold" />
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:orientation="horizontal">
+
+      <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/calendar_config_start_time"
+          android:textColor="@color/calendar_config_secondary"
+          android:textSize="12sp" />
+
+        <Spinner
+          android:id="@+id/calendar_start_time"
+          android:layout_width="match_parent"
+          android:layout_height="48dp"
+          android:spinnerMode="dropdown" />
+      </LinearLayout>
+
+      <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/calendar_config_end_time"
+          android:textColor="@color/calendar_config_secondary"
+          android:textSize="12sp" />
+
+        <Spinner
+          android:id="@+id/calendar_end_time"
+          android:layout_width="match_parent"
+          android:layout_height="48dp"
+          android:spinnerMode="dropdown" />
+      </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="14dp"
+      android:text="@string/calendar_config_calendars_label"
+      android:textColor="@color/calendar_config_text"
+      android:textSize="14sp"
+      android:textStyle="bold" />
+
+    <TextView
+      android:id="@+id/calendar_config_status"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:text="@string/calendar_config_loading"
+      android:textColor="@color/calendar_config_secondary"
+      android:textSize="14sp" />
+
+    <Button
+      android:id="@+id/calendar_grant_permission"
+      android:layout_width="wrap_content"
+      android:layout_height="48dp"
+      android:layout_marginTop="12dp"
+      android:text="@string/calendar_config_grant_access"
+      android:visibility="gone" />
+
+    <ListView
+      android:id="@+id/calendar_list"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:layout_marginTop="8dp"
+      android:choiceMode="multipleChoice"
+      android:divider="@color/calendar_widget_border"
+      android:dividerHeight="1dp"
+      android:visibility="gone" />
+  </LinearLayout>
+
+  <LinearLayout
+    style="?android:attr/buttonBarStyle"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:background="@color/calendar_config_surface"
+    android:gravity="end|center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <Button
+      android:id="@+id/calendar_config_cancel"
+      style="?android:attr/buttonBarButtonStyle"
+      android:layout_width="wrap_content"
+      android:layout_height="48dp"
+      android:text="@string/calendar_config_cancel" />
+
+    <Button
+      android:id="@+id/calendar_config_save"
+      style="?android:attr/buttonBarButtonStyle"
+      android:layout_width="wrap_content"
+      android:layout_height="48dp"
+      android:layout_marginStart="12dp"
+      android:enabled="false"
+      android:text="@string/calendar_config_save" />
+  </LinearLayout>
+</LinearLayout>

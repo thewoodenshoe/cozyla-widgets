@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/calendar_widget_root"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@drawable/calendar_widget_background"
+  android:orientation="vertical"
+  android:padding="6dp">
+
+  <LinearLayout
+    android:id="@+id/calendar_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <ImageView
+      android:id="@+id/calendar_previous"
+      android:layout_width="48dp"
+      android:layout_height="48dp"
+      android:contentDescription="@string/calendar_widget_previous_week"
+      android:padding="12dp"
+      android:src="@drawable/ic_calendar_previous" />
+
+    <TextView
+      android:id="@+id/calendar_week_label"
+      android:layout_width="0dp"
+      android:layout_height="48dp"
+      android:layout_weight="1"
+      android:ellipsize="end"
+      android:gravity="center_vertical"
+      android:maxLines="1"
+      android:paddingLeft="4dp"
+      android:paddingRight="4dp"
+      android:textColor="@color/calendar_widget_text"
+      android:textSize="15sp"
+      android:textStyle="bold" />
+
+    <ImageView
+      android:id="@+id/calendar_today"
+      android:layout_width="48dp"
+      android:layout_height="48dp"
+      android:contentDescription="@string/calendar_widget_today"
+      android:padding="12dp"
+      android:src="@drawable/ic_calendar_today"
+      android:visibility="gone" />
+
+    <ImageView
+      android:id="@+id/calendar_refresh"
+      android:layout_width="48dp"
+      android:layout_height="48dp"
+      android:contentDescription="@string/calendar_widget_refresh"
+      android:padding="12dp"
+      android:src="@drawable/ic_calendar_refresh"
+      android:visibility="gone" />
+
+    <ImageView
+      android:id="@+id/calendar_settings"
+      android:layout_width="48dp"
+      android:layout_height="48dp"
+      android:contentDescription="@string/calendar_widget_settings"
+      android:padding="12dp"
+      android:src="@drawable/ic_calendar_settings"
+      android:visibility="gone" />
+
+    <ImageView
+      android:id="@+id/calendar_next"
+      android:layout_width="48dp"
+      android:layout_height="48dp"
+      android:contentDescription="@string/calendar_widget_next_week"
+      android:padding="12dp"
+      android:src="@drawable/ic_calendar_next" />
+  </LinearLayout>
+
+  <FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1">
+
+    <LinearLayout
+      android:id="@+id/calendar_day_grid"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="horizontal"
+      android:visibility="gone">
+
+      <LinearLayout android:id="@+id/calendar_day_1" style="@style/CalendarWidgetDayColumn">
+        <TextView android:id="@+id/calendar_day_label_1" style="@style/CalendarWidgetDayLabel" />
+        <TextView android:id="@+id/calendar_summary_all_day_1" style="@style/CalendarWidgetAllDayEvent" />
+        <TextView android:id="@+id/calendar_event_1_1" style="@style/CalendarWidgetEvent" />
+        <TextView android:id="@+id/calendar_event_1_2" style="@style/CalendarWidgetEvent" />
+        <TextView android:id="@+id/calendar_event_1_3" style="@style/CalendarWidgetEvent" />
+        <TextView android:id="@+id/calendar_event_1_4" style="@style/CalendarWidgetEvent" />
+      </LinearLayout>
+
+      <LinearLayout android:id="@+id/calendar_day_2" style="@style/CalendarWidgetDayColumn">
+        <TextView android:id="@+id/calendar_day_label_2" style="@style/CalendarWidgetDayLabel" />
+        <TextView android:id="@+id/calendar_summary_all_day_2" style="@style/CalendarWidgetAllDayEvent" />
+        <TextView android:id="@+id/calendar_event_2_1" style="@style/CalendarWidgetEvent" />
+        <TextView android:id="@+id/calendar_event_2_2" style="@style/CalendarWidgetEvent" />
+        <TextView android:id="@+id/calendar_event_2_3" style="@style/CalendarWidgetEvent" />
+        <TextView android:id="@+id/calendar_event_2_4" style="@style/CalendarWidgetEvent" />
+      </LinearLayout>
+
+      <LinearLayout android:id="@+id/calendar_day_3" style="@style/CalendarWidgetDayColumn">
+        <TextView android:id="@+id/calendar_day_label_3" style="@style/CalendarWidgetDayLabel" />
+        <TextView android:id="@+id/calendar_summary_all_day_3" style="@style/CalendarWidgetAllDayEvent" />
+        <TextView android:id="@+id/calendar_event_3_1" style="@style/CalendarWidgetEvent" />
+        <TextView android:id="@+id/calendar_event_3_2" style="@style/CalendarWidgetEvent" />
+        <TextView android:id="@+id/calendar_event_3_3" style="@style/CalendarWidgetEvent" />
+        <TextView android:id="@+id/calendar_event_3_4" style="@style/CalendarWidgetEvent" />
+      </LinearLayout>
+
+      <LinearLayout android:id="@+id/calendar_day_4" style="@style/CalendarWidgetDayColumn">
+        <TextView android:id="@+id/calendar_day_label_4" style="@style/CalendarWidgetDayLabel" />
+        <TextView android:id="@+id/calendar_summary_all_day_4" style="@style/CalendarWidgetAllDayEvent" />
+        <TextView android:id="@+id/calendar_event_4_1" style="@style/CalendarWidgetEvent" />
+        <TextView android:id="@+id/calendar_event_4_2" style="@style/CalendarWidgetEvent" />
+        <TextView android:id="@+id/calendar_event_4_3" style="@style/CalendarWidgetEvent" />
+        <TextView android:id="@+id/calendar_event_4_4" style="@style/CalendarWidgetEvent" />
+      </LinearLayout>
+
+      <LinearLayout android:id="@+id/calendar_day_5" style="@style/CalendarWidgetDayColumn">
+        <TextView android:id="@+id/calendar_day_label_5" style="@style/CalendarWidgetDayLabel" />
+        <TextView android:id="@+id/calendar_summary_all_day_5" style="@style/CalendarWidgetAllDayEvent" />
+        <TextView android:id="@+id/calendar_event_5_1" style="@style/CalendarWidgetEvent" />
+        <TextView android:id="@+id/calendar_event_5_2" style="@style/CalendarWidgetEvent" />
+        <TextView android:id="@+id/calendar_event_5_3" style="@style/CalendarWidgetEvent" />
+        <TextView android:id="@+id/calendar_event_5_4" style="@style/CalendarWidgetEvent" />
+      </LinearLayout>
+
+      <LinearLayout android:id="@+id/calendar_day_6" style="@style/CalendarWidgetDayColumn">
+        <TextView android:id="@+id/calendar_day_label_6" style="@style/CalendarWidgetDayLabel" />
+        <TextView android:id="@+id/calendar_summary_all_day_6" style="@style/CalendarWidgetAllDayEvent" />
+        <TextView android:id="@+id/calendar_event_6_1" style="@style/CalendarWidgetEvent" />
+        <TextView android:id="@+id/calendar_event_6_2" style="@style/CalendarWidgetEvent" />
+        <TextView android:id="@+id/calendar_event_6_3" style="@style/CalendarWidgetEvent" />
+        <TextView android:id="@+id/calendar_event_6_4" style="@style/CalendarWidgetEvent" />
+      </LinearLayout>
+
+      <LinearLayout android:id="@+id/calendar_day_7" style="@style/CalendarWidgetDayColumn">
+        <TextView android:id="@+id/calendar_day_label_7" style="@style/CalendarWidgetDayLabel" />
+        <TextView android:id="@+id/calendar_summary_all_day_7" style="@style/CalendarWidgetAllDayEvent" />
+        <TextView android:id="@+id/calendar_event_7_1" style="@style/CalendarWidgetEvent" />
+        <TextView android:id="@+id/calendar_event_7_2" style="@style/CalendarWidgetEvent" />
+        <TextView android:id="@+id/calendar_event_7_3" style="@style/CalendarWidgetEvent" />
+        <TextView android:id="@+id/calendar_event_7_4" style="@style/CalendarWidgetEvent" />
+      </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+      android:id="@+id/calendar_timeline"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical"
+      android:visibility="gone">
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:orientation="horizontal">
+
+        <TextView
+          android:layout_width="42dp"
+          android:layout_height="36dp" />
+
+        <TextView android:id="@+id/calendar_timeline_day_label_1" style="@style/CalendarWidgetTimelineDayLabel" />
+        <TextView android:id="@+id/calendar_timeline_day_label_2" style="@style/CalendarWidgetTimelineDayLabel" />
+        <TextView android:id="@+id/calendar_timeline_day_label_3" style="@style/CalendarWidgetTimelineDayLabel" />
+        <TextView android:id="@+id/calendar_timeline_day_label_4" style="@style/CalendarWidgetTimelineDayLabel" />
+        <TextView android:id="@+id/calendar_timeline_day_label_5" style="@style/CalendarWidgetTimelineDayLabel" />
+        <TextView android:id="@+id/calendar_timeline_day_label_6" style="@style/CalendarWidgetTimelineDayLabel" />
+        <TextView android:id="@+id/calendar_timeline_day_label_7" style="@style/CalendarWidgetTimelineDayLabel" />
+      </LinearLayout>
+
+      <LinearLayout
+        android:id="@+id/calendar_all_day_row"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:orientation="horizontal">
+
+        <TextView
+          android:layout_width="42dp"
+          android:layout_height="match_parent"
+          android:gravity="top|end"
+          android:maxLines="1"
+          android:paddingRight="4dp"
+          android:paddingTop="2dp"
+          android:text="@string/calendar_widget_all_day_short"
+          android:textColor="@color/calendar_widget_secondary"
+          android:textSize="7sp" />
+
+        <LinearLayout android:id="@+id/calendar_all_day_1" style="@style/CalendarWidgetAllDayColumn">
+          <TextView android:id="@+id/calendar_all_day_event_1_1" style="@style/CalendarWidgetAllDayEvent" />
+          <TextView android:id="@+id/calendar_all_day_event_1_2" style="@style/CalendarWidgetAllDayEvent" />
+        </LinearLayout>
+        <LinearLayout android:id="@+id/calendar_all_day_2" style="@style/CalendarWidgetAllDayColumn">
+          <TextView android:id="@+id/calendar_all_day_event_2_1" style="@style/CalendarWidgetAllDayEvent" />
+          <TextView android:id="@+id/calendar_all_day_event_2_2" style="@style/CalendarWidgetAllDayEvent" />
+        </LinearLayout>
+        <LinearLayout android:id="@+id/calendar_all_day_3" style="@style/CalendarWidgetAllDayColumn">
+          <TextView android:id="@+id/calendar_all_day_event_3_1" style="@style/CalendarWidgetAllDayEvent" />
+          <TextView android:id="@+id/calendar_all_day_event_3_2" style="@style/CalendarWidgetAllDayEvent" />
+        </LinearLayout>
+        <LinearLayout android:id="@+id/calendar_all_day_4" style="@style/CalendarWidgetAllDayColumn">
+          <TextView android:id="@+id/calendar_all_day_event_4_1" style="@style/CalendarWidgetAllDayEvent" />
+          <TextView android:id="@+id/calendar_all_day_event_4_2" style="@style/CalendarWidgetAllDayEvent" />
+        </LinearLayout>
+        <LinearLayout android:id="@+id/calendar_all_day_5" style="@style/CalendarWidgetAllDayColumn">
+          <TextView android:id="@+id/calendar_all_day_event_5_1" style="@style/CalendarWidgetAllDayEvent" />
+          <TextView android:id="@+id/calendar_all_day_event_5_2" style="@style/CalendarWidgetAllDayEvent" />
+        </LinearLayout>
+        <LinearLayout android:id="@+id/calendar_all_day_6" style="@style/CalendarWidgetAllDayColumn">
+          <TextView android:id="@+id/calendar_all_day_event_6_1" style="@style/CalendarWidgetAllDayEvent" />
+          <TextView android:id="@+id/calendar_all_day_event_6_2" style="@style/CalendarWidgetAllDayEvent" />
+        </LinearLayout>
+        <LinearLayout android:id="@+id/calendar_all_day_7" style="@style/CalendarWidgetAllDayColumn">
+          <TextView android:id="@+id/calendar_all_day_event_7_1" style="@style/CalendarWidgetAllDayEvent" />
+          <TextView android:id="@+id/calendar_all_day_event_7_2" style="@style/CalendarWidgetAllDayEvent" />
+        </LinearLayout>
+      </LinearLayout>
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <LinearLayout
+          android:id="@+id/calendar_time_axis"
+          android:layout_width="42dp"
+          android:layout_height="match_parent"
+          android:orientation="vertical">
+          <TextView android:id="@+id/calendar_hour_label_1" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_2" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_3" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_4" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_5" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_6" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_7" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_8" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_9" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_10" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_11" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_12" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_13" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_14" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_15" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_16" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_17" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_18" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_19" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_20" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_21" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_22" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_23" style="@style/CalendarWidgetHourLabel" />
+          <TextView android:id="@+id/calendar_hour_label_24" style="@style/CalendarWidgetHourLabel" />
+        </LinearLayout>
+
+        <FrameLayout
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1">
+
+          <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView android:id="@+id/calendar_hour_row_1" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_2" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_3" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_4" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_5" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_6" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_7" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_8" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_9" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_10" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_11" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_12" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_13" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_14" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_15" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_16" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_17" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_18" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_19" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_20" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_21" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_22" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_23" style="@style/CalendarWidgetHourRow" />
+            <TextView android:id="@+id/calendar_hour_row_24" style="@style/CalendarWidgetHourRow" />
+          </LinearLayout>
+
+          <LinearLayout
+            android:id="@+id/calendar_timeline_day_grid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <FrameLayout android:id="@+id/calendar_timeline_day_1" style="@style/CalendarWidgetTimelineDayColumn">
+              <TextView android:id="@+id/calendar_timeline_event_1_1" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_1_2" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_1_3" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_1_4" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_1_5" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_1_6" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_1_7" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_1_8" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_1_9" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_1_10" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_now_line_1" style="@style/CalendarWidgetNowLine" />
+            </FrameLayout>
+            <FrameLayout android:id="@+id/calendar_timeline_day_2" style="@style/CalendarWidgetTimelineDayColumn">
+              <TextView android:id="@+id/calendar_timeline_event_2_1" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_2_2" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_2_3" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_2_4" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_2_5" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_2_6" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_2_7" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_2_8" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_2_9" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_2_10" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_now_line_2" style="@style/CalendarWidgetNowLine" />
+            </FrameLayout>
+            <FrameLayout android:id="@+id/calendar_timeline_day_3" style="@style/CalendarWidgetTimelineDayColumn">
+              <TextView android:id="@+id/calendar_timeline_event_3_1" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_3_2" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_3_3" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_3_4" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_3_5" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_3_6" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_3_7" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_3_8" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_3_9" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_3_10" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_now_line_3" style="@style/CalendarWidgetNowLine" />
+            </FrameLayout>
+            <FrameLayout android:id="@+id/calendar_timeline_day_4" style="@style/CalendarWidgetTimelineDayColumn">
+              <TextView android:id="@+id/calendar_timeline_event_4_1" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_4_2" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_4_3" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_4_4" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_4_5" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_4_6" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_4_7" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_4_8" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_4_9" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_4_10" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_now_line_4" style="@style/CalendarWidgetNowLine" />
+            </FrameLayout>
+            <FrameLayout android:id="@+id/calendar_timeline_day_5" style="@style/CalendarWidgetTimelineDayColumn">
+              <TextView android:id="@+id/calendar_timeline_event_5_1" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_5_2" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_5_3" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_5_4" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_5_5" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_5_6" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_5_7" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_5_8" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_5_9" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_5_10" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_now_line_5" style="@style/CalendarWidgetNowLine" />
+            </FrameLayout>
+            <FrameLayout android:id="@+id/calendar_timeline_day_6" style="@style/CalendarWidgetTimelineDayColumn">
+              <TextView android:id="@+id/calendar_timeline_event_6_1" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_6_2" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_6_3" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_6_4" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_6_5" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_6_6" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_6_7" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_6_8" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_6_9" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_6_10" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_now_line_6" style="@style/CalendarWidgetNowLine" />
+            </FrameLayout>
+            <FrameLayout android:id="@+id/calendar_timeline_day_7" style="@style/CalendarWidgetTimelineDayColumn">
+              <TextView android:id="@+id/calendar_timeline_event_7_1" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_7_2" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_7_3" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_7_4" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_7_5" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_7_6" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_7_7" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_7_8" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_7_9" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_timeline_event_7_10" style="@style/CalendarWidgetTimelineEvent" />
+              <TextView android:id="@+id/calendar_now_line_7" style="@style/CalendarWidgetNowLine" />
+            </FrameLayout>
+          </LinearLayout>
+        </FrameLayout>
+      </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+      android:id="@+id/calendar_status"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:gravity="center"
+      android:maxLines="3"
+      android:padding="16dp"
+      android:text="@string/calendar_widget_loading"
+      android:textColor="@color/calendar_widget_secondary"
+      android:textSize="14sp" />
+  </FrameLayout>
+</LinearLayout>
