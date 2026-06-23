@@ -8,6 +8,8 @@ This project is a catalog of Android widgets. Each widget should be independentl
 | --- | --- | --- | --- | --- |
 | `clock` | Clock | `com.cozyla.widgets.clock.ClockWidgetProvider` | `widget_clock.xml` | MVP |
 | `calendar` | Week Calendar | `com.cozyla.widgets.calendar.CalendarWidgetProvider` | `widget_calendar.xml` | Device verified |
+| `quote` | Quote of the Day | `com.cozyla.widgets.quote.QuoteWidgetProvider` | `widget_quote.xml` | MVP |
+| `chores` | Chore Wheel | `com.cozyla.widgets.chores.ChoreWheelProvider` | `widget_chore_wheel.xml` | MVP |
 
 ## Week Calendar
 
@@ -20,6 +22,19 @@ This project is a catalog of Android widgets. Each widget should be independentl
 - `CalendarContract.Instances` queries performed off the main thread through `JobScheduler`
 
 Direct Google OAuth is intentionally not embedded in the widget. Android owns account authentication and calendar synchronization; the widget receives read-only access after the user grants `READ_CALENDAR` in its configuration Activity.
+
+## Quote of the Day
+
+- local quote list, no network permission or remote feed
+- deterministic daily quote based on the device's local date
+- resizable static widget
+
+## Chore Wheel
+
+- configuration Activity accepts 2 to 8 chores
+- chores are stored only in app-private preferences for that widget instance
+- widget tap/Spin button picks a random chore and redraws the wheel
+- no drag physics because standard Android widgets do not provide arbitrary touch/animation handling through `RemoteViews`
 
 ## Adding A Widget
 

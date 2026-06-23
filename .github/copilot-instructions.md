@@ -3,6 +3,7 @@
 Read and follow `/AGENTS.md` before changing this repository. Its Public Repository Security Rules are mandatory.
 
 - Assume all generated code, tests, documentation, commit messages, and workflow output will be public.
+- Assume users start from zero. Keep install docs plain enough for non-technical tablet owners and explicit about security decisions.
 - Use only synthetic fixture data. Never copy values from a connected Android device, calendar provider, `.env`, `local.properties`, ignored files, terminal history, or screenshots.
 - Preserve the app's local-only privacy model: `READ_CALENDAR` is the only runtime data permission and the app must not gain network access, telemetry, analytics, or remote credential handling without explicit approval and a documented threat model.
 - Minimize exported Android components, keep `PendingIntent` objects explicit and immutable, and keep app-private preferences out of backup.

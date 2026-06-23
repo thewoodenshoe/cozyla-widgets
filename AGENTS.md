@@ -8,6 +8,8 @@ The correct default assumption is a standard Android App Widget. Cozyla's own su
 
 The highest-risk product requirement is resizing. Every widget implementation must be designed and tested as a resizable surface first, not as a fixed-size layout that happens to work in one grid slot.
 
+The public user starts from zero. Documentation and setup flows must assume the reader does not know Git, Android Studio, ADB, Gradle, Google Calendar sync, developer options, pairing ports, or widget picker behavior. Explain installation steps plainly without hiding security tradeoffs.
+
 ## Engineering Rules
 
 - Challenge weak premises directly. Do not accept a framing just because it was stated confidently.
@@ -22,6 +24,7 @@ The highest-risk product requirement is resizing. Every widget implementation mu
 - Watch for architectural drift. If the implementation starts serving old assumptions rather than the current product goal, stop and restate the correct direction before editing.
 - Increment Android `versionCode` for every APK intended for tablet installation. Never decrease or reuse it for normal installs.
 - Keep user-facing `versionName` readable and semver-like while the product is pre-release.
+- Keep README installation instructions usable by a non-technical tablet owner. Do not document only the developer shortcut path.
 
 ## Public Repository Security Rules
 
@@ -34,6 +37,7 @@ This is a public repository. Security and privacy checks are release blockers, n
 - Do not add network permissions, analytics, telemetry, crash reporting, remote APIs, WebViews, or external data transmission without an explicit requirement, threat model, privacy review, and documentation update.
 - Keep Android components non-exported unless platform behavior requires external access. Protect exported services with the narrowest platform permission and use explicit immutable `PendingIntent` objects.
 - Keep calendar access read-only. Do not persist event titles, descriptions, account names, or authentication material. App-private widget preferences must remain excluded from backup.
+- Prefer Android-owned account sync for Google Calendar. Do not add direct Google credential collection, OAuth client secrets, or cloud API setup unless a documented product requirement beats the added security risk.
 - Pin downloaded build tooling and CI actions to checksums or immutable commit SHAs. Review dependency changes and avoid adding libraries for trivial functionality.
 - Run `scripts/check-repo-privacy.sh` and `scripts/check-repo-privacy.sh --history` before every public push. A failure blocks publication.
 - Run unit tests, lint, and assembly after security-sensitive manifest, permission, storage, intent, dependency, or build changes.

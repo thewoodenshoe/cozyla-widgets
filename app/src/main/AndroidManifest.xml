@@ -29,6 +29,15 @@
       </intent-filter>
     </activity>
 
+    <activity
+      android:name=".chores.ChoreWheelConfigureActivity"
+      android:exported="true"
+      android:theme="@style/AppTheme.CalendarConfiguration">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+      </intent-filter>
+    </activity>
+
     <service
       android:name=".calendar.CalendarWidgetUpdateJobService"
       android:exported="true"
@@ -55,6 +64,30 @@
       <meta-data
         android:name="android.appwidget.provider"
         android:resource="@xml/calendar_widget_info" />
+    </receiver>
+
+    <receiver
+      android:name=".quote.QuoteWidgetProvider"
+      android:exported="false"
+      android:label="@string/quote_widget_name">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+      </intent-filter>
+      <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/quote_widget_info" />
+    </receiver>
+
+    <receiver
+      android:name=".chores.ChoreWheelProvider"
+      android:exported="false"
+      android:label="@string/chore_widget_name">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+      </intent-filter>
+      <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/chore_wheel_widget_info" />
     </receiver>
   </application>
 

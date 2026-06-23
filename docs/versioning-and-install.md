@@ -16,9 +16,9 @@ Project policy:
 
 Current release:
 
-- `versionCode = 11`
-- `versionName = "0.6.1"`
-- Purpose: public repository security hardening
+- `versionCode = 12`
+- `versionName = "0.7.0"`
+- Purpose: quote and chore wheel widgets, zero-start README, public security rules
 
 ## Install Path
 
@@ -39,6 +39,8 @@ adb connect <device-ip>:<debug-port>
 adb devices -l
 scripts/push-widget.sh clock
 scripts/push-widget.sh calendar
+scripts/push-widget.sh quote
+scripts/push-widget.sh chores
 ```
 
 For repeated local installs, set `COZYLA_ADB_TARGET=<device-ip>:<debug-port>` in `.env`. The push script will try `adb connect` before installing.

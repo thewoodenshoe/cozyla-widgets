@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/chore_widget_root"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@drawable/chore_widget_background"
+  android:gravity="center_vertical"
+  android:orientation="horizontal"
+  android:padding="10dp">
+
+  <ImageView
+    android:id="@+id/chore_widget_wheel"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1.12"
+    android:adjustViewBounds="true"
+    android:contentDescription="@string/chore_widget_spin"
+    android:scaleType="fitCenter" />
+
+  <LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_marginStart="10dp"
+    android:layout_weight="0.88"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <TextView
+      android:id="@+id/chore_widget_title"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:fontFamily="sans"
+      android:maxLines="1"
+      android:text="@string/chore_widget_title"
+      android:textColor="@color/chore_widget_secondary"
+      android:textSize="12sp"
+      android:textStyle="bold" />
+
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="6dp"
+      android:ellipsize="end"
+      android:maxLines="1"
+      android:text="@string/chore_widget_result_label"
+      android:textColor="@color/chore_widget_secondary"
+      android:textSize="11sp" />
+
+    <TextView
+      android:id="@+id/chore_widget_selected"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:fontFamily="sans"
+      android:maxLines="2"
+      android:textColor="@color/chore_widget_text"
+      android:textSize="21sp"
+      android:textStyle="bold" />
+
+    <Button
+      android:id="@+id/chore_widget_spin"
+      android:layout_width="match_parent"
+      android:layout_height="48dp"
+      android:layout_marginTop="10dp"
+      android:background="@drawable/chore_spin_button_background"
+      android:text="@string/chore_widget_spin"
+      android:textColor="@color/chore_widget_background"
+      android:textStyle="bold" />
+
+    <TextView
+      android:id="@+id/chore_widget_list"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_marginTop="10dp"
+      android:layout_weight="1"
+      android:ellipsize="end"
+      android:fontFamily="sans"
+      android:lineSpacingExtra="1dp"
+      android:maxLines="8"
+      android:textColor="@color/chore_widget_secondary"
+      android:textSize="11sp" />
+  </LinearLayout>
+</LinearLayout>

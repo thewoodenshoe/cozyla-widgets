@@ -45,9 +45,21 @@ public class CalendarWidgetManifestTest {
                 info.receivers,
                 "com.cozyla.widgets.clock.ClockWidgetProvider"
         ).exported);
+        assertFalse(component(
+                info.receivers,
+                "com.cozyla.widgets.quote.QuoteWidgetProvider"
+        ).exported);
+        assertFalse(component(
+                info.receivers,
+                "com.cozyla.widgets.chores.ChoreWheelProvider"
+        ).exported);
         assertTrue(hasComponent(
                 info.activities,
                 "com.cozyla.widgets.calendar.CalendarWidgetConfigureActivity"
+        ));
+        assertTrue(hasComponent(
+                info.activities,
+                "com.cozyla.widgets.chores.ChoreWheelConfigureActivity"
         ));
         ServiceInfo jobService = service(
                 info.services,

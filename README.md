@@ -1,214 +1,242 @@
 # Cozyla Widgets
 
-Create and install your own Android widgets for a Cozyla device.
+Welcome. This installs a small set of Android home-screen widgets for a Cozyla tablet or any Android launcher that supports standard widgets.
 
-This repo contains native, resizable Android home-screen widgets. The shared APK provides a clock and a Monday-first calendar with configurable Week and Workweek views, calendar selection, and timeline hours.
+Included widgets:
+
+| Widget | What it does |
+| --- | --- |
+| Clock | Shows the current time and date. |
+| Week Calendar | Shows a Monday-first Week or Workweek calendar from calendars already synced on the tablet. |
+| Quote of the Day | Shows one local quote each day. |
+| Chore Wheel | Lets you enter 2 to 8 chores and tap a wheel to pick one at random. |
+
+## Read This First
+
+This is community code. It is public so anyone can inspect it, but public does not mean automatically safe. Do your own due diligence before installing anything from the internet.
+
+A practical safety check is to ask an AI tool to inspect the repo before you install it. For example, paste this into ChatGPT, Grok, Claude, or another tool:
+
+```text
+Scan this repo for code that could exploit me, steal data, leak credentials, install malware, or do anything unsafe: https://github.com/thewoodenshoe/cozyla-widgets
+```
+
+Then read the answer and decide for yourself. This project is built by the community for the community, but you are still responsible for what you install.
+
+## What This App Does Not Do
+
+- It does not ask for your Google password.
+- It does not use a Google Cloud API key.
+- It does not use OAuth client secrets.
+- It does not request Android internet access.
+- It does not upload calendar events anywhere.
+- It does not store your event titles, descriptions, Google account names, or Google login credentials in this repo.
+
+The calendar widget reads calendars that Android has already synced on the tablet. That is the right architecture. Putting Google passwords or OAuth setup into this widget would be worse: it would add more secrets, more security risk, and more things for non-technical users to get wrong.
 
 ## What You Need
 
-- A Cozyla device or another Android device that supports home-screen widgets
-- A Mac, Linux, or Windows development machine
-- JDK 17
-- Android Studio or Android SDK 35 command-line tools
-- Android Platform Tools (`adb`) for device installation
-- A USB connection, or the device IP address for wireless installation
+You need these on your computer:
 
-Do not commit your device IP address, MAC address, serial number, pairing ports, screenshots, signing keys, or other local identifiers.
+- Git, to download this repo
+- Android Studio, which includes the Android SDK
+- Android Platform Tools, especially `adb`
+- JDK 17, if your Android Studio install does not already provide it
+- A USB cable or Wi-Fi debugging enabled on the tablet
 
-## Build From Source
+Recommended simple path:
 
-Clone the repository and open it in Android Studio, or build with the included Gradle wrapper:
+1. Install [Git](https://git-scm.com/downloads).
+2. Install [Android Studio](https://developer.android.com/studio).
+3. Open Android Studio once so it installs the Android SDK.
+4. Install Android Platform Tools if `adb` is not already available from your terminal.
+
+## Set Up Google Calendar
+
+Do this on the Cozyla tablet before adding the Week Calendar widget:
+
+1. Open Android Settings.
+2. Add your Google account to Android.
+3. Turn on Calendar sync for that account.
+4. Open Google Calendar on the tablet once and confirm your events appear.
+5. Add the Week Calendar widget from the home-screen widget picker.
+6. When Android asks, allow Calendar access.
+7. Choose Week or Workweek, choose the visible time range, and select the calendars to show.
+
+That is all. There is no calendar credential setup inside this repo.
+
+## Enable Install Over Wi-Fi
+
+On the Cozyla tablet:
+
+1. Open Settings.
+2. Open About tablet.
+3. Tap Build number several times until Developer options are enabled.
+4. Go back to Settings.
+5. Open Developer options.
+6. Turn on Wireless debugging.
+7. Open Wireless debugging.
+8. Choose Pair device with pairing code.
+9. Write down the IP address, pairing port, and pairing code.
+10. After pairing, also write down the debug port shown for wireless debugging.
+
+The pairing port and debug port are different. Do not mix them up.
+
+## Download The Widgets
+
+Open Terminal on Mac or PowerShell on Windows.
 
 ```sh
 git clone https://github.com/thewoodenshoe/cozyla-widgets.git
 cd cozyla-widgets
-./gradlew testDebugUnitTest lintDebug assembleDebug
 ```
 
-Android Studio normally creates the private `local.properties` SDK path. Command-line users must set `ANDROID_HOME` or create `local.properties` themselves. The debug APK is written to `app/build/outputs/apk/debug/app-debug.apk`.
+## Pair The Tablet
 
-No Google Cloud project, OAuth client, or API key is required. Android manages Google account authentication and calendar sync.
-
-## Credentials And Permissions
-
-The project does not accept or require Google credentials in source code, Gradle files, `.env`, or GitHub Actions.
-
-- **Google account:** Add the account through Android Settings and enable Calendar sync. Never enter a Google password into this app or repository.
-- **Calendar permission:** Grant `READ_CALENDAR` when Android prompts during widget setup. The app requests no write or network permission.
-- **ADB pairing:** Enter the temporary pairing code directly into `adb pair`. Do not save it in `.env`, shell scripts, screenshots, issues, or commits.
-- **Local device routing:** The optional ignored `.env` file may contain only the device address and current ADB connection target.
-- **APK signing:** Android's local debug key is sufficient for personal sideloading. Anyone distributing a release must create and protect their own signing key outside this repository. Never commit a keystore or signing password.
-- **GitHub:** No GitHub token is needed to build or install. Contributors should enable GitHub email privacy and use a GitHub noreply commit address.
-
-## Device Setup
-
-On the Cozyla device:
-
-1. Open Settings.
-2. Enable Developer options.
-3. Enable USB debugging or Wireless debugging.
-4. For wireless installs, open Wireless debugging and choose Pair device with pairing code.
-5. Note the device IP address, pairing port, debug port, and pairing code.
-
-From your computer:
+Use the pairing IP and pairing port shown on the tablet:
 
 ```sh
-adb pair <device-ip>:<pairing-port>
-adb connect <device-ip>:<debug-port>
+adb pair <tablet-ip>:<pairing-port>
+```
+
+Enter the pairing code when asked.
+
+Then connect using the debug port:
+
+```sh
+adb connect <tablet-ip>:<debug-port>
 adb devices -l
 ```
 
-When the device appears as `device`, installs are ready.
+You are ready when `adb devices -l` shows the tablet as `device`.
 
-## Optional Local ADB Config
+If it says `unauthorized`, look at the tablet and approve the debugging prompt. If it says `offline`, turn Wireless debugging off and on, then reconnect.
 
-Create a private local config file:
+## Install From Mac Or Linux
 
-```sh
-cp .env.example .env
-```
-
-Edit `.env`:
+Install all widgets:
 
 ```sh
-COZYLA_DEVICE_IP=<device-ip>
-COZYLA_ADB_TARGET=<device-ip>:<debug-port>
+./gradlew testDebugUnitTest lintDebug assembleDebug
+adb install -r app/build/outputs/apk/debug/app-debug.apk
 ```
 
-`.env` is ignored by git. Keep real device values there or in `docs/local/`.
-
-## Push A Widget
-
-Push the clock widget:
-
-```sh
-scripts/push-widget.sh clock
-```
-
-Push the Week Calendar widget:
+Or use the helper script, which runs checks and installs:
 
 ```sh
 scripts/push-widget.sh calendar
 ```
 
-This runs the test suite, lint, build, checks that an authorized Android device is connected, and installs the debug APK. To install without the helper script, run `adb install -r app/build/outputs/apk/debug/app-debug.apk`.
+You can replace `calendar` with:
 
-You can also say something like “push the clock widget to the device” when working with Codex after the device is paired.
+```text
+clock
+calendar
+quote
+chores
+```
 
-## Available Widgets
+## Install From Windows
 
-| Widget | Command | Status |
-| --- | --- | --- |
-| Clock | `scripts/push-widget.sh clock` | MVP |
-| Week Calendar | `scripts/push-widget.sh calendar` | Device verified |
+In PowerShell:
 
-## Week Calendar Setup
+```powershell
+.\gradlew.bat testDebugUnitTest lintDebug assembleDebug
+adb install -r app\build\outputs\apk\debug\app-debug.apk
+```
 
-The calendar widget reads Android's synced calendar provider. It does not store Google passwords or OAuth refresh tokens.
+If you use Git Bash on Windows, the Mac/Linux commands usually work too.
 
-1. Add each Google account to Android on the Cozyla.
-2. Enable Calendar sync for those accounts and confirm their events appear in Google Calendar.
-3. Add `Week Calendar` from the launcher widget picker.
-4. Grant calendar access in the configuration screen.
-5. Choose Week or Workweek, select the visible timeline's From and To hours, and select any calendars across the synced accounts.
+## Add The Widget On Cozyla
 
-Each widget instance keeps its own view mode, timeline range, and calendar selection. Long-press and choose the launcher's reconfigure action, or use the settings control in a sufficiently wide widget, to change them later.
+After installing:
 
-The widget supports previous week, current week, next week, manual refresh, and tap-to-open-calendar actions. Large placements default to a 6:00 AM-midnight hourly timeline. A shorter range, such as 8:00 AM-10:00 PM, gives each visible hour and event more vertical space. Overlapping timed events appear side by side and all-day events stay in a compact strip above the grid. Small placements use a reduced summary because an hourly timeline is not legible at compact heights. Calendar queries run through Android's `JobScheduler`, which keeps blocking provider work out of widget callbacks.
+1. Go to the Cozyla home screen.
+2. Long-press an empty area.
+3. Choose Widgets.
+4. Find Cozyla Widgets.
+5. Drag the widget onto the home screen.
+6. Resize it with the home-screen handles.
 
-## Privacy And Sharing
+For the calendar widget, a setup screen opens so you can pick calendars and time range.
 
-The app requests only `READ_CALENDAR`; it does not request Android's `INTERNET` permission. It reads events from Android's local calendar provider, renders them in the widget, and does not write event titles, descriptions, account names, passwords, or OAuth tokens to app files, logs, or this repository. It stores only each widget's selected Android calendar IDs, Week/Workweek mode, timeline hours, and week offset in app-private preferences excluded from backup.
+For the chore wheel, a setup screen opens so you can enter 2 to 8 chores.
 
-Widget broadcast receivers are not exported. The configuration Activity remains exported because Android launchers must open it, and the update service is protected by Android's signature-level `BIND_JOB_SERVICE` permission. Cleartext network traffic and application backup are disabled as defense in depth.
+## Optional Local Wi-Fi Config
 
-Before sharing a fork:
+You can create a private `.env` file so the helper script remembers your tablet target:
 
-1. Keep device addresses and ports in `.env` or `docs/local/`; both are ignored.
-2. Never add screenshots containing calendar data, signing keys, `local.properties`, `google-services.json`, or Android Studio captures.
-3. Run `git grep` for names, email addresses, local paths, IP addresses, and credentials.
-4. Inspect commit identity with `git log --format='%an <%ae>'` and audit old commits. `.gitignore` does not remove information already committed.
-5. If private data entered Git history, rewrite the history before publishing, then rotate any exposed credentials.
+```sh
+cp .env.example .env
+```
 
-Run the included current-tree check before every push. Use its stricter history mode before making a repository public:
+Then edit `.env`:
+
+```sh
+COZYLA_DEVICE_IP=<tablet-ip>
+COZYLA_ADB_TARGET=<tablet-ip>:<debug-port>
+```
+
+`.env` is ignored by git. Do not commit real IP addresses, ports, serial numbers, screenshots, or pairing codes.
+
+## Widget Notes
+
+### Week Calendar
+
+- Week view starts on Monday.
+- Workweek view shows Monday through Friday only.
+- Large layouts show a timeline with hours on the left.
+- All-day events stay in a compact strip above the timed grid.
+- The visible time range is configurable, for example 8:00 AM to 10:00 PM.
+- Each widget instance can use different calendars and settings.
+
+The app requests only `READ_CALENDAR`. It reads Android's local calendar provider. Android and Google Calendar handle account login and sync.
+
+### Quote of the Day
+
+The quote list is built into the app. It does not download quotes from the internet.
+
+### Chore Wheel
+
+The chore wheel is a real widget, but Android widgets do not support full finger-drag physics like a normal app screen. The reliable widget version is: enter chores during setup, then tap the wheel or Spin button to pick a random chore.
+
+If someone wants a true drag-and-spin animation later, that should be a companion Activity or custom launcher feature. It should not be faked inside a standard widget.
+
+## Privacy And Security
+
+This repo is designed to be safe to share publicly:
+
+- no committed `.env`
+- no committed `local.properties`
+- no committed APKs
+- no committed screenshots
+- no committed signing keys
+- no network permission
+- no telemetry
+- no analytics
+- no Google credential files
+
+Before publishing changes, run:
 
 ```sh
 scripts/check-repo-privacy.sh
 scripts/check-repo-privacy.sh --history
+./gradlew testDebugUnitTest lintDebug assembleDebug
 ```
 
-CI runs the same privacy checks plus tests, lint, and APK assembly. GitHub Actions are pinned to immutable commits and Dependabot monitors Gradle and workflow dependencies. See [CONTRIBUTING.md](CONTRIBUTING.md) before submitting code and report vulnerabilities privately as described in [SECURITY.md](SECURITY.md).
+If private information ever enters git history, `.gitignore` will not fix it. Rewrite the history before sharing and rotate any exposed secret.
 
-## Build And Test
+## For Contributors
 
-```sh
-./gradlew testDebugUnitTest
-./gradlew lintDebug
-./gradlew assembleDebug
-```
+Each widget should have:
 
-The debug APK is generated at:
+- its own provider class
+- its own layout XML
+- its own `appwidget-provider` XML
+- its own README entry
+- tests for metadata and core behavior
 
-```sh
-app/build/outputs/apk/debug/app-debug.apk
-```
-
-## Project Structure
-
-```text
-app/src/main/java/com/cozyla/widgets/
-  MainActivity.java
-  calendar/
-    CalendarWidgetProvider.java
-    CalendarWidgetConfigureActivity.java
-    CalendarWidgetUpdateJobService.java
-    CalendarWidgetRenderer.java
-  clock/
-    ClockWidgetProvider.java
-
-app/src/main/res/layout/
-  activity_calendar_widget_configure.xml
-  widget_calendar.xml
-  widget_calendar_preview.xml
-  widget_clock.xml
-
-app/src/main/res/xml/
-  calendar_widget_info.xml
-  clock_widget_info.xml
-
-scripts/
-  push-widget.sh
-```
-
-Each widget has its own provider, layout, metadata XML, tests, and README entry.
-
-## Versioning
-
-Android uses:
-
-- `versionCode`: internal integer used for upgrades
-- `versionName`: user-facing version label
-
-Increment `versionCode` for every APK you plan to install on a device. Keep `versionName` readable, such as `0.2.0`, while this project is pre-release.
-
-## Widget Quality
-
-Resizing is the main product risk. A widget is not done if it only works at one size.
-
-Before accepting widget UI work:
-
-- Add the widget from the launcher widget picker.
-- Test compact, default, wide, square, and large placements.
-- Confirm text is not cropped or overlapping.
-- Confirm the widget fills its allocated bounds.
-- Confirm tap behavior is intentional.
-
-## References
-
-- [Cozyla: Customize Your Home Screen](https://support.cozyla.com/hc/en-us/articles/32079648161691-Customize-Your-Home-Screen)
-- [Android Developers: App widgets overview](https://developer.android.com/develop/ui/views/appwidgets/overview)
-- [Android Developers: Provide flexible widget layouts](https://developer.android.com/develop/ui/views/appwidgets/layouts)
-- [Android Developers: Widget quality](https://developer.android.com/docs/quality-guidelines/widget-quality)
+Read [AGENTS.md](AGENTS.md), [CONTRIBUTING.md](CONTRIBUTING.md), and [SECURITY.md](SECURITY.md) before contributing.
 
 ## License
 

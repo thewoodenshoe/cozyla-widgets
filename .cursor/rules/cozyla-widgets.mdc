@@ -12,6 +12,7 @@ This project builds a native Android App Widget for a Cozyla Android tablet.
 Read and follow `AGENTS.md` before making changes. This is a public repository, so its Public Repository Security Rules are mandatory. Never copy local credentials, calendar data, account details, device identifiers, ignored files, or private tool output into the repository. Run both privacy checks before pushing public history.
 
 - Treat standard Android App Widgets as the baseline architecture unless device testing proves otherwise.
+- Assume public users start from zero. Documentation must explain the safe install path without assuming Git, ADB, Android Studio, or Google Calendar sync knowledge.
 - Be direct about bad assumptions. Developer mode alone does not imply ADB access or deployability. A ping response is not an install path.
 - Cozyla support docs say the standard launcher supports adding and resizing widgets; validate that on-device before building launcher bypasses.
 - Resizing is the main quality risk. Every widget change must preserve compact, default, wide, square, and large tablet placements without cropped, stale, overlapping, or awkwardly empty content.

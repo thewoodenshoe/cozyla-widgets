@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Cozyla Widgets</string>
-  <string name="app_status">Clock and Week Calendar widgets are installed. Add them from the launcher widget picker.</string>
+  <string name="app_status">Clock, Week Calendar, Quote of the Day, and Chore Wheel widgets are installed. Add them from the launcher widget picker.</string>
   <string name="clock_widget_title">Cozyla Clock</string>
   <string name="clock_widget_description">Clock widget for tablet testing</string>
 
@@ -40,4 +40,20 @@
   <string name="calendar_config_cancel">Cancel</string>
   <string name="calendar_config_save">Add widget</string>
   <string name="calendar_config_update">Save changes</string>
+
+  <string name="quote_widget_name">Quote of the Day</string>
+  <string name="quote_widget_title">Quote of the Day</string>
+  <string name="quote_widget_description">A simple daily quote widget</string>
+
+  <string name="chore_widget_name">Chore Wheel</string>
+  <string name="chore_widget_title">Chore Wheel</string>
+  <string name="chore_widget_description">Pick a random chore from a configurable wheel</string>
+  <string name="chore_widget_result_label">Picked</string>
+  <string name="chore_widget_spin">Spin</string>
+  <string name="chore_config_title">Chore Wheel</string>
+  <string name="chore_config_subtitle">Enter 2 to 8 chores. The widget stores this list only on this device.</string>
+  <string name="chore_config_item_hint">Chore</string>
+  <string name="chore_config_need_two">Enter at least two chores.</string>
+  <string name="chore_config_cancel">Cancel</string>
+  <string name="chore_config_save">Add widget</string>
 </resources>

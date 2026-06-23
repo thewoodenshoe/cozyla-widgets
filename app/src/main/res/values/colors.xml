@@ -21,4 +21,15 @@
   <color name="calendar_config_surface">#FFFFFF</color>
   <color name="calendar_config_text">#17202A</color>
   <color name="calendar_config_secondary">#5F6B76</color>
+
+  <color name="quote_widget_background">#FAF7EF</color>
+  <color name="quote_widget_text">#1D252C</color>
+  <color name="quote_widget_secondary">#6B6257</color>
+  <color name="quote_widget_accent">#9E5A33</color>
+
+  <color name="chore_widget_background">#111317</color>
+  <color name="chore_widget_surface">#242932</color>
+  <color name="chore_widget_text">#FFFFFF</color>
+  <color name="chore_widget_secondary">#D3D8E0</color>
+  <color name="chore_widget_accent">#D9A62D</color>
 </resources>
