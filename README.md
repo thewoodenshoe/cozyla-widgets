@@ -194,7 +194,7 @@ The app requests only `READ_CALENDAR`. It reads Android's local calendar provide
 
 ### Quote of the Day
 
-The quote list is built into the app. It does not download quotes from the internet.
+The quote list is built into the app. It does not download quotes from the internet. Quotes are shown as `quote - author`.
 
 ### Chore Wheel
 

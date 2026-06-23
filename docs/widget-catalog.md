@@ -27,6 +27,7 @@ Direct Google OAuth is intentionally not embedded in the widget. Android owns ac
 
 - local quote list, no network permission or remote feed
 - deterministic daily quote based on the device's local date
+- displayed as `quote - author`
 - resizable static widget
 
 ## Chore Wheel

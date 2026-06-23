@@ -22,10 +22,10 @@
   <color name="calendar_config_text">#17202A</color>
   <color name="calendar_config_secondary">#5F6B76</color>
 
-  <color name="quote_widget_background">#FAF7EF</color>
-  <color name="quote_widget_text">#1D252C</color>
-  <color name="quote_widget_secondary">#6B6257</color>
-  <color name="quote_widget_accent">#9E5A33</color>
+  <color name="quote_widget_background">#25D4C8</color>
+  <color name="quote_widget_text">#06292B</color>
+  <color name="quote_widget_secondary">#0D5659</color>
+  <color name="quote_widget_accent">#FFFFFF</color>
 
   <color name="chore_widget_background">#111317</color>
   <color name="chore_widget_surface">#242932</color>

@@ -16,9 +16,9 @@ Project policy:
 
 Current release:
 
-- `versionCode = 18`
-- `versionName = "0.8.5"`
-- Purpose: chore wheel label wrapping and visual-fit rules for Canvas widgets
+- `versionCode = 19`
+- `versionName = "0.8.6"`
+- Purpose: quote widget attribution, turquoise styling, and install-time refresh
 
 ## Install Path
 

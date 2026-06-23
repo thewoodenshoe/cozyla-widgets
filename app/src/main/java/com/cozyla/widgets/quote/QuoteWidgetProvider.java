@@ -3,6 +3,7 @@ package com.cozyla.widgets.quote;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
@@ -14,6 +15,16 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class QuoteWidgetProvider extends AppWidgetProvider {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+        if (Intent.ACTION_MY_PACKAGE_REPLACED.equals(intent.getAction())) {
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            ComponentName provider = new ComponentName(context, QuoteWidgetProvider.class);
+            onUpdate(context, appWidgetManager, appWidgetManager.getAppWidgetIds(provider));
+        }
+    }
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {

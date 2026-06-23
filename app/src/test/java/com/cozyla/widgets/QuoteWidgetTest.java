@@ -1,6 +1,7 @@
 package com.cozyla.widgets;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import com.cozyla.widgets.quote.DailyQuote;
 
@@ -17,5 +18,12 @@ public class QuoteWidgetTest {
         String evening = DailyQuote.quoteFor(new Date(1782050000000L), timeZone);
 
         assertEquals(morning, evening);
+    }
+
+    @Test
+    public void quoteIncludesAuthorAttribution() {
+        String quote = DailyQuote.quoteFor(new Date(1782000000000L), TimeZone.getTimeZone("UTC"));
+
+        assertTrue(quote, quote.contains(" - Cozyla Widgets"));
     }
 }
