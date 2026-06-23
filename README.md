@@ -6,7 +6,7 @@ Included widgets:
 
 | Widget | What it does |
 | --- | --- |
-| Clock | Shows the current time and date. |
+| Clock | Shows the current time and date based off location. Also shows UV index and moon cycle and high/low tide |
 | Week Calendar | Shows a Monday-first Week or Workweek calendar from calendars already synced on the tablet. |
 | Quote of the Day | Shows one local quote each day. |
 | Chore Wheel | Lets you enter 2 to 8 chores and tap a wheel to pick one at random. |
