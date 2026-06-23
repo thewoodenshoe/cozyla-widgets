@@ -10,6 +10,7 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.text.TextPaint;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class ChoreWheelPainter {
@@ -147,8 +148,9 @@ public final class ChoreWheelPainter {
         TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setFakeBoldText(true);
-        textPaint.setTextSize(Math.max(18f, radius * 0.105f));
         textPaint.setShadowLayer(3f, 0f, 2f, Color.argb(120, 0, 0, 0));
+        float textRadius = radius * 0.58f;
+        float maxTextWidth = labelMaxWidth(radius, sweep);
 
         for (int index = 0; index < slots.size(); index++) {
             ChoreWheelSlot slot = slots.get(index);
@@ -156,15 +158,63 @@ public final class ChoreWheelPainter {
             textPaint.setColor(lightSegment ? INK : Color.WHITE);
             float angle = segmentCenterAngle(start, sweep, index);
             double radians = Math.toRadians(angle);
-            float textRadius = radius * 0.58f;
             float x = centerX + (float) Math.cos(radians) * textRadius;
             float y = centerY + (float) Math.sin(radians) * textRadius;
+            LabelLayout labelLayout = layoutLabel(
+                    slot.label,
+                    textPaint,
+                    Math.max(10f, radius * 0.055f),
+                    Math.max(18f, radius * 0.092f),
+                    maxTextWidth,
+                    2
+            );
             canvas.save();
             canvas.translate(x, y);
             canvas.rotate(textRotation(angle));
-            canvas.drawText(shorten(slot.label), 0f, textPaint.getTextSize() * 0.35f, textPaint);
+            float lineHeight = labelLayout.textSize * 1.08f;
+            float baseline = -((labelLayout.lines.size() - 1) * lineHeight / 2f)
+                    + labelLayout.textSize * 0.35f;
+            for (String line : labelLayout.lines) {
+                canvas.drawText(line, 0f, baseline, textPaint);
+                baseline += lineHeight;
+            }
             canvas.restore();
         }
+    }
+
+    public static LabelLayout layoutLabel(
+            String label,
+            TextPaint paint,
+            float minTextSize,
+            float maxTextSize,
+            float maxWidth,
+            int maxLines
+    ) {
+        float textSize = maxTextSize;
+        while (textSize > minTextSize) {
+            paint.setTextSize(textSize);
+            List<String> lines = wrapLabel(label, paint, maxWidth, maxLines);
+            if (fits(lines, paint, maxWidth, maxLines)) {
+                return new LabelLayout(lines, textSize);
+            }
+            textSize -= 1f;
+        }
+
+        paint.setTextSize(minTextSize);
+        List<String> lines = wrapLabel(label, paint, maxWidth, maxLines);
+        if (lines.size() > maxLines) {
+            lines = new ArrayList<>(lines.subList(0, maxLines));
+        }
+        if (!lines.isEmpty()) {
+            int last = lines.size() - 1;
+            lines.set(last, ellipsize(lines.get(last), paint, maxWidth));
+        }
+        return new LabelLayout(lines, minTextSize);
+    }
+
+    public static float labelMaxWidth(float radius, float sweep) {
+        double halfSweep = Math.toRadians(sweep / 2f);
+        return (float) (2d * radius * 0.58d * Math.sin(halfSweep)) * 0.72f;
     }
 
     public static float segmentCenterAngle(float start, float sweep, int index) {
@@ -178,6 +228,68 @@ public final class ChoreWheelPainter {
             rotation += 180f;
         }
         return rotation;
+    }
+
+    private static List<String> wrapLabel(
+            String label,
+            TextPaint paint,
+            float maxWidth,
+            int maxLines
+    ) {
+        String[] words = label.trim().split("\\s+");
+        List<String> lines = new ArrayList<>();
+        StringBuilder current = new StringBuilder();
+        for (String word : words) {
+            String candidate = current.length() == 0 ? word : current + " " + word;
+            if (paint.measureText(candidate) <= maxWidth) {
+                current.setLength(0);
+                current.append(candidate);
+            } else {
+                if (current.length() > 0) {
+                    lines.add(current.toString());
+                    current.setLength(0);
+                }
+                if (paint.measureText(word) <= maxWidth) {
+                    current.append(word);
+                } else {
+                    lines.add(ellipsize(word, paint, maxWidth));
+                }
+            }
+            if (lines.size() == maxLines) {
+                break;
+            }
+        }
+        if (current.length() > 0 && lines.size() < maxLines) {
+            lines.add(current.toString());
+        }
+        if (lines.isEmpty()) {
+            lines.add("");
+        }
+        return lines;
+    }
+
+    private static boolean fits(List<String> lines, TextPaint paint, float maxWidth, int maxLines) {
+        if (lines.size() > maxLines) {
+            return false;
+        }
+        for (String line : lines) {
+            if (paint.measureText(line) > maxWidth) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static String ellipsize(String text, TextPaint paint, float maxWidth) {
+        if (paint.measureText(text) <= maxWidth) {
+            return text;
+        }
+        String ellipsis = "...";
+        int end = text.length();
+        while (end > 0 && paint.measureText(text.substring(0, end) + ellipsis) > maxWidth) {
+            end--;
+        }
+        return end == 0 ? ellipsis : text.substring(0, end) + ellipsis;
     }
 
     private static void drawBulbs(
@@ -244,11 +356,17 @@ public final class ChoreWheelPainter {
         canvas.drawCircle(centerX, wheelTop + 56f * scale, 10f * scale, paint);
     }
 
-    private static String shorten(String label) {
-        return label.length() <= 15 ? label : label.substring(0, 14) + "...";
-    }
-
     public static boolean usesNoChoresStyle(ChoreWheelSlot slot) {
         return slot.noChores;
+    }
+
+    public static final class LabelLayout {
+        public final List<String> lines;
+        public final float textSize;
+
+        LabelLayout(List<String> lines, float textSize) {
+            this.lines = lines;
+            this.textSize = textSize;
+        }
     }
 }

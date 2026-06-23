@@ -38,6 +38,7 @@ Direct Google OAuth is intentionally not embedded in the widget. Android owns ac
 - result text is computed from the final wheel rotation under the pointer, and the green slot is explicit metadata rather than a label-name guess
 - full-screen spin view includes `Spin again` and `Done` controls after each completed spin
 - wheel labels are placed from the same segment-center angle used to paint their colored wedge
+- long wheel labels are wrapped/scaled against measured segment width so they stay inside their wedge
 
 ## Adding A Widget
 

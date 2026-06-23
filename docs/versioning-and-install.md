@@ -16,9 +16,9 @@ Project policy:
 
 Current release:
 
-- `versionCode = 17`
-- `versionName = "0.8.4"`
-- Purpose: chore wheel label placement alignment with colored wheel segments
+- `versionCode = 18`
+- `versionName = "0.8.5"`
+- Purpose: chore wheel label wrapping and visual-fit rules for Canvas widgets
 
 ## Install Path
 
