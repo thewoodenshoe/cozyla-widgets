@@ -12,6 +12,7 @@ This project is a catalog of Android widgets. Each widget should be independentl
 | `chores` | Chore Wheel | `com.cozyla.widgets.chores.ChoreWheelProvider` | `widget_chore_wheel.xml` | MVP |
 | `countdown` | Countdown | `com.cozyla.widgets.countdown.CountdownWidgetProvider` | `widget_countdown.xml` | MVP |
 | `weather` | Weather | `com.cozyla.widgets.weather.WeatherWidgetProvider` | `widget_weather.xml` | MVP |
+| `photos` | Photo Frame | `com.cozyla.widgets.photos.PhotoFrameWidgetProvider` | `widget_photo_frame.xml` | MVP |
 
 ## Week Calendar
 
@@ -40,10 +41,10 @@ Direct Google OAuth is intentionally not embedded in the widget. Android owns ac
 
 ## Countdown
 
-- configuration Activity accepts a label and duration in minutes
-- stores only target time and label in app-private preferences
-- refreshes roughly once per minute through `JobScheduler`
-- resizable static widget
+- in-widget minute/second controls
+- launcher Chronometer handles live countdown display
+- AlarmManager alarm plays a beep and updates widget state when finished
+- no setup Activity is required for normal timer use
 
 ## Weather
 
@@ -52,6 +53,13 @@ Direct Google OAuth is intentionally not embedded in the widget. Android owns ac
 - NOAA CO-OPS supplies high/low tide prediction cards when a station is configured
 - moon phase is calculated locally and drawn as a circle in the widget bitmap
 - rendered as a bitmap for better visual control across resized widget surfaces
+
+## Photo Frame
+
+- configuration Activity uses Android's system photo picker
+- stores selected photo URIs and slideshow interval only in app-private preferences
+- supports static photo or slideshow mode
+- tapping the widget opens Google Photos when installed, otherwise photos.google.com
 - close-call animation targets land near a segment boundary about half the time
 - result text is computed from the final wheel rotation under the pointer, and the green slot is explicit metadata rather than a label-name guess
 - full-screen spin view includes `Spin again` and `Done` controls after each completed spin

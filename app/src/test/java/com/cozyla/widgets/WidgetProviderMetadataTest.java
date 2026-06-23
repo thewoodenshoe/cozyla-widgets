@@ -77,6 +77,18 @@ public class WidgetProviderMetadataTest {
         );
     }
 
+    @Test
+    public void photoFrameProviderInfoPreservesResizableHomeScreenWidgetContract() throws Exception {
+        assertWidgetMetadata(
+                R.xml.photo_frame_widget_info,
+                R.layout.widget_photo_frame,
+                R.layout.widget_photo_frame,
+                R.string.photo_widget_description,
+                4,
+                3
+        );
+    }
+
     private static void assertWidgetMetadata(
             int xmlId,
             int initialLayout,

@@ -35,6 +35,7 @@ public class CalendarWidgetManifestTest {
 
         assertTrue(Arrays.asList(info.requestedPermissions).contains(Manifest.permission.READ_CALENDAR));
         assertTrue(Arrays.asList(info.requestedPermissions).contains(Manifest.permission.INTERNET));
+        assertTrue(Arrays.asList(info.requestedPermissions).contains(Manifest.permission.VIBRATE));
         assertFalse((info.applicationInfo.flags & ApplicationInfo.FLAG_ALLOW_BACKUP) != 0);
         assertFalse((info.applicationInfo.flags & ApplicationInfo.FLAG_USES_CLEARTEXT_TRAFFIC) != 0);
         assertFalse(component(
@@ -61,6 +62,10 @@ public class CalendarWidgetManifestTest {
                 info.receivers,
                 "com.cozyla.widgets.weather.WeatherWidgetProvider"
         ).exported);
+        assertFalse(component(
+                info.receivers,
+                "com.cozyla.widgets.photos.PhotoFrameWidgetProvider"
+        ).exported);
         assertTrue(hasComponent(
                 info.activities,
                 "com.cozyla.widgets.calendar.CalendarWidgetConfigureActivity"
@@ -71,11 +76,11 @@ public class CalendarWidgetManifestTest {
         ));
         assertTrue(hasComponent(
                 info.activities,
-                "com.cozyla.widgets.countdown.CountdownConfigureActivity"
+                "com.cozyla.widgets.weather.WeatherConfigureActivity"
         ));
         assertTrue(hasComponent(
                 info.activities,
-                "com.cozyla.widgets.weather.WeatherConfigureActivity"
+                "com.cozyla.widgets.photos.PhotoFrameConfigureActivity"
         ));
         assertFalse(component(
                 info.activities,
@@ -91,7 +96,6 @@ public class CalendarWidgetManifestTest {
                 jobService.permission
         );
         assertJobService(info, "com.cozyla.widgets.quote.QuoteWidgetUpdateJobService");
-        assertJobService(info, "com.cozyla.widgets.countdown.CountdownWidgetUpdateJobService");
         assertJobService(info, "com.cozyla.widgets.weather.WeatherWidgetUpdateJobService");
     }
 

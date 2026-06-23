@@ -12,6 +12,7 @@ Included widgets:
 | Chore Wheel | Lets you enter chores and tap the wheel center to launch a casino-style animated picker. |
 | Countdown | Shows a configurable countdown timer. |
 | Weather | Shows weather, UV strength, tides, and a graphical moon phase. |
+| Photo Frame | Shows one selected photo or a slideshow from photos picked through Android/Google Photos. |
 
 ## Read This First
 
@@ -140,6 +141,7 @@ quote
 chores
 countdown
 weather
+photos
 ```
 
 ## Install From Windows
@@ -171,6 +173,8 @@ For the chore wheel, a setup screen opens so you can enter chores and optionally
 For the countdown widget, a setup screen opens so you can enter the label and minutes.
 
 For the weather widget, a setup screen opens so you can enter a place label, latitude, longitude, and an optional NOAA tide station ID.
+
+For the photo widget, a setup screen opens so you can pick photos. If Google Photos is connected to Android's photo picker, choose photos from that album view.
 
 ## Optional Local Wi-Fi Config
 
@@ -214,11 +218,15 @@ Standard Android widgets cannot reliably run continuous high-frame-rate animatio
 
 ### Countdown
 
-The countdown widget stores only its label and target time on the device. It refreshes roughly once per minute because Android widgets are not live second-by-second timer surfaces.
+The countdown widget is a kitchen timer. Set minutes and seconds directly on the widget, press Start, and it beeps when done.
 
 ### Weather
 
 The weather widget uses Open-Meteo for current weather and UV strength. It uses NOAA CO-OPS for tide predictions only when you enter a NOAA tide station ID. Moon phase is calculated on the device and drawn as a moon circle in the widget.
+
+### Photo Frame
+
+The photo widget uses Android's system photo picker instead of storing Google credentials. Pick one photo for a static frame, or multiple photos for a slideshow interval in minutes.
 
 ## Privacy And Security
 
@@ -230,6 +238,7 @@ This repo is designed to be safe to share publicly:
 - no committed screenshots
 - no committed signing keys
 - network permission is used only for the quote API
+- vibration permission is used only for the countdown timer completion alert
 - no telemetry
 - no analytics
 - no Google credential files

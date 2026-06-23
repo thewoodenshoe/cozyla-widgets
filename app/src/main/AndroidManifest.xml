@@ -2,6 +2,7 @@
 
   <uses-permission android:name="android.permission.READ_CALENDAR" />
   <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.VIBRATE" />
 
   <application
     android:allowBackup="false"
@@ -46,7 +47,7 @@
       android:theme="@style/AppTheme.ChoreWheelSpin" />
 
     <activity
-      android:name=".countdown.CountdownConfigureActivity"
+      android:name=".weather.WeatherConfigureActivity"
       android:exported="true"
       android:theme="@style/AppTheme.CalendarConfiguration">
       <intent-filter>
@@ -55,7 +56,7 @@
     </activity>
 
     <activity
-      android:name=".weather.WeatherConfigureActivity"
+      android:name=".photos.PhotoFrameConfigureActivity"
       android:exported="true"
       android:theme="@style/AppTheme.CalendarConfiguration">
       <intent-filter>
@@ -70,11 +71,6 @@
 
     <service
       android:name=".quote.QuoteWidgetUpdateJobService"
-      android:exported="true"
-      android:permission="android.permission.BIND_JOB_SERVICE" />
-
-    <service
-      android:name=".countdown.CountdownWidgetUpdateJobService"
       android:exported="true"
       android:permission="android.permission.BIND_JOB_SERVICE" />
 
@@ -156,6 +152,19 @@
       <meta-data
         android:name="android.appwidget.provider"
         android:resource="@xml/weather_widget_info" />
+    </receiver>
+
+    <receiver
+      android:name=".photos.PhotoFrameWidgetProvider"
+      android:exported="false"
+      android:label="@string/photo_widget_name">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+        <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+      </intent-filter>
+      <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/photo_frame_widget_info" />
     </receiver>
   </application>
 
