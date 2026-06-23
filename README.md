@@ -9,7 +9,7 @@ Included widgets:
 | Clock | Shows the current time and date. |
 | Week Calendar | Shows a Monday-first Week or Workweek calendar from calendars already synced on the tablet. |
 | Quote of the Day | Shows one local quote each day. |
-| Chore Wheel | Lets you enter 2 to 8 chores and tap a wheel to pick one at random. |
+| Chore Wheel | Lets you enter chores and launch a casino-style animated wheel to pick one at random. |
 
 ## Read This First
 
@@ -160,7 +160,7 @@ After installing:
 
 For the calendar widget, a setup screen opens so you can pick calendars and time range.
 
-For the chore wheel, a setup screen opens so you can enter 2 to 8 chores.
+For the chore wheel, a setup screen opens so you can enter chores and optionally make slot 8 a green `No chores` slot.
 
 ## Optional Local Wi-Fi Config
 
@@ -198,9 +198,9 @@ The quote list is built into the app. It does not download quotes from the inter
 
 ### Chore Wheel
 
-The chore wheel is a real widget, but Android widgets do not support full finger-drag physics like a normal app screen. The reliable widget version is: enter chores during setup, then tap the wheel or Spin button to pick a random chore.
+The chore wheel is a real widget. Tapping the wheel or Spin button opens a lightweight native Android spin screen with smooth Canvas animation, then writes the picked result back to the widget.
 
-If someone wants a true drag-and-spin animation later, that should be a companion Activity or custom launcher feature. It should not be faked inside a standard widget.
+Standard Android widgets cannot reliably run continuous high-frame-rate animation inside the home-screen surface itself. The companion spin screen is intentional: it keeps the widget addable/resizable while using normal Android rendering for the casino-style animation.
 
 ## Privacy And Security
 

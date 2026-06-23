@@ -20,7 +20,11 @@ import java.util.Arrays;
 public class ChoreWheelRendererTest {
     @Test
     public void rendersNonEmptyWheelBitmap() {
-        Bitmap bitmap = ChoreWheelRenderer.render(Arrays.asList("Dishes", "Trash", "Laundry"), 1);
+        Bitmap bitmap = ChoreWheelRenderer.render(Arrays.asList(
+                "Dishes",
+                "Trash",
+                "No chores"
+        ), 2);
 
         assertEquals(384, bitmap.getWidth());
         assertEquals(384, bitmap.getHeight());

@@ -16,9 +16,9 @@ Project policy:
 
 Current release:
 
-- `versionCode = 12`
-- `versionName = "0.7.0"`
-- Purpose: quote and chore wheel widgets, zero-start README, public security rules
+- `versionCode = 13`
+- `versionName = "0.8.0"`
+- Purpose: native chore wheel spin animation and optional green `No chores` slot
 
 ## Install Path
 

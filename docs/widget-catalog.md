@@ -31,10 +31,10 @@ Direct Google OAuth is intentionally not embedded in the widget. Android owns ac
 
 ## Chore Wheel
 
-- configuration Activity accepts 2 to 8 chores
+- configuration Activity accepts chores and can reserve slot 8 as a green `No chores` result
 - chores are stored only in app-private preferences for that widget instance
-- widget tap/Spin button picks a random chore and redraws the wheel
-- no drag physics because standard Android widgets do not provide arbitrary touch/animation handling through `RemoteViews`
+- widget tap/Spin button opens a native spin Activity with smooth Canvas animation and redraws the widget when the result is picked
+- close-call animation targets land near a segment boundary about half the time
 
 ## Adding A Widget
 

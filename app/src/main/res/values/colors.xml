@@ -32,4 +32,5 @@
   <color name="chore_widget_text">#FFFFFF</color>
   <color name="chore_widget_secondary">#D3D8E0</color>
   <color name="chore_widget_accent">#D9A62D</color>
+  <color name="chore_spin_background">#050507</color>
 </resources>

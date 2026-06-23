@@ -51,9 +51,15 @@
   <string name="chore_widget_result_label">Picked</string>
   <string name="chore_widget_spin">Spin</string>
   <string name="chore_config_title">Chore Wheel</string>
-  <string name="chore_config_subtitle">Enter 2 to 8 chores. The widget stores this list only on this device.</string>
+  <string name="chore_config_subtitle">Enter chores. The widget stores this list only on this device.</string>
   <string name="chore_config_item_hint">Chore</string>
+  <string name="chore_config_include_no_chores">Make slot 8 green: No chores</string>
+  <string name="chore_config_no_chores_slot_hint">Slot 8 is No chores</string>
   <string name="chore_config_need_two">Enter at least two chores.</string>
+  <string name="chore_config_need_one_with_no_chores">Enter at least one chore when No chores is enabled.</string>
   <string name="chore_config_cancel">Cancel</string>
   <string name="chore_config_save">Add widget</string>
+  <string name="chore_spin_spinning">Spinning&#8230;</string>
+  <string name="chore_spin_result">Picked: %1$s</string>
+  <string name="chore_spin_done">Done</string>
 </resources>

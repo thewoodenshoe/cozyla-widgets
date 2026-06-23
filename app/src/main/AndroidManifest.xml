@@ -38,6 +38,12 @@
       </intent-filter>
     </activity>
 
+    <activity
+      android:name=".chores.ChoreWheelSpinActivity"
+      android:excludeFromRecents="true"
+      android:exported="false"
+      android:theme="@style/AppTheme.ChoreWheelSpin" />
+
     <service
       android:name=".calendar.CalendarWidgetUpdateJobService"
       android:exported="true"
