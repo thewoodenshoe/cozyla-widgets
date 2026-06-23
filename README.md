@@ -192,6 +192,7 @@ Permissions used by the app:
 - `READ_CALENDAR`: calendar widget
 - `INTERNET`: quote and weather widgets
 - `VIBRATE`: countdown timer completion alert
+- `RECEIVE_BOOT_COMPLETED`: refreshes widgets after Cozyla restarts
 
 Private local setup belongs in `.env`, which is ignored by git:
 

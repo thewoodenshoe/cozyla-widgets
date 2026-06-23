@@ -16,9 +16,9 @@ Project policy:
 
 Current release:
 
-- `versionCode = 22`
-- `versionName = "0.11.0"`
-- Purpose: countdown kitchen timer fix, photo frame widget, and widget QC rules
+- `versionCode = 23`
+- `versionName = "0.11.1"`
+- Purpose: refresh all widgets after reboot or app update so installed widgets do not stay on initial loading layouts
 
 ## Install Path
 

@@ -40,7 +40,7 @@ public class ChoreWheelProvider extends AppWidgetProvider {
         manager.updateAppWidget(appWidgetId, buildViews(context, appWidgetId));
     }
 
-    private static void refreshAllWidgets(Context context) {
+    public static void refreshAllWidgets(Context context) {
         AppWidgetManager manager = AppWidgetManager.getInstance(context);
         ComponentName provider = new ComponentName(context, ChoreWheelProvider.class);
         int[] widgetIds = manager.getAppWidgetIds(provider);

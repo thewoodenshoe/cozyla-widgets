@@ -63,6 +63,7 @@ This is a public repository. Security and privacy checks are release blockers, n
 - Use `previewLayout` for Android 12+ and add a backward-compatible preview image before caring about older Android widget pickers.
 - Avoid expensive work in `AppWidgetProvider` callbacks. If update work can take seconds or involve I/O, schedule it through a background worker and update the widget from there.
 - Do not assume `updatePeriodMillis` is precise or sufficient for fresh data. Add explicit refresh behavior when users expect fresher content than the platform schedule can guarantee.
+- Every widget must recover from app replacement and tablet reboot. Add or update a manifest-tested refresh path for `MY_PACKAGE_REPLACED` and `BOOT_COMPLETED` whenever a widget can display stale, loading, scheduled, or bitmap-rendered content.
 
 ## Android Defaults
 

@@ -36,8 +36,13 @@ public class CalendarWidgetManifestTest {
         assertTrue(Arrays.asList(info.requestedPermissions).contains(Manifest.permission.READ_CALENDAR));
         assertTrue(Arrays.asList(info.requestedPermissions).contains(Manifest.permission.INTERNET));
         assertTrue(Arrays.asList(info.requestedPermissions).contains(Manifest.permission.VIBRATE));
+        assertTrue(Arrays.asList(info.requestedPermissions).contains(Manifest.permission.RECEIVE_BOOT_COMPLETED));
         assertFalse((info.applicationInfo.flags & ApplicationInfo.FLAG_ALLOW_BACKUP) != 0);
         assertFalse((info.applicationInfo.flags & ApplicationInfo.FLAG_USES_CLEARTEXT_TRAFFIC) != 0);
+        assertFalse(component(
+                info.receivers,
+                "com.cozyla.widgets.WidgetRefreshReceiver"
+        ).exported);
         assertFalse(component(
                 info.receivers,
                 "com.cozyla.widgets.calendar.CalendarWidgetProvider"

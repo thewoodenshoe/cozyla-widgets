@@ -3,6 +3,7 @@
   <uses-permission android:name="android.permission.READ_CALENDAR" />
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.VIBRATE" />
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
   <application
     android:allowBackup="false"
@@ -78,6 +79,17 @@
       android:name=".weather.WeatherWidgetUpdateJobService"
       android:exported="true"
       android:permission="android.permission.BIND_JOB_SERVICE" />
+
+    <receiver
+      android:name=".WidgetRefreshReceiver"
+      android:exported="false">
+      <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED" />
+        <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+        <action android:name="android.intent.action.USER_UNLOCKED" />
+        <action android:name="com.cozyla.widgets.REFRESH_ALL_WIDGETS" />
+      </intent-filter>
+    </receiver>
 
     <receiver
       android:name=".clock.ClockWidgetProvider"
