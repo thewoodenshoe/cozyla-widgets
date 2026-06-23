@@ -16,9 +16,9 @@ Project policy:
 
 Current release:
 
-- `versionCode = 16`
-- `versionName = "0.8.3"`
-- Purpose: chore wheel existing-widget refresh after package replacement
+- `versionCode = 17`
+- `versionName = "0.8.4"`
+- Purpose: chore wheel label placement alignment with colored wheel segments
 
 ## Install Path
 

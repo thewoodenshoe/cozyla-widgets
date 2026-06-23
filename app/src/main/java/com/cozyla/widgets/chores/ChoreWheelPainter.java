@@ -154,13 +154,30 @@ public final class ChoreWheelPainter {
             ChoreWheelSlot slot = slots.get(index);
             boolean lightSegment = index % 2 != 0 && !slot.noChores;
             textPaint.setColor(lightSegment ? INK : Color.WHITE);
-            float angle = start + (index * sweep) + (sweep / 2f);
+            float angle = segmentCenterAngle(start, sweep, index);
+            double radians = Math.toRadians(angle);
+            float textRadius = radius * 0.58f;
+            float x = centerX + (float) Math.cos(radians) * textRadius;
+            float y = centerY + (float) Math.sin(radians) * textRadius;
             canvas.save();
-            canvas.rotate(angle, centerX, centerY);
-            canvas.rotate(90f, centerX, centerY - radius * 0.58f);
-            canvas.drawText(shorten(slot.label), centerX, centerY - radius * 0.58f, textPaint);
+            canvas.translate(x, y);
+            canvas.rotate(textRotation(angle));
+            canvas.drawText(shorten(slot.label), 0f, textPaint.getTextSize() * 0.35f, textPaint);
             canvas.restore();
         }
+    }
+
+    public static float segmentCenterAngle(float start, float sweep, int index) {
+        return start + (index * sweep) + (sweep / 2f);
+    }
+
+    public static float textRotation(float segmentCenterAngle) {
+        float rotation = segmentCenterAngle + 90f;
+        float normalized = ((rotation % 360f) + 360f) % 360f;
+        if (normalized > 90f && normalized < 270f) {
+            rotation += 180f;
+        }
+        return rotation;
     }
 
     private static void drawBulbs(
