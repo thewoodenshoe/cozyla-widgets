@@ -86,8 +86,14 @@ fi
 
 if [[ -n "$INSTALL_TARGET" ]]; then
   ANDROID_SERIAL="$INSTALL_TARGET" ./gradlew installDebug
+  ADB_DEVICE_ARGS=(-s "$INSTALL_TARGET")
 else
   ./gradlew installDebug
+  ADB_DEVICE_ARGS=()
 fi
 
-echo "Installed widget APK. Add or refresh the '$WIDGET_ID' widget from the device launcher."
+adb "${ADB_DEVICE_ARGS[@]}" shell am start -n com.cozyla.widgets/.MainActivity >/dev/null || true
+sleep 2
+adb "${ADB_DEVICE_ARGS[@]}" shell input keyevent HOME >/dev/null || true
+
+echo "Installed widget APK and opened Cozyla Widgets once to refresh existing widgets. Add or refresh the '$WIDGET_ID' widget from the device launcher."

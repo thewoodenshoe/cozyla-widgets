@@ -131,7 +131,7 @@ Windows PowerShell:
 adb install -r app\build\outputs\apk\debug\app-debug.apk
 ```
 
-The helper script installs the whole **Cozyla Widgets** app. You do not install each widget separately. The word after the script is only a friendly label for the install command, so any of these work:
+The helper script installs the whole **Cozyla Widgets** app, briefly opens it once so existing widgets refresh, then returns to the home screen. You do not install each widget separately. The word after the script is only a friendly label for the install command, so any of these work:
 
 ```text
 clock
