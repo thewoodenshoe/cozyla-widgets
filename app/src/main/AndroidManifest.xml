@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
   <uses-permission android:name="android.permission.READ_CALENDAR" />
+  <uses-permission android:name="android.permission.INTERNET" />
 
   <application
     android:allowBackup="false"
@@ -44,8 +45,27 @@
       android:exported="false"
       android:theme="@style/AppTheme.ChoreWheelSpin" />
 
+    <activity
+      android:name=".countdown.CountdownConfigureActivity"
+      android:exported="true"
+      android:theme="@style/AppTheme.CalendarConfiguration">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+      </intent-filter>
+    </activity>
+
     <service
       android:name=".calendar.CalendarWidgetUpdateJobService"
+      android:exported="true"
+      android:permission="android.permission.BIND_JOB_SERVICE" />
+
+    <service
+      android:name=".quote.QuoteWidgetUpdateJobService"
+      android:exported="true"
+      android:permission="android.permission.BIND_JOB_SERVICE" />
+
+    <service
+      android:name=".countdown.CountdownWidgetUpdateJobService"
       android:exported="true"
       android:permission="android.permission.BIND_JOB_SERVICE" />
 
@@ -96,6 +116,19 @@
       <meta-data
         android:name="android.appwidget.provider"
         android:resource="@xml/chore_wheel_widget_info" />
+    </receiver>
+
+    <receiver
+      android:name=".countdown.CountdownWidgetProvider"
+      android:exported="false"
+      android:label="@string/countdown_widget_name">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+        <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+      </intent-filter>
+      <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/countdown_widget_info" />
     </receiver>
   </application>
 

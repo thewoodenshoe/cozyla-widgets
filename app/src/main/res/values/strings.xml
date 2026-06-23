@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Cozyla Widgets</string>
-  <string name="app_status">Clock, Week Calendar, Quote of the Day, and Chore Wheel widgets are installed. Add them from the launcher widget picker.</string>
+  <string name="app_status">Clock, Week Calendar, Quote of the Day, Chore Wheel, and Countdown widgets are installed. Add them from the launcher widget picker.</string>
   <string name="clock_widget_title">Cozyla Clock</string>
   <string name="clock_widget_description">Clock widget for tablet testing</string>
 
@@ -43,7 +43,9 @@
 
   <string name="quote_widget_name">Quote of the Day</string>
   <string name="quote_widget_title">Quote of the Day</string>
-  <string name="quote_widget_description">A simple daily quote widget</string>
+  <string name="quote_widget_description">Daily quote widget with author attribution</string>
+  <string name="quote_widget_loading">Finding daily quote...</string>
+  <string name="quote_widget_source">ZenQuotes</string>
 
   <string name="chore_widget_name">Chore Wheel</string>
   <string name="chore_widget_title">Chore Wheel</string>
@@ -64,4 +66,21 @@
   <string name="chore_spin_no_chores_result">No chores!</string>
   <string name="chore_spin_again">Spin again</string>
   <string name="chore_spin_done">Done</string>
+
+  <string name="countdown_widget_name">Countdown</string>
+  <string name="countdown_widget_title">Countdown</string>
+  <string name="countdown_widget_description">Resizable countdown timer widget</string>
+  <string name="countdown_default_label">Big day</string>
+  <string name="countdown_config_title">Countdown</string>
+  <string name="countdown_config_subtitle">Name the countdown and choose how many minutes from now it should end.</string>
+  <string name="countdown_config_label">Label</string>
+  <string name="countdown_config_minutes">Minutes from now</string>
+  <string name="countdown_config_invalid">Enter a label and a positive number of minutes.</string>
+  <string name="countdown_config_cancel">Cancel</string>
+  <string name="countdown_config_save">Add widget</string>
+  <string name="countdown_config_update">Save changes</string>
+  <string name="countdown_done">Done</string>
+  <string name="countdown_days">DAYS</string>
+  <string name="countdown_hours">HOURS</string>
+  <string name="countdown_minutes">MIN</string>
 </resources>

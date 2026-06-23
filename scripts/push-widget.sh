@@ -24,11 +24,11 @@ fi
 WIDGET_ID="${1:-clock}"
 
 case "$WIDGET_ID" in
-  clock|calendar|quote|chores|chore-wheel)
+  clock|calendar|quote|chores|chore-wheel|countdown|timer)
     ;;
   *)
     echo "Unknown widget: $WIDGET_ID"
-    echo "Available widgets: clock, calendar, quote, chores"
+    echo "Available widgets: clock, calendar, quote, chores, countdown"
     exit 64
     ;;
 esac

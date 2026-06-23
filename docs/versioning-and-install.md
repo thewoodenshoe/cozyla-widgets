@@ -16,9 +16,9 @@ Project policy:
 
 Current release:
 
-- `versionCode = 19`
-- `versionName = "0.8.6"`
-- Purpose: quote widget attribution, turquoise styling, and install-time refresh
+- `versionCode = 20`
+- `versionName = "0.9.0"`
+- Purpose: countdown widget, online quote-of-the-day fetch, and chore wheel center-tap control
 
 ## Install Path
 
@@ -41,6 +41,7 @@ scripts/push-widget.sh clock
 scripts/push-widget.sh calendar
 scripts/push-widget.sh quote
 scripts/push-widget.sh chores
+scripts/push-widget.sh countdown
 ```
 
 For repeated local installs, set `COZYLA_ADB_TARGET=<device-ip>:<debug-port>` in `.env`. The push script will try `adb connect` before installing.

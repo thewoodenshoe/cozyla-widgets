@@ -34,7 +34,7 @@ public class CalendarWidgetManifestTest {
         );
 
         assertTrue(Arrays.asList(info.requestedPermissions).contains(Manifest.permission.READ_CALENDAR));
-        assertFalse(Arrays.asList(info.requestedPermissions).contains(Manifest.permission.INTERNET));
+        assertTrue(Arrays.asList(info.requestedPermissions).contains(Manifest.permission.INTERNET));
         assertFalse((info.applicationInfo.flags & ApplicationInfo.FLAG_ALLOW_BACKUP) != 0);
         assertFalse((info.applicationInfo.flags & ApplicationInfo.FLAG_USES_CLEARTEXT_TRAFFIC) != 0);
         assertFalse(component(
@@ -53,6 +53,10 @@ public class CalendarWidgetManifestTest {
                 info.receivers,
                 "com.cozyla.widgets.chores.ChoreWheelProvider"
         ).exported);
+        assertFalse(component(
+                info.receivers,
+                "com.cozyla.widgets.countdown.CountdownWidgetProvider"
+        ).exported);
         assertTrue(hasComponent(
                 info.activities,
                 "com.cozyla.widgets.calendar.CalendarWidgetConfigureActivity"
@@ -60,6 +64,10 @@ public class CalendarWidgetManifestTest {
         assertTrue(hasComponent(
                 info.activities,
                 "com.cozyla.widgets.chores.ChoreWheelConfigureActivity"
+        ));
+        assertTrue(hasComponent(
+                info.activities,
+                "com.cozyla.widgets.countdown.CountdownConfigureActivity"
         ));
         assertFalse(component(
                 info.activities,
@@ -74,6 +82,14 @@ public class CalendarWidgetManifestTest {
                 JobService.PERMISSION_BIND,
                 jobService.permission
         );
+        assertJobService(info, "com.cozyla.widgets.quote.QuoteWidgetUpdateJobService");
+        assertJobService(info, "com.cozyla.widgets.countdown.CountdownWidgetUpdateJobService");
+    }
+
+    private static void assertJobService(PackageInfo info, String className) {
+        ServiceInfo jobService = service(info.services, className);
+        assertTrue(jobService.exported);
+        org.junit.Assert.assertEquals(JobService.PERMISSION_BIND, jobService.permission);
     }
 
     private static boolean hasComponent(ActivityInfo[] components, String className) {

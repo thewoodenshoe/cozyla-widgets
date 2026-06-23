@@ -53,6 +53,18 @@ public class WidgetProviderMetadataTest {
         );
     }
 
+    @Test
+    public void countdownProviderInfoPreservesResizableHomeScreenWidgetContract() throws Exception {
+        assertWidgetMetadata(
+                R.xml.countdown_widget_info,
+                R.layout.widget_countdown,
+                R.layout.widget_countdown,
+                R.string.countdown_widget_description,
+                4,
+                2
+        );
+    }
+
     private static void assertWidgetMetadata(
             int xmlId,
             int initialLayout,

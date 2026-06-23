@@ -33,4 +33,11 @@
   <color name="chore_widget_secondary">#D3D8E0</color>
   <color name="chore_widget_accent">#D9A62D</color>
   <color name="chore_spin_background">#050507</color>
+
+  <color name="countdown_background_start">#10192E</color>
+  <color name="countdown_background_end">#5B2A86</color>
+  <color name="countdown_panel">#24D2C3</color>
+  <color name="countdown_text">#FFFFFF</color>
+  <color name="countdown_secondary">#DCE8FF</color>
+  <color name="countdown_dark">#081421</color>
 </resources>

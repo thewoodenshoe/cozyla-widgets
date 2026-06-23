@@ -8,8 +8,9 @@ Included widgets:
 | --- | --- |
 | Clock | Shows the current time and date. |
 | Week Calendar | Shows a Monday-first Week or Workweek calendar from calendars already synced on the tablet. |
-| Quote of the Day | Shows one local quote each day. |
-| Chore Wheel | Lets you enter chores and launch a casino-style animated wheel to pick one at random. |
+| Quote of the Day | Fetches a daily quote with author attribution and keeps a built-in fallback. |
+| Chore Wheel | Lets you enter chores and tap the wheel center to launch a casino-style animated picker. |
+| Countdown | Shows a configurable countdown timer. |
 
 ## Read This First
 
@@ -28,7 +29,7 @@ Then read the answer and decide for yourself. This project is built by the commu
 - It does not ask for your Google password.
 - It does not use a Google Cloud API key.
 - It does not use OAuth client secrets.
-- It does not request Android internet access.
+- It does request Android internet access for the Quote of the Day widget.
 - It does not upload calendar events anywhere.
 - It does not store your event titles, descriptions, Google account names, or Google login credentials in this repo.
 
@@ -39,17 +40,19 @@ The calendar widget reads calendars that Android has already synced on the table
 You need these on your computer:
 
 - Git, to download this repo
-- Android Studio, which includes the Android SDK
-- Android Platform Tools, especially `adb`
-- JDK 17, if your Android Studio install does not already provide it
+- Android Platform Tools, especially `adb`, to install to the tablet
+- Android SDK Platform 35 and Build Tools, so the APK can be built
+- JDK 17, so the included Gradle wrapper can build the APK
 - A USB cable or Wi-Fi debugging enabled on the tablet
 
 Recommended simple path:
 
 1. Install [Git](https://git-scm.com/downloads).
-2. Install [Android Studio](https://developer.android.com/studio).
-3. Open Android Studio once so it installs the Android SDK.
-4. Install Android Platform Tools if `adb` is not already available from your terminal.
+2. Install [Android Studio](https://developer.android.com/studio), open it once, and let it install the Android SDK.
+3. Install [Android Platform Tools](https://developer.android.com/tools/releases/platform-tools) if `adb` is not already available in Terminal or PowerShell.
+4. Install JDK 17 if your computer does not already have it.
+
+You do not need to use Android Studio to push the widgets to a tablet. You can install the Android command-line SDK instead, but Android Studio is the simpler path for most people.
 
 ## Set Up Google Calendar
 
@@ -134,6 +137,7 @@ clock
 calendar
 quote
 chores
+countdown
 ```
 
 ## Install From Windows
@@ -161,6 +165,8 @@ After installing:
 For the calendar widget, a setup screen opens so you can pick calendars and time range.
 
 For the chore wheel, a setup screen opens so you can enter chores and optionally make slot 8 a green `No chores` slot.
+
+For the countdown widget, a setup screen opens so you can enter the label and minutes.
 
 ## Optional Local Wi-Fi Config
 
@@ -194,13 +200,17 @@ The app requests only `READ_CALENDAR`. It reads Android's local calendar provide
 
 ### Quote of the Day
 
-The quote list is built into the app. It does not download quotes from the internet. Quotes are shown as `quote - author`.
+The quote widget fetches from the public ZenQuotes quote-of-the-day API and shows quotes as `quote - author`. If the tablet is offline or the API fails, the widget uses a built-in fallback quote with author attribution.
 
 ### Chore Wheel
 
-The chore wheel is a real widget. Tapping the wheel or Spin button opens a lightweight native Android spin screen with smooth Canvas animation, then writes the picked result back to the widget.
+The chore wheel is a real widget. Tapping the wheel opens a lightweight native Android spin screen with smooth Canvas animation, then writes the picked result back to the widget.
 
 Standard Android widgets cannot reliably run continuous high-frame-rate animation inside the home-screen surface itself. The companion spin screen is intentional: it keeps the widget addable/resizable while using normal Android rendering for the casino-style animation.
+
+### Countdown
+
+The countdown widget stores only its label and target time on the device. It refreshes roughly once per minute because Android widgets are not live second-by-second timer surfaces.
 
 ## Privacy And Security
 
@@ -211,7 +221,7 @@ This repo is designed to be safe to share publicly:
 - no committed APKs
 - no committed screenshots
 - no committed signing keys
-- no network permission
+- network permission is used only for the quote API
 - no telemetry
 - no analytics
 - no Google credential files

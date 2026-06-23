@@ -67,7 +67,6 @@ public class ChoreWheelProvider extends AppWidgetProvider {
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
         views.setOnClickPendingIntent(R.id.chore_widget_wheel, spinIntent);
-        views.setOnClickPendingIntent(R.id.chore_widget_spin, spinIntent);
         return views;
     }
 

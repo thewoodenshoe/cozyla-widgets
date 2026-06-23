@@ -10,6 +10,7 @@ This project is a catalog of Android widgets. Each widget should be independentl
 | `calendar` | Week Calendar | `com.cozyla.widgets.calendar.CalendarWidgetProvider` | `widget_calendar.xml` | Device verified |
 | `quote` | Quote of the Day | `com.cozyla.widgets.quote.QuoteWidgetProvider` | `widget_quote.xml` | MVP |
 | `chores` | Chore Wheel | `com.cozyla.widgets.chores.ChoreWheelProvider` | `widget_chore_wheel.xml` | MVP |
+| `countdown` | Countdown | `com.cozyla.widgets.countdown.CountdownWidgetProvider` | `widget_countdown.xml` | MVP |
 
 ## Week Calendar
 
@@ -25,8 +26,8 @@ Direct Google OAuth is intentionally not embedded in the widget. Android owns ac
 
 ## Quote of the Day
 
-- local quote list, no network permission or remote feed
-- deterministic daily quote based on the device's local date
+- fetches quote of the day from ZenQuotes
+- falls back to built-in attributed quotes when offline or the API fails
 - displayed as `quote - author`
 - resizable static widget
 
@@ -34,7 +35,14 @@ Direct Google OAuth is intentionally not embedded in the widget. Android owns ac
 
 - configuration Activity accepts chores and can reserve slot 8 as a green `No chores` result
 - chores are stored only in app-private preferences for that widget instance
-- widget tap/Spin button opens a native spin Activity with smooth Canvas animation and redraws the widget when the result is picked
+- wheel tap opens a native spin Activity with smooth Canvas animation and redraws the widget when the result is picked
+
+## Countdown
+
+- configuration Activity accepts a label and duration in minutes
+- stores only target time and label in app-private preferences
+- refreshes roughly once per minute through `JobScheduler`
+- resizable static widget
 - close-call animation targets land near a segment boundary about half the time
 - result text is computed from the final wheel rotation under the pointer, and the green slot is explicit metadata rather than a label-name guess
 - full-screen spin view includes `Spin again` and `Done` controls after each completed spin
