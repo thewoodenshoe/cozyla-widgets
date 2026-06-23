@@ -6,6 +6,7 @@ import android.app.job.JobScheduler;
 import android.app.job.JobService;
 import android.content.ComponentName;
 import android.content.Context;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -18,6 +19,7 @@ import java.util.concurrent.Executors;
 public class QuoteWidgetUpdateJobService extends JobService {
     private static final int JOB_ID = 2100;
     private static final String QUOTE_URL = "https://zenquotes.io/api/today";
+    private static final String TAG = "QuoteWidgetUpdate";
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public static void schedule(Context context) {
@@ -33,7 +35,11 @@ public class QuoteWidgetUpdateJobService extends JobService {
                 .setMinimumLatency(1_000)
                 .setOverrideDeadline(30_000)
                 .build();
-        scheduler.schedule(jobInfo);
+        try {
+            scheduler.schedule(jobInfo);
+        } catch (SecurityException error) {
+            Log.w(TAG, "Unable to schedule quote update job", error);
+        }
     }
 
     @Override

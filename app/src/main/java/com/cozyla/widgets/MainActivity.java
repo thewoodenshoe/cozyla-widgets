@@ -10,6 +10,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WidgetRefreshReceiver.refreshAllWidgets(this);
 
         LinearLayout layout = new LinearLayout(this);
         layout.setGravity(Gravity.CENTER);

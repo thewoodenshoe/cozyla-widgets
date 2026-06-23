@@ -203,6 +203,7 @@ Permissions used by the app:
 
 - `READ_CALENDAR`: calendar widget
 - `INTERNET`: quote and weather widgets
+- `ACCESS_NETWORK_STATE`: lets quote and weather refresh jobs wait for network
 - `VIBRATE`: countdown timer completion alert
 - `RECEIVE_BOOT_COMPLETED`: refreshes widgets after Cozyla restarts
 

@@ -7,6 +7,7 @@ import android.app.job.JobService;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.util.Log;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -15,6 +16,7 @@ public class WeatherWidgetUpdateJobService extends JobService {
     private static final int JOB_ID_NOW = 4100;
     private static final int JOB_ID_PERIODIC = 4101;
     private static final long PERIODIC_INTERVAL_MILLIS = 60L * 60L * 1000L;
+    private static final String TAG = "WeatherWidgetUpdate";
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public static void schedule(Context context) {
@@ -30,7 +32,12 @@ public class WeatherWidgetUpdateJobService extends JobService {
                 .setMinimumLatency(1_000L)
                 .setOverrideDeadline(45_000L)
                 .build();
-        scheduler.schedule(jobInfo);
+        try {
+            scheduler.schedule(jobInfo);
+        } catch (SecurityException error) {
+            Log.w(TAG, "Unable to schedule weather update job", error);
+            return;
+        }
         JobInfo periodicJob = new JobInfo.Builder(
                 JOB_ID_PERIODIC,
                 new ComponentName(context, WeatherWidgetUpdateJobService.class)
@@ -38,7 +45,11 @@ public class WeatherWidgetUpdateJobService extends JobService {
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                 .setPeriodic(PERIODIC_INTERVAL_MILLIS)
                 .build();
-        scheduler.schedule(periodicJob);
+        try {
+            scheduler.schedule(periodicJob);
+        } catch (SecurityException error) {
+            Log.w(TAG, "Unable to schedule periodic weather update job", error);
+        }
     }
 
     @Override

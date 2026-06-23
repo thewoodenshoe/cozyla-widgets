@@ -16,9 +16,9 @@ Project policy:
 
 Current release:
 
-- `versionCode = 23`
-- `versionName = "0.11.1"`
-- Purpose: refresh all widgets after reboot or app update so installed widgets do not stay on initial loading layouts
+- `versionCode = 25`
+- `versionName = "0.11.3"`
+- Purpose: add required connectivity-state permission for network-constrained jobs and isolate per-widget refresh failures
 
 ## Install Path
 
