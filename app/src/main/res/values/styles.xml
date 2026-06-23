@@ -22,6 +22,11 @@
     <item name="android:windowNoTitle">true</item>
   </style>
 
+  <style name="AppTheme.CountdownAction" parent="android:style/Theme.NoDisplay">
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowDisablePreview">true</item>
+  </style>
+
   <style name="CalendarWidgetDayColumn">
     <item name="android:layout_width">0dp</item>
     <item name="android:layout_height">match_parent</item>

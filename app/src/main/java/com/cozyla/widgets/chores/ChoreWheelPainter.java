@@ -332,6 +332,14 @@ public final class ChoreWheelPainter {
         canvas.drawCircle(centerX, centerY, 34f * scale, paint);
         paint.setColor(Color.rgb(180, 9, 32));
         canvas.drawCircle(centerX - 6f * scale, centerY - 7f * scale, 22f * scale, paint);
+        paint.setShader(null);
+        paint.setColor(Color.WHITE);
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+        paint.setTextSize(Math.max(10f, 15f * scale));
+        paint.setShadowLayer(2f * scale, 0f, 1f * scale, Color.argb(160, 0, 0, 0));
+        canvas.drawText("SPIN", centerX, centerY + 5f * scale, paint);
+        paint.clearShadowLayer();
     }
 
     private static void drawPointer(Canvas canvas, float centerX, float centerY, float scale, Paint paint) {

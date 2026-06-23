@@ -75,6 +75,9 @@ public class ChoreWheelSpinActivity extends Activity {
         root.setBackgroundColor(getColor(R.color.chore_spin_background));
 
         wheelView = new SpinWheelView(this);
+        wheelView.setContentDescription(getString(R.string.chore_widget_spin));
+        wheelView.setClickable(true);
+        wheelView.setOnClickListener(view -> startSpin());
         FrameLayout.LayoutParams wheelParams = new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT
@@ -191,10 +194,13 @@ public class ChoreWheelSpinActivity extends Activity {
             toneGenerator.release();
         }
         toneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, 70);
-        int[] delays = {0, 140, 280, 520, 760};
+        int[] delays = {0, 90, 180, 310, 450, 620, 820, 1080};
         int[] tones = {
                 ToneGenerator.TONE_PROP_BEEP,
                 ToneGenerator.TONE_PROP_ACK,
+                ToneGenerator.TONE_PROP_BEEP2,
+                ToneGenerator.TONE_PROP_ACK,
+                ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD,
                 ToneGenerator.TONE_PROP_BEEP2,
                 ToneGenerator.TONE_PROP_ACK,
                 ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
@@ -244,6 +250,7 @@ public class ChoreWheelSpinActivity extends Activity {
 
     private static final class FireworksView extends View {
         private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        private final List<Burst> bursts = new ArrayList<>();
         private final List<Particle> particles = new ArrayList<>();
         private long startedAt;
         private boolean running;
@@ -254,11 +261,12 @@ public class ChoreWheelSpinActivity extends Activity {
         }
 
         void start() {
+            bursts.clear();
             particles.clear();
             startedAt = android.os.SystemClock.uptimeMillis();
             running = true;
             setVisibility(View.VISIBLE);
-            for (int burst = 0; burst < 7; burst++) {
+            for (int burst = 0; burst < 16; burst++) {
                 addBurst();
             }
             invalidate();
@@ -266,6 +274,7 @@ public class ChoreWheelSpinActivity extends Activity {
 
         void stop() {
             running = false;
+            bursts.clear();
             particles.clear();
             setVisibility(View.GONE);
             invalidate();
@@ -280,50 +289,81 @@ public class ChoreWheelSpinActivity extends Activity {
 
             long elapsed = android.os.SystemClock.uptimeMillis() - startedAt;
             float seconds = elapsed / 1000f;
-            paint.setStyle(Paint.Style.FILL);
+            canvas.drawColor(Color.argb(118, 0, 0, 0));
+
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeCap(Paint.Cap.ROUND);
+            for (Burst burst : bursts) {
+                float age = seconds - burst.delaySeconds;
+                if (age < 0f || age > 2.2f) {
+                    continue;
+                }
+                float alpha = Math.max(0f, 1f - (age / 2.2f));
+                paint.setStrokeWidth(2f + 8f * alpha);
+                paint.setColor(Color.argb(
+                        Math.round(alpha * 175f),
+                        Color.red(burst.color),
+                        Color.green(burst.color),
+                        Color.blue(burst.color)
+                ));
+                float radius = burst.radius + age * 170f;
+                canvas.drawCircle(burst.x, burst.y, radius, paint);
+                canvas.drawCircle(burst.x, burst.y, radius * 0.55f, paint);
+            }
+
             for (Particle particle : particles) {
                 float age = seconds - particle.delaySeconds;
                 if (age < 0f) {
                     continue;
                 }
-                float alpha = Math.max(0f, 1f - (age / 1.65f));
+                float alpha = Math.max(0f, 1f - (age / 2.55f));
                 if (alpha <= 0f) {
                     continue;
                 }
                 float x = particle.x + particle.vx * age;
                 float y = particle.y + particle.vy * age + 180f * age * age;
+                float previousAge = Math.max(0f, age - 0.055f);
+                float previousX = particle.x + particle.vx * previousAge;
+                float previousY = particle.y + particle.vy * previousAge + 180f * previousAge * previousAge;
                 paint.setColor(Color.argb(
                         Math.round(alpha * 255f),
                         Color.red(particle.color),
                         Color.green(particle.color),
                         Color.blue(particle.color)
                 ));
+                paint.setStyle(Paint.Style.STROKE);
+                paint.setStrokeWidth(Math.max(2f, particle.radius * 0.55f));
+                canvas.drawLine(previousX, previousY, x, y, paint);
+                paint.setStyle(Paint.Style.FILL);
                 canvas.drawCircle(x, y, particle.radius, paint);
             }
 
-            if (elapsed < 2400L) {
+            if (elapsed < 5200L) {
                 postInvalidateOnAnimation();
             } else {
                 running = false;
                 setVisibility(View.GONE);
+                bursts.clear();
+                particles.clear();
             }
         }
 
         private void addBurst() {
             float centerX = 80f + RANDOM.nextFloat() * Math.max(1f, getWidth() - 160f);
-            float centerY = 90f + RANDOM.nextFloat() * Math.max(1f, getHeight() * 0.42f);
+            float centerY = 80f + RANDOM.nextFloat() * Math.max(1f, getHeight() * 0.58f);
             int color = fireworkColor();
-            int count = 34 + RANDOM.nextInt(24);
-            float delay = RANDOM.nextFloat() * 0.55f;
+            int count = 54 + RANDOM.nextInt(46);
+            float delay = RANDOM.nextFloat() * 2.15f;
+            bursts.add(new Burst(centerX, centerY, color, delay, 18f + RANDOM.nextFloat() * 28f));
             for (int index = 0; index < count; index++) {
                 double angle = (Math.PI * 2d * index / count) + RANDOM.nextDouble() * 0.18d;
-                float speed = 120f + RANDOM.nextFloat() * 360f;
+                float speed = 150f + RANDOM.nextFloat() * 560f;
                 particles.add(new Particle(
                         centerX,
                         centerY,
                         (float) Math.cos(angle) * speed,
                         (float) Math.sin(angle) * speed,
-                        3.5f + RANDOM.nextFloat() * 6f,
+                        3.2f + RANDOM.nextFloat() * 7.5f,
                         color,
                         delay
                 ));
@@ -336,9 +376,27 @@ public class ChoreWheelSpinActivity extends Activity {
                     Color.rgb(255, 74, 96),
                     Color.rgb(85, 220, 255),
                     Color.rgb(88, 255, 156),
-                    Color.rgb(211, 124, 255)
+                    Color.rgb(211, 124, 255),
+                    Color.rgb(255, 255, 255),
+                    Color.rgb(255, 155, 55)
             };
             return colors[RANDOM.nextInt(colors.length)];
+        }
+    }
+
+    private static final class Burst {
+        final float x;
+        final float y;
+        final int color;
+        final float delaySeconds;
+        final float radius;
+
+        Burst(float x, float y, int color, float delaySeconds, float radius) {
+            this.x = x;
+            this.y = y;
+            this.color = color;
+            this.delaySeconds = delaySeconds;
+            this.radius = radius;
         }
     }
 

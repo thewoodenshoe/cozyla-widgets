@@ -2,6 +2,7 @@
 <resources>
   <string name="app_name">Cozyla Widgets</string>
   <string name="app_status">Clock, Week Calendar, Quote of the Day, Chore Wheel, Countdown, Weather, and Photo Frame widgets are installed. Add them from the launcher widget picker.</string>
+  <string name="app_version">Version %1$s (%2$d)</string>
   <string name="clock_widget_title">Cozyla Clock</string>
   <string name="clock_widget_description">Clock widget for tablet testing</string>
 
@@ -80,24 +81,27 @@
   <string name="weather_widget_name">Weather</string>
   <string name="weather_widget_description">Resizable weather, UV, tide, and moon widget</string>
   <string name="weather_config_title">Weather</string>
-  <string name="weather_config_subtitle">Enter a place label, latitude, longitude, and optional NOAA tide station ID.</string>
-  <string name="weather_config_place">Place label</string>
-  <string name="weather_config_latitude">Latitude</string>
-  <string name="weather_config_longitude">Longitude</string>
+  <string name="weather_config_subtitle">Search by city. Default is Charleston, SC. Add a NOAA tide station only if you want local tide cards.</string>
+  <string name="weather_config_city">City</string>
   <string name="weather_config_tide_station">NOAA tide station ID (optional)</string>
-  <string name="weather_config_invalid">Enter a place, valid latitude, and valid longitude.</string>
+  <string name="weather_config_invalid_city">Enter a city.</string>
+  <string name="weather_config_search">Search city</string>
+  <string name="weather_config_searching">Searching city...</string>
+  <string name="weather_config_found">Using %1$s</string>
+  <string name="weather_config_city_not_found">Could not find that city. Try city and state, for example Charleston, SC.</string>
   <string name="weather_config_cancel">Cancel</string>
   <string name="weather_config_save">Add widget</string>
 
   <string name="photo_widget_name">Photo Frame</string>
-  <string name="photo_widget_description">Google Photos-style static or slideshow photo widget</string>
+  <string name="photo_widget_description">Static or slideshow photo widget</string>
   <string name="photo_widget_empty">Cannot find album/photos. Pick photos first.</string>
-  <string name="photo_widget_static">Google Photos</string>
-  <string name="photo_widget_slideshow">Google Photos slideshow</string>
+  <string name="photo_widget_static">Photo</string>
+  <string name="photo_widget_slideshow">Photo slideshow</string>
   <string name="photo_config_title">Photo Frame</string>
-  <string name="photo_config_subtitle">Pick photos from the system photo picker. If Google Photos is connected to Android, choose photos from that album view.</string>
-  <string name="photo_config_pick">Connect / pick Google Photos</string>
-  <string name="photo_config_no_album">Cannot find album. Pick at least one photo from Google Photos or the photo picker.</string>
+  <string name="photo_config_subtitle">Pick photos from Android. Google Photos appears only if this tablet exposes it in the picker; this widget does not sign in to Google Photos directly.</string>
+  <string name="photo_config_pick">Pick photos</string>
+  <string name="photo_config_browse_files">Browse files</string>
+  <string name="photo_config_no_album">No photos selected. If Google Photos albums are missing, open Google Photos on this tablet or use Browse files.</string>
   <string name="photo_config_selected">%1$d photo(s) selected</string>
   <string name="photo_config_slideshow">Slideshow</string>
   <string name="photo_config_interval">Next photo in minutes</string>

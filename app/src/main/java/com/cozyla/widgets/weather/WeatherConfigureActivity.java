@@ -15,11 +15,10 @@ import com.cozyla.widgets.R;
 
 public class WeatherConfigureActivity extends Activity {
     private int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
-    private EditText placeInput;
-    private EditText latitudeInput;
-    private EditText longitudeInput;
+    private EditText cityInput;
     private EditText tideStationInput;
     private TextView statusView;
+    private Button saveButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,17 +54,14 @@ public class WeatherConfigureActivity extends Activity {
         subtitle.setPadding(0, 8, 0, 24);
         root.addView(subtitle);
 
-        placeInput = input(R.string.weather_config_place, InputType.TYPE_CLASS_TEXT);
-        placeInput.setText(WeatherPreferences.place(this, appWidgetId));
-        root.addView(placeInput, fieldParams());
+        cityInput = input(R.string.weather_config_city, InputType.TYPE_CLASS_TEXT);
+        cityInput.setText(WeatherPreferences.place(this, appWidgetId));
+        root.addView(cityInput, fieldParams());
 
-        latitudeInput = input(R.string.weather_config_latitude, InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
-        latitudeInput.setText(WeatherPreferences.latitude(this, appWidgetId));
-        root.addView(latitudeInput, fieldParams());
-
-        longitudeInput = input(R.string.weather_config_longitude, InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
-        longitudeInput.setText(WeatherPreferences.longitude(this, appWidgetId));
-        root.addView(longitudeInput, fieldParams());
+        Button search = new Button(this);
+        search.setText(R.string.weather_config_search);
+        search.setOnClickListener(v -> resolveCity(false));
+        root.addView(search, fieldParams());
 
         tideStationInput = input(R.string.weather_config_tide_station, InputType.TYPE_CLASS_TEXT);
         tideStationInput.setText(WeatherPreferences.tideStation(this, appWidgetId));
@@ -85,10 +81,10 @@ public class WeatherConfigureActivity extends Activity {
         cancel.setOnClickListener(v -> finish());
         buttons.addView(cancel, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
 
-        Button save = new Button(this);
-        save.setText(R.string.weather_config_save);
-        save.setOnClickListener(v -> save());
-        buttons.addView(save, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        saveButton = new Button(this);
+        saveButton.setText(R.string.weather_config_save);
+        saveButton.setOnClickListener(v -> resolveCity(true));
+        buttons.addView(saveButton, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         root.addView(buttons);
 
         setContentView(root);
@@ -111,16 +107,43 @@ public class WeatherConfigureActivity extends Activity {
         return params;
     }
 
-    private void save() {
-        String place = placeInput.getText().toString().trim();
-        String latitude = latitudeInput.getText().toString().trim();
-        String longitude = longitudeInput.getText().toString().trim();
-        if (place.isEmpty() || !validCoordinate(latitude, -90d, 90d) || !validCoordinate(longitude, -180d, 180d)) {
-            statusView.setText(R.string.weather_config_invalid);
+    private void resolveCity(boolean saveAfterResolve) {
+        String city = cityInput.getText().toString().trim();
+        if (city.isEmpty()) {
+            statusView.setText(R.string.weather_config_invalid_city);
             return;
         }
 
-        WeatherPreferences.saveConfig(this, appWidgetId, place, latitude, longitude, tideStationInput.getText().toString());
+        setBusy(true, R.string.weather_config_searching);
+        new Thread(() -> {
+            try {
+                WeatherApiClient.LocationResult result = WeatherApiClient.geocodeCity(city);
+                runOnUiThread(() -> {
+                    cityInput.setText(result.displayName);
+                    statusView.setText(getString(R.string.weather_config_found, result.displayName));
+                    setBusy(false, 0);
+                    if (saveAfterResolve) {
+                        save(result);
+                    }
+                });
+            } catch (Exception ex) {
+                runOnUiThread(() -> {
+                    setBusy(false, 0);
+                    statusView.setText(R.string.weather_config_city_not_found);
+                });
+            }
+        }, "weather-city-search").start();
+    }
+
+    private void save(WeatherApiClient.LocationResult location) {
+        WeatherPreferences.saveConfig(
+                this,
+                appWidgetId,
+                location.displayName,
+                coordinate(location.latitude),
+                coordinate(location.longitude),
+                tideStationInput.getText().toString()
+        );
         WeatherWidgetProvider.updateWidget(this, appWidgetId);
         WeatherWidgetUpdateJobService.schedule(this);
 
@@ -129,12 +152,14 @@ public class WeatherConfigureActivity extends Activity {
         finish();
     }
 
-    private static boolean validCoordinate(String value, double min, double max) {
-        try {
-            double coordinate = Double.parseDouble(value);
-            return coordinate >= min && coordinate <= max;
-        } catch (NumberFormatException ex) {
-            return false;
+    private void setBusy(boolean busy, int statusText) {
+        saveButton.setEnabled(!busy);
+        if (statusText != 0) {
+            statusView.setText(statusText);
         }
+    }
+
+    private static String coordinate(double value) {
+        return String.format(java.util.Locale.US, "%.6f", value);
     }
 }

@@ -38,7 +38,7 @@ public final class CountdownPreferences {
                 .putBoolean(KEY_RUNNING_PREFIX + appWidgetId, false)
                 .putBoolean(KEY_DONE_PREFIX + appWidgetId, false)
                 .remove(KEY_TARGET_PREFIX + appWidgetId)
-                .apply();
+                .commit();
     }
 
     public static void start(Context context, int appWidgetId, long nowMillis) {
@@ -50,7 +50,7 @@ public final class CountdownPreferences {
                 .putLong(KEY_TARGET_PREFIX + appWidgetId, nowMillis + duration)
                 .putBoolean(KEY_RUNNING_PREFIX + appWidgetId, true)
                 .putBoolean(KEY_DONE_PREFIX + appWidgetId, false)
-                .apply();
+                .commit();
     }
 
     public static void pause(Context context, int appWidgetId, long nowMillis) {
@@ -61,7 +61,7 @@ public final class CountdownPreferences {
                 .putBoolean(KEY_RUNNING_PREFIX + appWidgetId, false)
                 .putBoolean(KEY_DONE_PREFIX + appWidgetId, false)
                 .remove(KEY_TARGET_PREFIX + appWidgetId)
-                .apply();
+                .commit();
     }
 
     public static void finish(Context context, int appWidgetId) {
@@ -71,7 +71,7 @@ public final class CountdownPreferences {
                 .putBoolean(KEY_RUNNING_PREFIX + appWidgetId, false)
                 .putBoolean(KEY_DONE_PREFIX + appWidgetId, true)
                 .remove(KEY_TARGET_PREFIX + appWidgetId)
-                .apply();
+                .commit();
     }
 
     public static void reset(Context context, int appWidgetId) {
@@ -85,7 +85,7 @@ public final class CountdownPreferences {
                 .remove(KEY_TARGET_PREFIX + appWidgetId)
                 .remove(KEY_RUNNING_PREFIX + appWidgetId)
                 .remove(KEY_DONE_PREFIX + appWidgetId)
-                .apply();
+                .commit();
     }
 
     public static long clampDuration(long durationMillis) {

@@ -12,6 +12,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public final class WeatherApiClient {
     private WeatherApiClient() {
     }
@@ -34,20 +37,78 @@ public final class WeatherApiClient {
                 + "&forecast_days=1"
                 + "&timezone=auto";
         String weatherJson = fetchText(weatherUrl);
-        int weatherCode = (int) Math.round(numberAfter(weatherJson, "\"weather_code\""));
+        WeatherSnapshot snapshot = parseWeather(weatherJson);
         List<WeatherData.TideEvent> tides = tideStation == null || tideStation.trim().isEmpty()
                 ? List.of(new WeatherData.TideEvent("Tide", "Set station"))
                 : fetchTides(tideStation.trim());
         return new WeatherData(
                 place == null || place.trim().isEmpty() ? "Weather" : place.trim(),
-                WeatherFormatter.weatherCode(weatherCode),
-                (int) Math.round(numberAfter(weatherJson, "\"temperature_2m\"")),
-                (int) Math.round(firstArrayNumberAfter(weatherJson, "\"temperature_2m_max\"")),
-                (int) Math.round(firstArrayNumberAfter(weatherJson, "\"temperature_2m_min\"")),
-                (int) Math.round(numberAfter(weatherJson, "\"wind_speed_10m\"")),
-                firstArrayNumberAfter(weatherJson, "\"uv_index_max\""),
+                WeatherFormatter.weatherCode(snapshot.weatherCode),
+                (int) Math.round(snapshot.temperatureF),
+                (int) Math.round(snapshot.highF),
+                (int) Math.round(snapshot.lowF),
+                (int) Math.round(snapshot.windMph),
+                snapshot.uvIndex,
                 System.currentTimeMillis(),
                 tides
+        );
+    }
+
+    public static LocationResult geocodeCity(String query) throws Exception {
+        String trimmed = query == null ? "" : query.trim();
+        if (trimmed.isEmpty()) {
+            throw new IllegalArgumentException("City is required");
+        }
+        String url = "https://geocoding-api.open-meteo.com/v1/search"
+                + "?name=" + URLEncoder.encode(trimmed, StandardCharsets.UTF_8.name())
+                + "&count=1"
+                + "&language=en"
+                + "&format=json";
+        LocationResult result = parseFirstLocation(fetchText(url));
+        if (result == null) {
+            throw new IllegalArgumentException("City not found");
+        }
+        return result;
+    }
+
+    static WeatherSnapshot parseWeather(String json) throws Exception {
+        JSONObject root = new JSONObject(json);
+        JSONObject current = root.getJSONObject("current");
+        JSONObject daily = root.getJSONObject("daily");
+        return new WeatherSnapshot(
+                current.optDouble("temperature_2m", 0d),
+                current.optInt("weather_code", 0),
+                current.optDouble("wind_speed_10m", 0d),
+                firstArrayDouble(daily.optJSONArray("temperature_2m_max")),
+                firstArrayDouble(daily.optJSONArray("temperature_2m_min")),
+                firstArrayDouble(daily.optJSONArray("uv_index_max"))
+        );
+    }
+
+    private static double firstArrayDouble(JSONArray array) {
+        return array == null || array.length() == 0 ? 0d : array.optDouble(0, 0d);
+    }
+
+    static LocationResult parseFirstLocation(String json) throws Exception {
+        JSONArray results = new JSONObject(json).optJSONArray("results");
+        if (results == null || results.length() == 0) {
+            return null;
+        }
+        JSONObject first = results.getJSONObject(0);
+        String name = first.optString("name", "").trim();
+        String admin = first.optString("admin1", "").trim();
+        String country = first.optString("country_code", "").trim();
+        StringBuilder label = new StringBuilder(name.isEmpty() ? "Weather" : name);
+        if (!admin.isEmpty()) {
+            label.append(", ").append(admin);
+        }
+        if (!country.isEmpty() && !"US".equalsIgnoreCase(country)) {
+            label.append(", ").append(country);
+        }
+        return new LocationResult(
+                label.toString(),
+                first.getDouble("latitude"),
+                first.getDouble("longitude")
         );
     }
 
@@ -151,5 +212,35 @@ public final class WeatherApiClient {
             return "";
         }
         return json.substring(start + 1, end);
+    }
+
+    public static final class LocationResult {
+        public final String displayName;
+        public final double latitude;
+        public final double longitude;
+
+        LocationResult(String displayName, double latitude, double longitude) {
+            this.displayName = displayName;
+            this.latitude = latitude;
+            this.longitude = longitude;
+        }
+    }
+
+    static final class WeatherSnapshot {
+        final double temperatureF;
+        final int weatherCode;
+        final double windMph;
+        final double highF;
+        final double lowF;
+        final double uvIndex;
+
+        WeatherSnapshot(double temperatureF, int weatherCode, double windMph, double highF, double lowF, double uvIndex) {
+            this.temperatureF = temperatureF;
+            this.weatherCode = weatherCode;
+            this.windMph = windMph;
+            this.highF = highF;
+            this.lowF = lowF;
+            this.uvIndex = uvIndex;
+        }
     }
 }

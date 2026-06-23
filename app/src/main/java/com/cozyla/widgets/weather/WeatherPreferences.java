@@ -4,6 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public final class WeatherPreferences {
+    public static final String DEFAULT_PLACE = "Charleston, SC";
+    public static final String DEFAULT_LATITUDE = "32.7765";
+    public static final String DEFAULT_LONGITUDE = "-79.9311";
+    public static final String DEFAULT_TIDE_STATION = "8665530";
+
     private static final String PREFERENCES = "weather_widget_preferences";
     private static final String KEY_PLACE_PREFIX = "place_";
     private static final String KEY_LAT_PREFIX = "lat_";
@@ -31,19 +36,24 @@ public final class WeatherPreferences {
     }
 
     public static String place(Context context, int appWidgetId) {
-        return preferences(context).getString(KEY_PLACE_PREFIX + appWidgetId, "Weather");
+        String value = preferences(context).getString(KEY_PLACE_PREFIX + appWidgetId, DEFAULT_PLACE);
+        return value == null || value.trim().isEmpty() || "Weather".equalsIgnoreCase(value.trim())
+                ? DEFAULT_PLACE
+                : value.trim();
     }
 
     public static String latitude(Context context, int appWidgetId) {
-        return preferences(context).getString(KEY_LAT_PREFIX + appWidgetId, "");
+        String value = preferences(context).getString(KEY_LAT_PREFIX + appWidgetId, DEFAULT_LATITUDE);
+        return value == null || value.trim().isEmpty() ? DEFAULT_LATITUDE : value.trim();
     }
 
     public static String longitude(Context context, int appWidgetId) {
-        return preferences(context).getString(KEY_LON_PREFIX + appWidgetId, "");
+        String value = preferences(context).getString(KEY_LON_PREFIX + appWidgetId, DEFAULT_LONGITUDE);
+        return value == null || value.trim().isEmpty() ? DEFAULT_LONGITUDE : value.trim();
     }
 
     public static String tideStation(Context context, int appWidgetId) {
-        return preferences(context).getString(KEY_TIDE_STATION_PREFIX + appWidgetId, "");
+        return preferences(context).getString(KEY_TIDE_STATION_PREFIX + appWidgetId, DEFAULT_TIDE_STATION);
     }
 
     public static void saveData(Context context, int appWidgetId, String encoded) {

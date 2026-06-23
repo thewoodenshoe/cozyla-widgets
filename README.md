@@ -4,19 +4,21 @@ Welcome. This project installs custom Android home-screen widgets for a Cozyla t
 
 Cozyla runs Android, similar to a big phone or tablet. Android supports widgets. This repo builds one Android app called **Cozyla Widgets**, and that app adds several new widgets to Cozyla's widget picker.
 
-## Widgets Installed
+## Included Widgets
 
 One install adds all of these widgets:
 
-| Widget | What it does | Setup needed |
-| --- | --- | --- |
-| Clock | Shows the current time and date. | None. |
-| Week Calendar | Shows a Monday-first Week or Workweek calendar from calendars already synced on the tablet. | Add your Google account to Android and allow calendar access. |
-| Quote of the Day | Fetches a daily quote with author attribution and keeps a built-in fallback quote. | Internet helps, but it still shows a built-in quote if offline. |
-| Chore Wheel | Lets you enter chores and tap the wheel center to launch a casino-style animated picker. | Enter 2 to 8 chores. Slot 8 can optionally be green `No chores`. |
-| Countdown | Kitchen timer with minutes, seconds, Start, Pause, Reset, and a done beep. | None. |
-| Weather | Shows weather, UV strength, tides, and a graphical moon phase. | Enter a place, latitude, longitude, and optional NOAA tide station. |
-| Photo Frame | Shows one selected photo or a slideshow from photos picked through Android/Google Photos. | Pick photos from Android's photo picker. |
+| Widget | Version | What it does | Setup needed |
+| --- | --- | --- | --- |
+| Clock | 0.12.6 | Shows the current time and date. | None. |
+| Week Calendar | 0.12.6 | Shows a Monday-first Week or Workweek calendar from calendars already synced on the tablet. | Add your Google account to Android and allow calendar access. |
+| Quote of the Day | 0.12.6 | Fetches a daily quote with author attribution and keeps a built-in fallback quote. | Internet helps, but it still shows a built-in quote if offline. |
+| Chore Wheel | 0.12.6 | Lets you enter chores and tap the wheel center to launch a casino-style animated picker. | Enter 2 to 8 chores. Slot 8 can optionally be green `No chores`. |
+| Countdown | 0.12.6 | Kitchen timer with minutes, seconds, Start, Pause, Reset, live second display, and a done beep. | None. |
+| Weather | 0.12.6 | Shows weather, UV strength, tides, and a graphical moon phase. | Search for a city. Default is Charleston, SC. Add a NOAA tide station only if you want tide cards. |
+| Photo Frame | 0.12.6 | Shows one selected photo or a slideshow from photos picked on the tablet. | Pick photos through Android's photo picker or file browser. |
+
+Open the **Cozyla Widgets** app on the tablet to see the installed app version. The version above should match that screen after you install.
 
 ## Index
 
@@ -180,11 +182,15 @@ Set minutes and seconds directly on the widget. Press **Start**. It beeps and vi
 
 ### Weather
 
-Enter a place label, latitude, longitude, and optional NOAA tide station ID. Weather and UV use Open-Meteo. Tides use NOAA only when a station is configured.
+Search for a city. The default is Charleston, SC. Weather and UV use Open-Meteo. Tides use NOAA only when a station is configured.
+
+If you want tides, enter a NOAA tide station ID for your area. If you do not know the station ID, leave it alone and the widget will still show weather, UV, and moon phase.
 
 ### Photo Frame
 
-Pick one photo for a still frame, or multiple photos for a slideshow. If Google Photos is connected to Android's photo picker, choose photos from that Google Photos view. This repo does not store Google credentials.
+Pick one photo for a still frame, or multiple photos for a slideshow.
+
+Important: this widget does not sign in to Google Photos directly and does not store Google credentials. It asks Android to pick photos. If this Cozyla tablet exposes Google Photos in Android's picker, choose photos there. If it does not, use **Browse files** or open Google Photos on the tablet first so the photos are available locally.
 
 ## Privacy
 

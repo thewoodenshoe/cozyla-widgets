@@ -25,6 +25,7 @@ The public user starts from zero. Documentation and setup flows must assume the 
 - Increment Android `versionCode` for every APK intended for tablet installation. Never decrease or reuse it for normal installs.
 - Keep user-facing `versionName` readable and semver-like while the product is pre-release.
 - Keep README installation instructions usable by a non-technical tablet owner. Do not document only the developer shortcut path.
+- Keep the README Included Widgets table current. Every widget row must include the user-visible widget version, and any widget behavior or app version change must update that table before release.
 
 ## Public Repository Security Rules
 

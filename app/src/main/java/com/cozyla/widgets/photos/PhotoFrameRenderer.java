@@ -99,13 +99,13 @@ public final class PhotoFrameRenderer {
         canvas.drawRect(0, height * 0.58f, canvas.getWidth(), height, paint);
         paint.setShader(null);
         TextPaint text = textPaint(Color.WHITE, Math.max(18f, canvas.getHeight() * 0.07f), true);
-        canvas.drawText(label == null || label.isEmpty() ? "Google Photos" : label, 24f, height - 28f, text);
+        canvas.drawText(label == null || label.isEmpty() ? "Photo Frame" : label, 24f, height - 28f, text);
     }
 
     private static void drawEmpty(Canvas canvas, String message) {
         TextPaint title = textPaint(Color.WHITE, Math.max(24f, canvas.getHeight() * 0.1f), true);
         title.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText("Google Photos", canvas.getWidth() / 2f, canvas.getHeight() * 0.42f, title);
+        canvas.drawText("Photo Frame", canvas.getWidth() / 2f, canvas.getHeight() * 0.42f, title);
         TextPaint body = textPaint(Color.rgb(220, 238, 244), Math.max(16f, canvas.getHeight() * 0.055f), false);
         body.setTextAlign(Paint.Align.CENTER);
         canvas.drawText(message, canvas.getWidth() / 2f, canvas.getHeight() * 0.56f, body);

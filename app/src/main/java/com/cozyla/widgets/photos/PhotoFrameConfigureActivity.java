@@ -23,6 +23,7 @@ import java.util.List;
 
 public class PhotoFrameConfigureActivity extends Activity {
     private static final int REQUEST_PICK_PHOTOS = 5201;
+    private static final int REQUEST_BROWSE_PHOTOS = 5202;
     private int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     private final List<Uri> selectedUris = new ArrayList<>();
     private TextView statusView;
@@ -65,6 +66,11 @@ public class PhotoFrameConfigureActivity extends Activity {
         pick.setText(R.string.photo_config_pick);
         pick.setOnClickListener(v -> launchPhotoPicker());
         root.addView(pick, fieldParams());
+
+        Button browse = new Button(this);
+        browse.setText(R.string.photo_config_browse_files);
+        browse.setOnClickListener(v -> launchDocumentPicker());
+        root.addView(browse, fieldParams());
 
         slideshowInput = new CheckBox(this);
         slideshowInput.setText(R.string.photo_config_slideshow);
@@ -118,10 +124,21 @@ public class PhotoFrameConfigureActivity extends Activity {
         startActivityForResult(intent, REQUEST_PICK_PHOTOS);
     }
 
+    private void launchDocumentPicker() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+        startActivityForResult(intent, REQUEST_BROWSE_PHOTOS);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode != REQUEST_PICK_PHOTOS || resultCode != RESULT_OK || data == null) {
+        if ((requestCode != REQUEST_PICK_PHOTOS && requestCode != REQUEST_BROWSE_PHOTOS)
+                || resultCode != RESULT_OK
+                || data == null) {
             return;
         }
         selectedUris.clear();

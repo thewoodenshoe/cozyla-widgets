@@ -4,15 +4,15 @@ This project is a catalog of Android widgets. Each widget should be independentl
 
 ## Current Widgets
 
-| ID | Name | Provider | Layout | Status |
-| --- | --- | --- | --- | --- |
-| `clock` | Clock | `com.cozyla.widgets.clock.ClockWidgetProvider` | `widget_clock.xml` | MVP |
-| `calendar` | Week Calendar | `com.cozyla.widgets.calendar.CalendarWidgetProvider` | `widget_calendar.xml` | Device verified |
-| `quote` | Quote of the Day | `com.cozyla.widgets.quote.QuoteWidgetProvider` | `widget_quote.xml` | MVP |
-| `chores` | Chore Wheel | `com.cozyla.widgets.chores.ChoreWheelProvider` | `widget_chore_wheel.xml` | MVP |
-| `countdown` | Countdown | `com.cozyla.widgets.countdown.CountdownWidgetProvider` | `widget_countdown.xml` | MVP |
-| `weather` | Weather | `com.cozyla.widgets.weather.WeatherWidgetProvider` | `widget_weather.xml` | MVP |
-| `photos` | Photo Frame | `com.cozyla.widgets.photos.PhotoFrameWidgetProvider` | `widget_photo_frame.xml` | MVP |
+| ID | Name | Version | Provider | Layout | Status |
+| --- | --- | --- | --- | --- | --- |
+| `clock` | Clock | 0.12.6 | `com.cozyla.widgets.clock.ClockWidgetProvider` | `widget_clock.xml` | MVP |
+| `calendar` | Week Calendar | 0.12.6 | `com.cozyla.widgets.calendar.CalendarWidgetProvider` | `widget_calendar.xml` | Device verified |
+| `quote` | Quote of the Day | 0.12.6 | `com.cozyla.widgets.quote.QuoteWidgetProvider` | `widget_quote.xml` | MVP |
+| `chores` | Chore Wheel | 0.12.6 | `com.cozyla.widgets.chores.ChoreWheelProvider` | `widget_chore_wheel.xml` | MVP |
+| `countdown` | Countdown | 0.12.6 | `com.cozyla.widgets.countdown.CountdownWidgetProvider` | `widget_countdown.xml` | MVP |
+| `weather` | Weather | 0.12.6 | `com.cozyla.widgets.weather.WeatherWidgetProvider` | `widget_weather.xml` | MVP |
+| `photos` | Photo Frame | 0.12.6 | `com.cozyla.widgets.photos.PhotoFrameWidgetProvider` | `widget_photo_frame.xml` | MVP |
 
 ## Week Calendar
 
@@ -38,17 +38,26 @@ Direct Google OAuth is intentionally not embedded in the widget. Android owns ac
 - configuration Activity accepts chores and can reserve slot 8 as a green `No chores` result
 - chores are stored only in app-private preferences for that widget instance
 - wheel tap opens a native spin Activity with smooth Canvas animation and redraws the widget when the result is picked
+- full-screen wheel center and `Spin again` both start a spin
+- `No chores` results play a longer Canvas fireworks celebration and tone sequence
+- close-call animation targets land near a segment boundary about half the time
+- result text is computed from the final wheel rotation under the pointer, and the green slot is explicit metadata rather than a label-name guess
+- full-screen spin view includes `Spin again` and `Done` controls after each completed spin
+- wheel labels are placed from the same segment-center angle used to paint their colored wedge
+- long wheel labels are wrapped/scaled against measured segment width so they stay inside their wedge
 
 ## Countdown
 
 - in-widget minute/second controls
-- launcher Chronometer handles live countdown display
+- control taps use a no-display Activity because this Cozyla launcher does not reliably deliver widget button broadcasts
+- running state uses Android Chronometer so visible seconds tick locally inside the widget
+- provider keeps one-second scheduled ticks as a state/completion fallback, not as the primary visual timer
 - AlarmManager alarm plays a beep and updates widget state when finished
 - no setup Activity is required for normal timer use
 
 ## Weather
 
-- configuration Activity accepts place label, latitude, longitude, and optional NOAA tide station ID
+- configuration Activity searches by city and defaults to Charleston, SC
 - Open-Meteo supplies weather and UV strength without API keys
 - NOAA CO-OPS supplies high/low tide prediction cards when a station is configured
 - moon phase is calculated locally and drawn as a circle in the widget bitmap
@@ -57,14 +66,10 @@ Direct Google OAuth is intentionally not embedded in the widget. Android owns ac
 ## Photo Frame
 
 - configuration Activity uses Android's system photo picker
+- configuration Activity also offers Android's file browser as a fallback when the photo picker does not expose Google Photos
 - stores selected photo URIs and slideshow interval only in app-private preferences
 - supports static photo or slideshow mode
 - tapping the widget opens Google Photos when installed, otherwise photos.google.com
-- close-call animation targets land near a segment boundary about half the time
-- result text is computed from the final wheel rotation under the pointer, and the green slot is explicit metadata rather than a label-name guess
-- full-screen spin view includes `Spin again` and `Done` controls after each completed spin
-- wheel labels are placed from the same segment-center angle used to paint their colored wedge
-- long wheel labels are wrapped/scaled against measured segment width so they stay inside their wedge
 
 ## Adding A Widget
 

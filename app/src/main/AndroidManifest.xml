@@ -66,6 +66,13 @@
       </intent-filter>
     </activity>
 
+    <activity
+      android:name=".countdown.CountdownActionActivity"
+      android:excludeFromRecents="true"
+      android:exported="true"
+      android:noHistory="true"
+      android:theme="@style/AppTheme.CountdownAction" />
+
     <service
       android:name=".calendar.CalendarWidgetUpdateJobService"
       android:exported="true"

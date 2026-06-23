@@ -96,6 +96,10 @@ public class CalendarWidgetManifestTest {
                 info.activities,
                 "com.cozyla.widgets.chores.ChoreWheelSpinActivity"
         ).exported);
+        assertTrue(component(
+                info.activities,
+                "com.cozyla.widgets.countdown.CountdownActionActivity"
+        ).exported);
         ServiceInfo jobService = service(
                 info.services,
                 "com.cozyla.widgets.calendar.CalendarWidgetUpdateJobService"

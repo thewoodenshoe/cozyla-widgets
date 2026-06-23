@@ -48,4 +48,26 @@ public class WeatherFormatterTest {
         assertEquals("High", decoded.tides.get(0).type);
         assertEquals("9:42 AM", decoded.tides.get(0).time);
     }
+
+    @Test
+    public void decodeUsesFallbackPlaceForOldPlaceholderData() {
+        WeatherData oldData = new WeatherData(
+                "Weather",
+                "Clear",
+                80,
+                88,
+                72,
+                6,
+                4.2d,
+                1782216000000L,
+                List.of(new WeatherData.TideEvent("High", "9:42 AM"))
+        );
+
+        WeatherData decoded = WeatherFormatter.decode(
+                WeatherFormatter.encode(oldData),
+                "Charleston, SC"
+        );
+
+        assertEquals("Charleston, SC", decoded.place);
+    }
 }

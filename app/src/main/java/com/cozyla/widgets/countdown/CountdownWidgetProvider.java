@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.SystemClock;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.cozyla.widgets.R;
@@ -25,9 +26,11 @@ public class CountdownWidgetProvider extends AppWidgetProvider {
     public static final String ACTION_START_PAUSE = "com.cozyla.widgets.countdown.START_PAUSE";
     public static final String ACTION_RESET = "com.cozyla.widgets.countdown.RESET";
     public static final String ACTION_FINISH = "com.cozyla.widgets.countdown.FINISH";
+    public static final String ACTION_TICK = "com.cozyla.widgets.countdown.TICK";
 
     private static final long MINUTE = 60_000L;
     private static final long TEN_SECONDS = 10_000L;
+    private static final long TICK_MILLIS = 1_000L;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -39,6 +42,10 @@ public class CountdownWidgetProvider extends AppWidgetProvider {
         }
 
         int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        handleAction(context, action, appWidgetId);
+    }
+
+    public static void handleAction(Context context, String action, int appWidgetId) {
         if (appWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
             return;
         }
@@ -56,18 +63,28 @@ public class CountdownWidgetProvider extends AppWidgetProvider {
         } else if (ACTION_START_PAUSE.equals(action)) {
             if (state.running) {
                 CountdownPreferences.pause(context, appWidgetId, now);
-                cancelAlarm(context, appWidgetId);
+                cancelAlarms(context, appWidgetId);
             } else {
                 CountdownPreferences.start(context, appWidgetId, now);
-                scheduleFinishAlarm(context, appWidgetId, CountdownPreferences.state(context, appWidgetId, now).targetMillis);
+                CountdownPreferences.State runningState = CountdownPreferences.state(context, appWidgetId, now);
+                scheduleTick(context, appWidgetId, runningState);
+                scheduleFinishAlarm(context, appWidgetId, runningState.targetMillis);
             }
         } else if (ACTION_RESET.equals(action)) {
             CountdownPreferences.reset(context, appWidgetId);
-            cancelAlarm(context, appWidgetId);
+            cancelAlarms(context, appWidgetId);
         } else if (ACTION_FINISH.equals(action)) {
-            CountdownPreferences.finish(context, appWidgetId);
-            cancelAlarm(context, appWidgetId);
-            beep(context);
+            if (!state.done) {
+                CountdownPreferences.finish(context, appWidgetId);
+                beep(context);
+            }
+            cancelAlarms(context, appWidgetId);
+        } else if (ACTION_TICK.equals(action)) {
+            if (state.running) {
+                scheduleTick(context, appWidgetId, state);
+            } else if (state.done) {
+                cancelTick(context, appWidgetId);
+            }
         }
         updateWidget(context, appWidgetId);
     }
@@ -75,21 +92,27 @@ public class CountdownWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
-            appWidgetManager.updateAppWidget(appWidgetId, buildViews(context, appWidgetId));
+            updateWidget(context, appWidgetId);
         }
     }
 
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
-            cancelAlarm(context, appWidgetId);
+            cancelAlarms(context, appWidgetId);
             CountdownPreferences.delete(context, appWidgetId);
         }
     }
 
     public static void updateWidget(Context context, int appWidgetId) {
         AppWidgetManager manager = AppWidgetManager.getInstance(context);
-        manager.updateAppWidget(appWidgetId, buildViews(context, appWidgetId));
+        CountdownPreferences.State state = CountdownPreferences.state(context, appWidgetId, System.currentTimeMillis());
+        manager.updateAppWidget(appWidgetId, buildViews(context, appWidgetId, state));
+        if (state.running) {
+            scheduleTick(context, appWidgetId, state);
+        } else {
+            cancelTick(context, appWidgetId);
+        }
     }
 
     public static void refreshAllWidgets(Context context) {
@@ -97,21 +120,17 @@ public class CountdownWidgetProvider extends AppWidgetProvider {
         ComponentName provider = new ComponentName(context, CountdownWidgetProvider.class);
         int[] widgetIds = manager.getAppWidgetIds(provider);
         for (int widgetId : widgetIds) {
-            manager.updateAppWidget(widgetId, buildViews(context, widgetId));
+            updateWidget(context, widgetId);
         }
     }
 
     static RemoteViews buildViews(Context context, int appWidgetId) {
-        long now = System.currentTimeMillis();
-        CountdownPreferences.State state = CountdownPreferences.state(context, appWidgetId, now);
+        return buildViews(context, appWidgetId, CountdownPreferences.state(context, appWidgetId, System.currentTimeMillis()));
+    }
+
+    private static RemoteViews buildViews(Context context, int appWidgetId, CountdownPreferences.State state) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_countdown);
 
-        boolean supportsCountdownChronometer = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
-        long chronometerBase = SystemClock.elapsedRealtime() + state.remainingMillis;
-        views.setChronometer(R.id.countdown_chronometer, chronometerBase, null, state.running);
-        if (supportsCountdownChronometer) {
-            views.setChronometerCountDown(R.id.countdown_chronometer, true);
-        }
         views.setTextViewText(R.id.countdown_status, state.done
                 ? context.getString(R.string.countdown_done)
                 : context.getString(state.running ? R.string.countdown_running : R.string.countdown_ready));
@@ -119,8 +138,18 @@ public class CountdownWidgetProvider extends AppWidgetProvider {
                 ? R.string.countdown_pause
                 : R.string.countdown_start));
         views.setTextViewText(R.id.countdown_static_time, CountdownFormatter.display(state.remainingMillis));
-        views.setViewVisibility(R.id.countdown_static_time, state.running && supportsCountdownChronometer ? android.view.View.GONE : android.view.View.VISIBLE);
-        views.setViewVisibility(R.id.countdown_chronometer, state.running && supportsCountdownChronometer ? android.view.View.VISIBLE : android.view.View.GONE);
+        boolean showLiveChronometer = state.running && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
+        if (showLiveChronometer) {
+            views.setChronometer(
+                    R.id.countdown_chronometer,
+                    SystemClock.elapsedRealtime() + state.remainingMillis,
+                    null,
+                    true
+            );
+            views.setChronometerCountDown(R.id.countdown_chronometer, true);
+        }
+        views.setViewVisibility(R.id.countdown_static_time, showLiveChronometer ? View.GONE : View.VISIBLE);
+        views.setViewVisibility(R.id.countdown_chronometer, showLiveChronometer ? View.VISIBLE : View.GONE);
 
         bindAction(context, views, appWidgetId, R.id.countdown_add_minute, ACTION_ADD_MINUTE);
         bindAction(context, views, appWidgetId, R.id.countdown_subtract_minute, ACTION_SUBTRACT_MINUTE);
@@ -143,10 +172,11 @@ public class CountdownWidgetProvider extends AppWidgetProvider {
     }
 
     private static void bindAction(Context context, RemoteViews views, int appWidgetId, int viewId, String action) {
-        Intent intent = new Intent(context, CountdownWidgetProvider.class)
+        Intent intent = new Intent(context, CountdownActionActivity.class)
                 .setAction(action)
-                .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+                .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
                 context,
                 requestCode(appWidgetId, action),
                 intent,
@@ -164,10 +194,32 @@ public class CountdownWidgetProvider extends AppWidgetProvider {
         alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(targetMillis, finishIntent), finishIntent);
     }
 
-    private static void cancelAlarm(Context context, int appWidgetId) {
+    private static void scheduleTick(Context context, int appWidgetId, CountdownPreferences.State state) {
+        AlarmManager alarmManager = context.getSystemService(AlarmManager.class);
+        if (alarmManager == null || !state.running) {
+            return;
+        }
+        long now = System.currentTimeMillis();
+        long next = now + Math.max(250L, Math.min(TICK_MILLIS, state.remainingMillis));
+        alarmManager.set(AlarmManager.RTC, next, tickIntent(context, appWidgetId));
+    }
+
+    private static void cancelAlarms(Context context, int appWidgetId) {
+        cancelFinishAlarm(context, appWidgetId);
+        cancelTick(context, appWidgetId);
+    }
+
+    private static void cancelFinishAlarm(Context context, int appWidgetId) {
         AlarmManager alarmManager = context.getSystemService(AlarmManager.class);
         if (alarmManager != null) {
             alarmManager.cancel(finishIntent(context, appWidgetId));
+        }
+    }
+
+    private static void cancelTick(Context context, int appWidgetId) {
+        AlarmManager alarmManager = context.getSystemService(AlarmManager.class);
+        if (alarmManager != null) {
+            alarmManager.cancel(tickIntent(context, appWidgetId));
         }
     }
 
@@ -178,6 +230,18 @@ public class CountdownWidgetProvider extends AppWidgetProvider {
         return PendingIntent.getBroadcast(
                 context,
                 requestCode(appWidgetId, ACTION_FINISH),
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+    }
+
+    private static PendingIntent tickIntent(Context context, int appWidgetId) {
+        Intent intent = new Intent(context, CountdownWidgetProvider.class)
+                .setAction(ACTION_TICK)
+                .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        return PendingIntent.getBroadcast(
+                context,
+                requestCode(appWidgetId, ACTION_TICK),
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );

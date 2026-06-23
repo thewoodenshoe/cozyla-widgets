@@ -16,9 +16,9 @@ Project policy:
 
 Current release:
 
-- `versionCode = 25`
-- `versionName = "0.11.3"`
-- Purpose: add required connectivity-state permission for network-constrained jobs and isolate per-widget refresh failures
+- `versionCode = 32`
+- `versionName = "0.12.6"`
+- Purpose: add city-based weather setup, fixed weather JSON parsing, reliable no-display countdown controls with ordered timer state writes, live Chronometer countdown display, clearer photo picking fallback, improved chore wheel celebration, and visible installed version text
 
 ## Install Path
 

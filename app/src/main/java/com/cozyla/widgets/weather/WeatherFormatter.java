@@ -90,8 +90,11 @@ public final class WeatherFormatter {
                 tides.add(new WeatherData.TideEvent(parts.get(index), parts.get(index + 1)));
                 index += 2;
             }
+            String place = parts.get(0);
             return new WeatherData(
-                    parts.get(0),
+                    place == null || place.trim().isEmpty() || "Weather".equalsIgnoreCase(place.trim())
+                            ? fallbackPlace
+                            : place,
                     parts.get(1),
                     Integer.parseInt(parts.get(2)),
                     Integer.parseInt(parts.get(3)),
