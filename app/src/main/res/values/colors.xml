@@ -40,4 +40,6 @@
   <color name="countdown_text">#FFFFFF</color>
   <color name="countdown_secondary">#DCE8FF</color>
   <color name="countdown_dark">#081421</color>
+
+  <color name="weather_widget_background">#112A4B</color>
 </resources>

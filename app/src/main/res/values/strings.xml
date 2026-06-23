@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Cozyla Widgets</string>
-  <string name="app_status">Clock, Week Calendar, Quote of the Day, Chore Wheel, and Countdown widgets are installed. Add them from the launcher widget picker.</string>
+  <string name="app_status">Clock, Week Calendar, Quote of the Day, Chore Wheel, Countdown, and Weather widgets are installed. Add them from the launcher widget picker.</string>
   <string name="clock_widget_title">Cozyla Clock</string>
   <string name="clock_widget_description">Clock widget for tablet testing</string>
 
@@ -83,4 +83,16 @@
   <string name="countdown_days">DAYS</string>
   <string name="countdown_hours">HOURS</string>
   <string name="countdown_minutes">MIN</string>
+
+  <string name="weather_widget_name">Weather</string>
+  <string name="weather_widget_description">Resizable weather, UV, tide, and moon widget</string>
+  <string name="weather_config_title">Weather</string>
+  <string name="weather_config_subtitle">Enter a place label, latitude, longitude, and optional NOAA tide station ID.</string>
+  <string name="weather_config_place">Place label</string>
+  <string name="weather_config_latitude">Latitude</string>
+  <string name="weather_config_longitude">Longitude</string>
+  <string name="weather_config_tide_station">NOAA tide station ID (optional)</string>
+  <string name="weather_config_invalid">Enter a place, valid latitude, and valid longitude.</string>
+  <string name="weather_config_cancel">Cancel</string>
+  <string name="weather_config_save">Add widget</string>
 </resources>

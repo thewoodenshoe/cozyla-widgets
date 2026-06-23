@@ -16,9 +16,9 @@ Project policy:
 
 Current release:
 
-- `versionCode = 20`
-- `versionName = "0.9.0"`
-- Purpose: countdown widget, online quote-of-the-day fetch, and chore wheel center-tap control
+- `versionCode = 21`
+- `versionName = "0.10.0"`
+- Purpose: weather widget with UV strength, tide cards, and graphical moon phase
 
 ## Install Path
 
@@ -42,6 +42,7 @@ scripts/push-widget.sh calendar
 scripts/push-widget.sh quote
 scripts/push-widget.sh chores
 scripts/push-widget.sh countdown
+scripts/push-widget.sh weather
 ```
 
 For repeated local installs, set `COZYLA_ADB_TARGET=<device-ip>:<debug-port>` in `.env`. The push script will try `adb connect` before installing.

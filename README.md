@@ -11,6 +11,7 @@ Included widgets:
 | Quote of the Day | Fetches a daily quote with author attribution and keeps a built-in fallback. |
 | Chore Wheel | Lets you enter chores and tap the wheel center to launch a casino-style animated picker. |
 | Countdown | Shows a configurable countdown timer. |
+| Weather | Shows weather, UV strength, tides, and a graphical moon phase. |
 
 ## Read This First
 
@@ -138,6 +139,7 @@ calendar
 quote
 chores
 countdown
+weather
 ```
 
 ## Install From Windows
@@ -167,6 +169,8 @@ For the calendar widget, a setup screen opens so you can pick calendars and time
 For the chore wheel, a setup screen opens so you can enter chores and optionally make slot 8 a green `No chores` slot.
 
 For the countdown widget, a setup screen opens so you can enter the label and minutes.
+
+For the weather widget, a setup screen opens so you can enter a place label, latitude, longitude, and an optional NOAA tide station ID.
 
 ## Optional Local Wi-Fi Config
 
@@ -211,6 +215,10 @@ Standard Android widgets cannot reliably run continuous high-frame-rate animatio
 ### Countdown
 
 The countdown widget stores only its label and target time on the device. It refreshes roughly once per minute because Android widgets are not live second-by-second timer surfaces.
+
+### Weather
+
+The weather widget uses Open-Meteo for current weather and UV strength. It uses NOAA CO-OPS for tide predictions only when you enter a NOAA tide station ID. Moon phase is calculated on the device and drawn as a moon circle in the widget.
 
 ## Privacy And Security
 

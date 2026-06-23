@@ -57,6 +57,10 @@ public class CalendarWidgetManifestTest {
                 info.receivers,
                 "com.cozyla.widgets.countdown.CountdownWidgetProvider"
         ).exported);
+        assertFalse(component(
+                info.receivers,
+                "com.cozyla.widgets.weather.WeatherWidgetProvider"
+        ).exported);
         assertTrue(hasComponent(
                 info.activities,
                 "com.cozyla.widgets.calendar.CalendarWidgetConfigureActivity"
@@ -68,6 +72,10 @@ public class CalendarWidgetManifestTest {
         assertTrue(hasComponent(
                 info.activities,
                 "com.cozyla.widgets.countdown.CountdownConfigureActivity"
+        ));
+        assertTrue(hasComponent(
+                info.activities,
+                "com.cozyla.widgets.weather.WeatherConfigureActivity"
         ));
         assertFalse(component(
                 info.activities,
@@ -84,6 +92,7 @@ public class CalendarWidgetManifestTest {
         );
         assertJobService(info, "com.cozyla.widgets.quote.QuoteWidgetUpdateJobService");
         assertJobService(info, "com.cozyla.widgets.countdown.CountdownWidgetUpdateJobService");
+        assertJobService(info, "com.cozyla.widgets.weather.WeatherWidgetUpdateJobService");
     }
 
     private static void assertJobService(PackageInfo info, String className) {

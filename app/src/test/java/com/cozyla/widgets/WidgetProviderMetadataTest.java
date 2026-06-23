@@ -65,6 +65,18 @@ public class WidgetProviderMetadataTest {
         );
     }
 
+    @Test
+    public void weatherProviderInfoPreservesResizableHomeScreenWidgetContract() throws Exception {
+        assertWidgetMetadata(
+                R.xml.weather_widget_info,
+                R.layout.widget_weather,
+                R.layout.widget_weather,
+                R.string.weather_widget_description,
+                5,
+                3
+        );
+    }
+
     private static void assertWidgetMetadata(
             int xmlId,
             int initialLayout,
