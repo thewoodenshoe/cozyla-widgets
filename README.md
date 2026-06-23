@@ -2,19 +2,21 @@
 
 Welcome. This project installs custom Android home-screen widgets for a Cozyla tablet.
 
-Cozyla runs Android, similar to a big phone or tablet. Android supports widgets. This repo builds one Android app called **Cozyla Widgets**, and that app adds new widgets to Cozyla's widget picker.
+Cozyla runs Android, similar to a big phone or tablet. Android supports widgets. This repo builds one Android app called **Cozyla Widgets**, and that app adds several new widgets to Cozyla's widget picker.
 
-## Widgets
+## Widgets Installed
 
-| Widget | What it does |
-| --- | --- |
-| Clock | Shows the current time and date. |
-| Week Calendar | Shows a Monday-first Week or Workweek calendar from calendars already synced on the tablet. |
-| Quote of the Day | Fetches a daily quote with author attribution and keeps a built-in fallback. |
-| Chore Wheel | Lets you enter chores and tap the wheel center to launch a casino-style animated picker. |
-| Countdown | Kitchen timer with minutes, seconds, Start, Pause, Reset, and a done beep. |
-| Weather | Shows weather, UV strength, tides, and a graphical moon phase. |
-| Photo Frame | Shows one selected photo or a slideshow from photos picked through Android/Google Photos. |
+One install adds all of these widgets:
+
+| Widget | What it does | Setup needed |
+| --- | --- | --- |
+| Clock | Shows the current time and date. | None. |
+| Week Calendar | Shows a Monday-first Week or Workweek calendar from calendars already synced on the tablet. | Add your Google account to Android and allow calendar access. |
+| Quote of the Day | Fetches a daily quote with author attribution and keeps a built-in fallback quote. | Internet helps, but it still shows a built-in quote if offline. |
+| Chore Wheel | Lets you enter chores and tap the wheel center to launch a casino-style animated picker. | Enter 2 to 8 chores. Slot 8 can optionally be green `No chores`. |
+| Countdown | Kitchen timer with minutes, seconds, Start, Pause, Reset, and a done beep. | None. |
+| Weather | Shows weather, UV strength, tides, and a graphical moon phase. | Enter a place, latitude, longitude, and optional NOAA tide station. |
+| Photo Frame | Shows one selected photo or a slideshow from photos picked through Android/Google Photos. | Pick photos from Android's photo picker. |
 
 ## Index
 
@@ -129,7 +131,7 @@ Windows PowerShell:
 adb install -r app\build\outputs\apk\debug\app-debug.apk
 ```
 
-The helper script installs the whole **Cozyla Widgets** app. You can replace `clock` with any widget name:
+The helper script installs the whole **Cozyla Widgets** app. You do not install each widget separately. The word after the script is only a friendly label for the install command, so any of these work:
 
 ```text
 clock
@@ -154,9 +156,19 @@ After installing:
 
 ## Widget Setup Notes
 
+### Clock
+
+No setup. Add it from the widget picker and resize it.
+
 ### Week Calendar
 
 Before using the calendar widget, add your Google account to Android on the Cozyla tablet and make sure Calendar sync is on. The widget reads Android's local calendar. It does not ask for your Google password.
+
+When adding or editing the widget, choose Week or Workweek view, choose calendars, and set the visible time range.
+
+### Quote of the Day
+
+No account setup. It fetches a quote from the internet when available and uses a built-in fallback quote when offline.
 
 ### Chore Wheel
 
