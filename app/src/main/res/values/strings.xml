@@ -61,5 +61,6 @@
   <string name="chore_config_save">Add widget</string>
   <string name="chore_spin_spinning">Spinning&#8230;</string>
   <string name="chore_spin_result">Picked: %1$s</string>
+  <string name="chore_spin_no_chores_result">No chores!</string>
   <string name="chore_spin_done">Done</string>
 </resources>

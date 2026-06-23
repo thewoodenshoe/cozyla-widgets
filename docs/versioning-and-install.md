@@ -16,9 +16,9 @@ Project policy:
 
 Current release:
 
-- `versionCode = 13`
-- `versionName = "0.8.0"`
-- Purpose: native chore wheel spin animation and optional green `No chores` slot
+- `versionCode = 14`
+- `versionName = "0.8.1"`
+- Purpose: chore wheel result alignment fix and `No chores` fireworks/tone celebration
 
 ## Install Path
 

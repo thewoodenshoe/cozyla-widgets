@@ -21,7 +21,11 @@ public final class ChoreWheelRenderer {
         Canvas canvas = new Canvas(bitmap);
         canvas.drawColor(Color.TRANSPARENT);
         int selected = Math.floorMod(selectedIndex, safeChores.size());
-        ChoreWheelPainter.drawWheel(canvas, safeChores, -selected * (360f / safeChores.size()));
+        ChoreWheelPainter.drawWheel(
+                canvas,
+                ChoreWheelSlot.chores(safeChores),
+                ChoreWheelMath.rotationForIndex(selected, safeChores.size())
+        );
         return bitmap;
     }
 }

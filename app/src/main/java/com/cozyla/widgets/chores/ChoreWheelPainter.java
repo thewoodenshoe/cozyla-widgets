@@ -26,7 +26,7 @@ public final class ChoreWheelPainter {
     private ChoreWheelPainter() {
     }
 
-    public static void drawWheel(Canvas canvas, List<String> labels, float rotationDegrees) {
+    public static void drawWheel(Canvas canvas, List<ChoreWheelSlot> slots, float rotationDegrees) {
         int width = canvas.getWidth();
         int height = canvas.getHeight();
         float size = Math.min(width, height);
@@ -51,7 +51,7 @@ public final class ChoreWheelPainter {
         );
 
         drawGoldRim(canvas, outer, centerX, centerY, outerRadius, paint);
-        drawSegments(canvas, labels, rotationDegrees, wheel, centerX, centerY, innerRadius, paint);
+        drawSegments(canvas, slots, rotationDegrees, wheel, centerX, centerY, innerRadius, paint);
         drawBulbs(canvas, centerX, centerY, outerRadius, scale, paint);
         drawHub(canvas, centerX, centerY, scale, paint);
         drawPointer(canvas, centerX, centerY, scale, paint);
@@ -80,7 +80,7 @@ public final class ChoreWheelPainter {
 
     private static void drawSegments(
             Canvas canvas,
-            List<String> labels,
+            List<ChoreWheelSlot> slots,
             float rotationDegrees,
             RectF wheel,
             float centerX,
@@ -88,12 +88,11 @@ public final class ChoreWheelPainter {
             float radius,
             Paint paint
     ) {
-        float sweep = 360f / labels.size();
+        float sweep = 360f / slots.size();
         float start = -90f - (sweep / 2f) + rotationDegrees;
-        for (int index = 0; index < labels.size(); index++) {
-            String label = labels.get(index);
-            boolean noChores = ChoreWheelPreferences.NO_CHORES_LABEL.equals(label);
-            if (noChores) {
+        for (int index = 0; index < slots.size(); index++) {
+            ChoreWheelSlot slot = slots.get(index);
+            if (slot.noChores) {
                 paint.setShader(new LinearGradient(
                         wheel.left,
                         wheel.top,
@@ -133,12 +132,12 @@ public final class ChoreWheelPainter {
         paint.setColor(GOLD_DARK);
         canvas.drawOval(wheel, paint);
         paint.setStyle(Paint.Style.FILL);
-        drawLabels(canvas, labels, start, sweep, centerX, centerY, radius);
+        drawLabels(canvas, slots, start, sweep, centerX, centerY, radius);
     }
 
     private static void drawLabels(
             Canvas canvas,
-            List<String> labels,
+            List<ChoreWheelSlot> slots,
             float start,
             float sweep,
             float centerX,
@@ -151,15 +150,15 @@ public final class ChoreWheelPainter {
         textPaint.setTextSize(Math.max(18f, radius * 0.105f));
         textPaint.setShadowLayer(3f, 0f, 2f, Color.argb(120, 0, 0, 0));
 
-        for (int index = 0; index < labels.size(); index++) {
-            String label = labels.get(index);
-            boolean lightSegment = index % 2 != 0 && !ChoreWheelPreferences.NO_CHORES_LABEL.equals(label);
+        for (int index = 0; index < slots.size(); index++) {
+            ChoreWheelSlot slot = slots.get(index);
+            boolean lightSegment = index % 2 != 0 && !slot.noChores;
             textPaint.setColor(lightSegment ? INK : Color.WHITE);
             float angle = start + (index * sweep) + (sweep / 2f);
             canvas.save();
             canvas.rotate(angle, centerX, centerY);
             canvas.rotate(90f, centerX, centerY - radius * 0.58f);
-            canvas.drawText(shorten(label), centerX, centerY - radius * 0.58f, textPaint);
+            canvas.drawText(shorten(slot.label), centerX, centerY - radius * 0.58f, textPaint);
             canvas.restore();
         }
     }

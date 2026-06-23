@@ -32,7 +32,8 @@ public class ChoreWheelProvider extends AppWidgetProvider {
     }
 
     private static RemoteViews buildViews(Context context, int appWidgetId) {
-        List<String> chores = ChoreWheelPreferences.wheelLabels(context, appWidgetId);
+        List<ChoreWheelSlot> slots = ChoreWheelPreferences.wheelSlots(context, appWidgetId);
+        List<String> chores = ChoreWheelSlot.labels(slots);
         int selected = ChoreWheelPreferences.selectedIndex(context, appWidgetId);
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_chore_wheel);
         views.setTextViewText(R.id.chore_widget_title, context.getString(R.string.chore_widget_title));

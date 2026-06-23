@@ -35,6 +35,7 @@ Direct Google OAuth is intentionally not embedded in the widget. Android owns ac
 - chores are stored only in app-private preferences for that widget instance
 - widget tap/Spin button opens a native spin Activity with smooth Canvas animation and redraws the widget when the result is picked
 - close-call animation targets land near a segment boundary about half the time
+- result text is computed from the final wheel rotation under the pointer, and the green slot is explicit metadata rather than a label-name guess
 
 ## Adding A Widget
 

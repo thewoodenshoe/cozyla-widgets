@@ -66,14 +66,20 @@ public final class ChoreWheelPreferences {
     }
 
     public static List<String> wheelLabels(Context context, int appWidgetId) {
+        return ChoreWheelSlot.labels(wheelSlots(context, appWidgetId));
+    }
+
+    public static List<ChoreWheelSlot> wheelSlots(Context context, int appWidgetId) {
         List<String> labels = new ArrayList<>(chores(context, appWidgetId));
         if (includeNoChores(context, appWidgetId)) {
             while (labels.size() > MAX_CHORES - 1) {
                 labels.remove(labels.size() - 1);
             }
-            labels.add(NO_CHORES_LABEL);
+            List<ChoreWheelSlot> slots = ChoreWheelSlot.chores(labels);
+            slots.add(new ChoreWheelSlot(NO_CHORES_LABEL, true));
+            return slots;
         }
-        return labels;
+        return ChoreWheelSlot.chores(labels);
     }
 
     public static int selectedIndex(Context context, int appWidgetId) {
