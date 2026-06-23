@@ -16,9 +16,9 @@ Project policy:
 
 Current release:
 
-- `versionCode = 14`
-- `versionName = "0.8.1"`
-- Purpose: chore wheel result alignment fix and `No chores` fireworks/tone celebration
+- `versionCode = 16`
+- `versionName = "0.8.3"`
+- Purpose: chore wheel existing-widget refresh after package replacement
 
 ## Install Path
 

@@ -217,9 +217,9 @@ public final class ChoreWheelPainter {
                 Shader.TileMode.CLAMP
         ));
         Path path = new Path();
-        path.moveTo(centerX, wheelTop + 44f * scale);
-        path.lineTo(centerX - 28f * scale, wheelTop + 178f * scale);
-        path.lineTo(centerX + 28f * scale, wheelTop + 178f * scale);
+        path.moveTo(centerX - 34f * scale, wheelTop + 44f * scale);
+        path.lineTo(centerX + 34f * scale, wheelTop + 44f * scale);
+        path.lineTo(centerX, wheelTop + 178f * scale);
         path.close();
         canvas.drawPath(path, paint);
         paint.setShader(null);
@@ -229,5 +229,9 @@ public final class ChoreWheelPainter {
 
     private static String shorten(String label) {
         return label.length() <= 15 ? label : label.substring(0, 14) + "...";
+    }
+
+    public static boolean usesNoChoresStyle(ChoreWheelSlot slot) {
+        return slot.noChores;
     }
 }

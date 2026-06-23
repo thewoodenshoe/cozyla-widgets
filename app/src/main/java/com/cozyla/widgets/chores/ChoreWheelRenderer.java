@@ -16,15 +16,18 @@ public final class ChoreWheelRenderer {
         if (safeChores.isEmpty()) {
             safeChores = ChoreWheelPreferences.sanitize(java.util.Collections.singletonList("Add chores"));
         }
+        return renderSlots(ChoreWheelSlot.chores(safeChores), selectedIndex);
+    }
 
+    public static Bitmap renderSlots(List<ChoreWheelSlot> slots, int selectedIndex) {
         Bitmap bitmap = Bitmap.createBitmap(SIZE, SIZE, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         canvas.drawColor(Color.TRANSPARENT);
-        int selected = Math.floorMod(selectedIndex, safeChores.size());
+        int selected = Math.floorMod(selectedIndex, slots.size());
         ChoreWheelPainter.drawWheel(
                 canvas,
-                ChoreWheelSlot.chores(safeChores),
-                ChoreWheelMath.rotationForIndex(selected, safeChores.size())
+                slots,
+                ChoreWheelMath.rotationForIndex(selected, slots.size())
         );
         return bitmap;
     }

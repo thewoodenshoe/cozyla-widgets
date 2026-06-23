@@ -19,6 +19,7 @@ import android.view.Window;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cozyla.widgets.R;
@@ -35,8 +36,10 @@ public class ChoreWheelSpinActivity extends Activity {
     private SpinWheelView wheelView;
     private FireworksView fireworksView;
     private TextView resultView;
+    private Button spinAgainButton;
     private Button doneButton;
     private ToneGenerator toneGenerator;
+    private ValueAnimator currentAnimator;
     private final Handler handler = new Handler(Looper.getMainLooper());
 
     @Override
@@ -101,22 +104,45 @@ public class ChoreWheelSpinActivity extends Activity {
         resultParams.setMargins(dp(24), 0, dp(24), dp(62));
         root.addView(resultView, resultParams);
 
+        LinearLayout buttonBar = new LinearLayout(this);
+        buttonBar.setGravity(Gravity.CENTER);
+        buttonBar.setOrientation(LinearLayout.HORIZONTAL);
+
+        spinAgainButton = new Button(this);
+        spinAgainButton.setText(R.string.chore_spin_again);
+        spinAgainButton.setEnabled(false);
+        spinAgainButton.setOnClickListener(view -> startSpin());
+        buttonBar.addView(spinAgainButton, new LinearLayout.LayoutParams(dp(180), dp(56)));
+
         doneButton = new Button(this);
         doneButton.setText(R.string.chore_spin_done);
         doneButton.setEnabled(false);
         doneButton.setOnClickListener(view -> finish());
+        LinearLayout.LayoutParams doneParams = new LinearLayout.LayoutParams(dp(180), dp(56));
+        doneParams.setMarginStart(dp(12));
+        buttonBar.addView(doneButton, doneParams);
+
         FrameLayout.LayoutParams buttonParams = new FrameLayout.LayoutParams(
-                dp(220),
+                FrameLayout.LayoutParams.WRAP_CONTENT,
                 dp(56),
                 Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL
         );
         buttonParams.setMargins(0, 0, 0, dp(14));
-        root.addView(doneButton, buttonParams);
+        root.addView(buttonBar, buttonParams);
 
         setContentView(root);
     }
 
     private void startSpin() {
+        if (currentAnimator != null && currentAnimator.isRunning()) {
+            return;
+        }
+        handler.removeCallbacksAndMessages(null);
+        fireworksView.stop();
+        resultView.setText(R.string.chore_spin_spinning);
+        spinAgainButton.setEnabled(false);
+        doneButton.setEnabled(false);
+
         int targetIndex = RANDOM.nextInt(slots.size());
         float sweep = 360f / slots.size();
         boolean closeCall = slots.size() > 1 && RANDOM.nextBoolean();
@@ -127,12 +153,15 @@ public class ChoreWheelSpinActivity extends Activity {
         }
 
         float selectedCenter = ChoreWheelMath.rotationForIndex(targetIndex, slots.size());
-        float finalRotation = ((6 + RANDOM.nextInt(4)) * 360f) + selectedCenter + offset;
-        ValueAnimator animator = ValueAnimator.ofFloat(0f, finalRotation);
-        animator.setDuration(4600L);
-        animator.setInterpolator(new DecelerateInterpolator(2.35f));
-        animator.addUpdateListener(animation -> wheelView.setWheelRotation((Float) animation.getAnimatedValue()));
-        animator.addListener(new AnimatorListenerAdapter() {
+        float targetRotation = normalizeDegrees(selectedCenter + offset);
+        float currentRotation = wheelView.wheelRotation();
+        float forwardDelta = normalizeDegrees(targetRotation - normalizeDegrees(currentRotation));
+        float finalRotation = currentRotation + ((6 + RANDOM.nextInt(4)) * 360f) + forwardDelta;
+        currentAnimator = ValueAnimator.ofFloat(wheelView.wheelRotation(), finalRotation);
+        currentAnimator.setDuration(4600L);
+        currentAnimator.setInterpolator(new DecelerateInterpolator(2.35f));
+        currentAnimator.addUpdateListener(animation -> wheelView.setWheelRotation((Float) animation.getAnimatedValue()));
+        currentAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 int actualIndex = ChoreWheelMath.indexAtPointer(finalRotation, slots.size());
@@ -149,14 +178,18 @@ public class ChoreWheelSpinActivity extends Activity {
                 if (actualSlot.noChores) {
                     celebrateNoChores();
                 }
+                spinAgainButton.setEnabled(true);
                 doneButton.setEnabled(true);
             }
         });
-        animator.start();
+        currentAnimator.start();
     }
 
     private void celebrateNoChores() {
         fireworksView.start();
+        if (toneGenerator != null) {
+            toneGenerator.release();
+        }
         toneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, 70);
         int[] delays = {0, 140, 280, 520, 760};
         int[] tones = {
@@ -180,6 +213,11 @@ public class ChoreWheelSpinActivity extends Activity {
         return Math.round(value * getResources().getDisplayMetrics().density);
     }
 
+    private static float normalizeDegrees(float degrees) {
+        float normalized = degrees % 360f;
+        return normalized < 0f ? normalized + 360f : normalized;
+    }
+
     private final class SpinWheelView extends View {
         private float wheelRotation;
 
@@ -191,6 +229,10 @@ public class ChoreWheelSpinActivity extends Activity {
         void setWheelRotation(float wheelRotation) {
             this.wheelRotation = wheelRotation;
             invalidate();
+        }
+
+        float wheelRotation() {
+            return wheelRotation;
         }
 
         @Override
@@ -219,6 +261,13 @@ public class ChoreWheelSpinActivity extends Activity {
             for (int burst = 0; burst < 7; burst++) {
                 addBurst();
             }
+            invalidate();
+        }
+
+        void stop() {
+            running = false;
+            particles.clear();
+            setVisibility(View.GONE);
             invalidate();
         }
 

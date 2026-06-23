@@ -2,6 +2,7 @@ package com.cozyla.widgets.chores;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,14 @@ import com.cozyla.widgets.R;
 import java.util.List;
 
 public class ChoreWheelProvider extends AppWidgetProvider {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+        if (Intent.ACTION_MY_PACKAGE_REPLACED.equals(intent.getAction())) {
+            refreshAllWidgets(context);
+        }
+    }
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
@@ -31,6 +40,15 @@ public class ChoreWheelProvider extends AppWidgetProvider {
         manager.updateAppWidget(appWidgetId, buildViews(context, appWidgetId));
     }
 
+    private static void refreshAllWidgets(Context context) {
+        AppWidgetManager manager = AppWidgetManager.getInstance(context);
+        ComponentName provider = new ComponentName(context, ChoreWheelProvider.class);
+        int[] widgetIds = manager.getAppWidgetIds(provider);
+        for (int widgetId : widgetIds) {
+            manager.updateAppWidget(widgetId, buildViews(context, widgetId));
+        }
+    }
+
     private static RemoteViews buildViews(Context context, int appWidgetId) {
         List<ChoreWheelSlot> slots = ChoreWheelPreferences.wheelSlots(context, appWidgetId);
         List<String> chores = ChoreWheelSlot.labels(slots);
@@ -39,7 +57,7 @@ public class ChoreWheelProvider extends AppWidgetProvider {
         views.setTextViewText(R.id.chore_widget_title, context.getString(R.string.chore_widget_title));
         views.setTextViewText(R.id.chore_widget_selected, chores.get(selected));
         views.setTextViewText(R.id.chore_widget_list, listText(chores));
-        views.setImageViewBitmap(R.id.chore_widget_wheel, ChoreWheelRenderer.render(chores, selected));
+        views.setImageViewBitmap(R.id.chore_widget_wheel, ChoreWheelRenderer.renderSlots(slots, selected));
 
         PendingIntent spinIntent = PendingIntent.getActivity(
                 context,

@@ -10,8 +10,8 @@ android {
         applicationId = "com.cozyla.widgets"
         minSdk = 23
         targetSdk = 35
-        versionCode = 14
-        versionName = "0.8.1"
+        versionCode = 16
+        versionName = "0.8.3"
     }
 
     compileOptions {
