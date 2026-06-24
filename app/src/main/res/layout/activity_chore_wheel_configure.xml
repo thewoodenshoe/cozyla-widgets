@@ -53,6 +53,15 @@
         android:textColor="@color/calendar_widget_now"
         android:textSize="14sp" />
 
+      <CheckBox
+        android:id="@+id/chore_include_no_chores"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginBottom="6dp"
+        android:text="@string/chore_config_include_no_chores"
+        android:textColor="@color/calendar_config_text"
+        android:textSize="15sp" />
+
       <EditText
         android:id="@+id/chore_input_1"
         android:layout_width="match_parent"

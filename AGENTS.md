@@ -25,6 +25,7 @@ The public user starts from zero. Documentation and setup flows must assume the 
 - Increment Android `versionCode` for every APK intended for tablet installation. Never decrease or reuse it for normal installs.
 - Keep user-facing `versionName` readable and semver-like while the product is pre-release.
 - Keep README installation instructions usable by a non-technical tablet owner. Do not document only the developer shortcut path.
+- Keep the README Included Widgets table current. Every widget row must include the user-visible widget version, and any widget behavior or app version change must update that table before release.
 
 ## Public Repository Security Rules
 
@@ -54,9 +55,16 @@ This is a public repository. Security and privacy checks are release blockers, n
 - A rectangular widget must visually fill its grid bounds. Do not create a centered card floating inside unused launcher space.
 - Minimum interactive targets must remain at least 48dp by 48dp.
 - Widget text must not crop, overlap, or depend on a single Cozyla orientation. Use `maxLines`, ellipsizing, size-specific content reduction, or alternate layouts.
+- Custom Canvas, bitmap, or generated-image widget surfaces must have deterministic visual-fit tests for representative worst cases before device install. At minimum, test long labels, emoji, maximum slot/event counts, optional/special slots, and compact/default/large render sizes. The tests must assert measured text or drawn bounds stay inside their intended cells/wedges, not merely that a bitmap is non-empty.
+- For every screenshot-reported UI defect, inspect the screenshot, identify the exact geometry/state mismatch, and add a regression test that fails for the bad case before calling the fix done.
+- After installing widget UI changes on a physical device, verify the installed `versionName`/`versionCode`, refresh or recreate any existing widget instance as needed, and capture or inspect the actual rendered widget state. Do not infer visual correctness from a successful APK install.
+- Every new or changed widget must have its primary end-user workflow exercised before handoff. If the widget is a timer, start/pause/reset and completion behavior must be tested. If it is a picker-backed widget, empty, selected, and scheduled-update states must be tested. Do not count configuration-screen success as widget success.
+- Any widget advertised as an in-widget tool must not open an Activity for its primary action. Use `RemoteViews` controls, broadcast actions, `Chronometer`, `AlarmManager`, or a deliberate companion Activity only when the product explicitly requires a full-screen experience.
+- For resize QC, test each widget at minimum, target/default, wide, and tall/large sizes. Bitmap-rendered widgets need non-empty pixel checks at each size. XML-only widgets need inflation/layout contract checks plus physical-device screenshots whenever a launcher instance is available.
 - Use `previewLayout` for Android 12+ and add a backward-compatible preview image before caring about older Android widget pickers.
 - Avoid expensive work in `AppWidgetProvider` callbacks. If update work can take seconds or involve I/O, schedule it through a background worker and update the widget from there.
 - Do not assume `updatePeriodMillis` is precise or sufficient for fresh data. Add explicit refresh behavior when users expect fresher content than the platform schedule can guarantee.
+- Every widget must recover from app replacement and tablet reboot. Add or update a manifest-tested refresh path for `MY_PACKAGE_REPLACED` and `BOOT_COMPLETED` whenever a widget can display stale, loading, scheduled, or bitmap-rendered content.
 
 ## Android Defaults
 
@@ -83,6 +91,8 @@ For deployability, also run:
 ```sh
 adb devices -l
 ```
+
+For Canvas/bitmap-rendered widgets, also run or add a render-specific regression test that covers the reported layout case. If a physical device is available, install the APK and verify the actual widget surface after refresh/reconfigure; otherwise state that visual device verification is blocked.
 
 For local install after ADB authorization, prefer:
 

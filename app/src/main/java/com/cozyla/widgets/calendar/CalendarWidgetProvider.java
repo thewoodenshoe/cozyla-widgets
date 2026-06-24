@@ -2,6 +2,7 @@ package com.cozyla.widgets.calendar;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +16,7 @@ public final class CalendarWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager manager, int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
-            manager.updateAppWidget(appWidgetId, CalendarWidgetRenderer.loading(context, appWidgetId));
-            CalendarWidgetUpdateScheduler.schedule(context, appWidgetId);
+            updateWidget(context, manager, appWidgetId);
         }
     }
 
@@ -27,8 +27,7 @@ public final class CalendarWidgetProvider extends AppWidgetProvider {
             int appWidgetId,
             Bundle newOptions
     ) {
-        manager.updateAppWidget(appWidgetId, CalendarWidgetRenderer.loading(context, appWidgetId));
-        CalendarWidgetUpdateScheduler.schedule(context, appWidgetId);
+        updateWidget(context, manager, appWidgetId);
     }
 
     @Override
@@ -59,15 +58,25 @@ public final class CalendarWidgetProvider extends AppWidgetProvider {
                     CalendarWidgetPreferences.resetWeekOffset(context, appWidgetId);
                 }
 
-                AppWidgetManager.getInstance(context).updateAppWidget(
-                        appWidgetId,
-                        CalendarWidgetRenderer.loading(context, appWidgetId)
-                );
-                CalendarWidgetUpdateScheduler.schedule(context, appWidgetId);
+                updateWidget(context, AppWidgetManager.getInstance(context), appWidgetId);
             }
             return;
         }
 
         super.onReceive(context, intent);
+    }
+
+    public static void refreshAllWidgets(Context context) {
+        AppWidgetManager manager = AppWidgetManager.getInstance(context);
+        ComponentName provider = new ComponentName(context, CalendarWidgetProvider.class);
+        int[] widgetIds = manager.getAppWidgetIds(provider);
+        for (int widgetId : widgetIds) {
+            updateWidget(context, manager, widgetId);
+        }
+    }
+
+    private static void updateWidget(Context context, AppWidgetManager manager, int appWidgetId) {
+        manager.updateAppWidget(appWidgetId, CalendarWidgetRenderer.loading(context, appWidgetId));
+        CalendarWidgetUpdateScheduler.schedule(context, appWidgetId);
     }
 }

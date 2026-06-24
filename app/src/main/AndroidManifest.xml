@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
   <uses-permission android:name="android.permission.READ_CALENDAR" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.VIBRATE" />
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
   <application
     android:allowBackup="false"
@@ -38,16 +42,73 @@
       </intent-filter>
     </activity>
 
+    <activity
+      android:name=".chores.ChoreWheelSpinActivity"
+      android:excludeFromRecents="true"
+      android:exported="false"
+      android:theme="@style/AppTheme.ChoreWheelSpin" />
+
+    <activity
+      android:name=".weather.WeatherConfigureActivity"
+      android:exported="true"
+      android:theme="@style/AppTheme.CalendarConfiguration">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+      </intent-filter>
+    </activity>
+
+    <activity
+      android:name=".photos.PhotoFrameConfigureActivity"
+      android:exported="true"
+      android:theme="@style/AppTheme.CalendarConfiguration">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+      </intent-filter>
+    </activity>
+
+    <activity
+      android:name=".countdown.CountdownActionActivity"
+      android:excludeFromRecents="true"
+      android:exported="true"
+      android:noHistory="true"
+      android:theme="@style/AppTheme.CountdownAction" />
+
     <service
       android:name=".calendar.CalendarWidgetUpdateJobService"
       android:exported="true"
       android:permission="android.permission.BIND_JOB_SERVICE" />
+
+    <service
+      android:name=".quote.QuoteWidgetUpdateJobService"
+      android:exported="true"
+      android:permission="android.permission.BIND_JOB_SERVICE" />
+
+    <service
+      android:name=".weather.WeatherWidgetUpdateJobService"
+      android:exported="true"
+      android:permission="android.permission.BIND_JOB_SERVICE" />
+
+    <receiver
+      android:name=".WidgetRefreshReceiver"
+      android:exported="false">
+      <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED" />
+        <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+        <action android:name="android.intent.action.USER_UNLOCKED" />
+        <action android:name="com.cozyla.widgets.REFRESH_ALL_WIDGETS" />
+      </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.PACKAGE_REPLACED" />
+        <data android:scheme="package" />
+      </intent-filter>
+    </receiver>
 
     <receiver
       android:name=".clock.ClockWidgetProvider"
       android:exported="false">
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+        <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
       </intent-filter>
       <meta-data
         android:name="android.appwidget.provider"
@@ -84,10 +145,50 @@
       android:label="@string/chore_widget_name">
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+        <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
       </intent-filter>
       <meta-data
         android:name="android.appwidget.provider"
         android:resource="@xml/chore_wheel_widget_info" />
+    </receiver>
+
+    <receiver
+      android:name=".countdown.CountdownWidgetProvider"
+      android:exported="false"
+      android:label="@string/countdown_widget_name">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+        <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+      </intent-filter>
+      <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/countdown_widget_info" />
+    </receiver>
+
+    <receiver
+      android:name=".weather.WeatherWidgetProvider"
+      android:exported="false"
+      android:label="@string/weather_widget_name">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+        <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+      </intent-filter>
+      <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/weather_widget_info" />
+    </receiver>
+
+    <receiver
+      android:name=".photos.PhotoFrameWidgetProvider"
+      android:exported="false"
+      android:label="@string/photo_widget_name">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+        <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+      </intent-filter>
+      <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/photo_frame_widget_info" />
     </receiver>
   </application>
 

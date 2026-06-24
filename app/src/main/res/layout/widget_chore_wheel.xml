@@ -58,16 +58,6 @@
       android:textSize="21sp"
       android:textStyle="bold" />
 
-    <Button
-      android:id="@+id/chore_widget_spin"
-      android:layout_width="match_parent"
-      android:layout_height="48dp"
-      android:layout_marginTop="10dp"
-      android:background="@drawable/chore_spin_button_background"
-      android:text="@string/chore_widget_spin"
-      android:textColor="@color/chore_widget_background"
-      android:textStyle="bold" />
-
     <TextView
       android:id="@+id/chore_widget_list"
       android:layout_width="match_parent"

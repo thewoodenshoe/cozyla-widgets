@@ -46,4 +46,24 @@ public class ChoreWheelPreferencesTest {
         assertEquals(Arrays.asList("Dishes", "Trash"), ChoreWheelPreferences.chores(context, 101));
         assertEquals(1, ChoreWheelPreferences.selectedIndex(context, 101));
     }
+
+    @Test
+    public void includeNoChoresAddsFixedGreenSlotEight() {
+        Context context = ApplicationProvider.getApplicationContext();
+        ChoreWheelPreferences.save(context, 102, Arrays.asList(
+                "Dishes",
+                "Trash",
+                "Vacuum",
+                "Laundry",
+                "Counters",
+                "Floors",
+                "Windows",
+                "Ignored"
+        ), true);
+        ChoreWheelPreferences.saveSelectedIndex(context, 102, 7);
+
+        assertEquals(7, ChoreWheelPreferences.chores(context, 102).size());
+        assertEquals("No chores", ChoreWheelPreferences.wheelLabels(context, 102).get(7));
+        assertEquals(7, ChoreWheelPreferences.selectedIndex(context, 102));
+    }
 }

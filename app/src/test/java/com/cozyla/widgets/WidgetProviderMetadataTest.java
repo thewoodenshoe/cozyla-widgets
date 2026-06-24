@@ -53,6 +53,42 @@ public class WidgetProviderMetadataTest {
         );
     }
 
+    @Test
+    public void countdownProviderInfoPreservesResizableHomeScreenWidgetContract() throws Exception {
+        assertWidgetMetadata(
+                R.xml.countdown_widget_info,
+                R.layout.widget_countdown,
+                R.layout.widget_countdown,
+                R.string.countdown_widget_description,
+                4,
+                2
+        );
+    }
+
+    @Test
+    public void weatherProviderInfoPreservesResizableHomeScreenWidgetContract() throws Exception {
+        assertWidgetMetadata(
+                R.xml.weather_widget_info,
+                R.layout.widget_weather,
+                R.layout.widget_weather,
+                R.string.weather_widget_description,
+                5,
+                3
+        );
+    }
+
+    @Test
+    public void photoFrameProviderInfoPreservesResizableHomeScreenWidgetContract() throws Exception {
+        assertWidgetMetadata(
+                R.xml.photo_frame_widget_info,
+                R.layout.widget_photo_frame,
+                R.layout.widget_photo_frame,
+                R.string.photo_widget_description,
+                4,
+                3
+        );
+    }
+
     private static void assertWidgetMetadata(
             int xmlId,
             int initialLayout,

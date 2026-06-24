@@ -14,6 +14,19 @@
     <item name="android:windowLightStatusBar">true</item>
   </style>
 
+  <style name="AppTheme.ChoreWheelSpin" parent="android:style/Theme.Material.NoActionBar">
+    <item name="android:windowBackground">@color/chore_spin_background</item>
+    <item name="android:fontFamily">sans</item>
+    <item name="android:navigationBarColor">@color/chore_spin_background</item>
+    <item name="android:statusBarColor">@color/chore_spin_background</item>
+    <item name="android:windowNoTitle">true</item>
+  </style>
+
+  <style name="AppTheme.CountdownAction" parent="android:style/Theme.NoDisplay">
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowDisablePreview">true</item>
+  </style>
+
   <style name="CalendarWidgetDayColumn">
     <item name="android:layout_width">0dp</item>
     <item name="android:layout_height">match_parent</item>

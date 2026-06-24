@@ -16,9 +16,9 @@ Project policy:
 
 Current release:
 
-- `versionCode = 12`
-- `versionName = "0.7.0"`
-- Purpose: quote and chore wheel widgets, zero-start README, public security rules
+- `versionCode = 32`
+- `versionName = "0.12.6"`
+- Purpose: add city-based weather setup, fixed weather JSON parsing, reliable no-display countdown controls with ordered timer state writes, live Chronometer countdown display, clearer photo picking fallback, improved chore wheel celebration, and visible installed version text
 
 ## Install Path
 
@@ -41,6 +41,9 @@ scripts/push-widget.sh clock
 scripts/push-widget.sh calendar
 scripts/push-widget.sh quote
 scripts/push-widget.sh chores
+scripts/push-widget.sh countdown
+scripts/push-widget.sh weather
+scripts/push-widget.sh photos
 ```
 
 For repeated local installs, set `COZYLA_ADB_TARGET=<device-ip>:<debug-port>` in `.env`. The push script will try `adb connect` before installing.

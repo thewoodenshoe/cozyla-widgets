@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Cozyla Widgets</string>
-  <string name="app_status">Clock, Week Calendar, Quote of the Day, and Chore Wheel widgets are installed. Add them from the launcher widget picker.</string>
+  <string name="app_status">Clock, Week Calendar, Quote of the Day, Chore Wheel, Countdown, Weather, and Photo Frame widgets are installed. Add them from the launcher widget picker.</string>
+  <string name="app_version">Version %1$s (%2$d)</string>
   <string name="clock_widget_title">Cozyla Clock</string>
   <string name="clock_widget_description">Clock widget for tablet testing</string>
 
@@ -43,7 +44,9 @@
 
   <string name="quote_widget_name">Quote of the Day</string>
   <string name="quote_widget_title">Quote of the Day</string>
-  <string name="quote_widget_description">A simple daily quote widget</string>
+  <string name="quote_widget_description">Daily quote widget with author attribution</string>
+  <string name="quote_widget_loading">Finding daily quote...</string>
+  <string name="quote_widget_source">ZenQuotes</string>
 
   <string name="chore_widget_name">Chore Wheel</string>
   <string name="chore_widget_title">Chore Wheel</string>
@@ -51,9 +54,56 @@
   <string name="chore_widget_result_label">Picked</string>
   <string name="chore_widget_spin">Spin</string>
   <string name="chore_config_title">Chore Wheel</string>
-  <string name="chore_config_subtitle">Enter 2 to 8 chores. The widget stores this list only on this device.</string>
+  <string name="chore_config_subtitle">Enter chores. The widget stores this list only on this device.</string>
   <string name="chore_config_item_hint">Chore</string>
+  <string name="chore_config_include_no_chores">Make slot 8 green: No chores</string>
+  <string name="chore_config_no_chores_slot_hint">Slot 8 is No chores</string>
   <string name="chore_config_need_two">Enter at least two chores.</string>
+  <string name="chore_config_need_one_with_no_chores">Enter at least one chore when No chores is enabled.</string>
   <string name="chore_config_cancel">Cancel</string>
   <string name="chore_config_save">Add widget</string>
+  <string name="chore_spin_spinning">Spinning&#8230;</string>
+  <string name="chore_spin_result">Picked: %1$s</string>
+  <string name="chore_spin_no_chores_result">No chores!</string>
+  <string name="chore_spin_again">Spin again</string>
+  <string name="chore_spin_done">Done</string>
+
+  <string name="countdown_widget_name">Countdown</string>
+  <string name="countdown_widget_title">Countdown</string>
+  <string name="countdown_widget_description">Resizable kitchen timer widget with in-widget controls</string>
+  <string name="countdown_ready">Ready</string>
+  <string name="countdown_running">Running</string>
+  <string name="countdown_start">Start</string>
+  <string name="countdown_pause">Pause</string>
+  <string name="countdown_reset">Reset</string>
+  <string name="countdown_done">Done</string>
+
+  <string name="weather_widget_name">Weather</string>
+  <string name="weather_widget_description">Resizable weather, UV, tide, and moon widget</string>
+  <string name="weather_config_title">Weather</string>
+  <string name="weather_config_subtitle">Search by city. Default is Charleston, SC. Add a NOAA tide station only if you want local tide cards.</string>
+  <string name="weather_config_city">City</string>
+  <string name="weather_config_tide_station">NOAA tide station ID (optional)</string>
+  <string name="weather_config_invalid_city">Enter a city.</string>
+  <string name="weather_config_search">Search city</string>
+  <string name="weather_config_searching">Searching city...</string>
+  <string name="weather_config_found">Using %1$s</string>
+  <string name="weather_config_city_not_found">Could not find that city. Try city and state, for example Charleston, SC.</string>
+  <string name="weather_config_cancel">Cancel</string>
+  <string name="weather_config_save">Add widget</string>
+
+  <string name="photo_widget_name">Photo Frame</string>
+  <string name="photo_widget_description">Static or slideshow photo widget</string>
+  <string name="photo_widget_empty">Cannot find album/photos. Pick photos first.</string>
+  <string name="photo_widget_static">Photo</string>
+  <string name="photo_widget_slideshow">Photo slideshow</string>
+  <string name="photo_config_title">Photo Frame</string>
+  <string name="photo_config_subtitle">Pick photos from Android. Google Photos appears only if this tablet exposes it in the picker; this widget does not sign in to Google Photos directly.</string>
+  <string name="photo_config_pick">Pick photos</string>
+  <string name="photo_config_browse_files">Browse files</string>
+  <string name="photo_config_no_album">No photos selected. If Google Photos albums are missing, open Google Photos on this tablet or use Browse files.</string>
+  <string name="photo_config_selected">%1$d photo(s) selected</string>
+  <string name="photo_config_slideshow">Slideshow</string>
+  <string name="photo_config_interval">Next photo in minutes</string>
+  <string name="photo_config_save">Add widget</string>
 </resources>

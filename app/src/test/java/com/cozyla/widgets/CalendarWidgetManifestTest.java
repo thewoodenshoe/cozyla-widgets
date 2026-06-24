@@ -6,11 +6,14 @@ import static org.junit.Assert.assertTrue;
 import android.Manifest;
 import android.app.job.JobService;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
+import android.net.Uri;
 
 import androidx.test.core.app.ApplicationProvider;
 
@@ -19,6 +22,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import java.util.Arrays;
+import java.util.List;
 
 @RunWith(RobolectricTestRunner.class)
 public class CalendarWidgetManifestTest {
@@ -34,9 +38,16 @@ public class CalendarWidgetManifestTest {
         );
 
         assertTrue(Arrays.asList(info.requestedPermissions).contains(Manifest.permission.READ_CALENDAR));
-        assertFalse(Arrays.asList(info.requestedPermissions).contains(Manifest.permission.INTERNET));
+        assertTrue(Arrays.asList(info.requestedPermissions).contains(Manifest.permission.INTERNET));
+        assertTrue(Arrays.asList(info.requestedPermissions).contains(Manifest.permission.ACCESS_NETWORK_STATE));
+        assertTrue(Arrays.asList(info.requestedPermissions).contains(Manifest.permission.VIBRATE));
+        assertTrue(Arrays.asList(info.requestedPermissions).contains(Manifest.permission.RECEIVE_BOOT_COMPLETED));
         assertFalse((info.applicationInfo.flags & ApplicationInfo.FLAG_ALLOW_BACKUP) != 0);
         assertFalse((info.applicationInfo.flags & ApplicationInfo.FLAG_USES_CLEARTEXT_TRAFFIC) != 0);
+        assertFalse(component(
+                info.receivers,
+                "com.cozyla.widgets.WidgetRefreshReceiver"
+        ).exported);
         assertFalse(component(
                 info.receivers,
                 "com.cozyla.widgets.calendar.CalendarWidgetProvider"
@@ -53,6 +64,18 @@ public class CalendarWidgetManifestTest {
                 info.receivers,
                 "com.cozyla.widgets.chores.ChoreWheelProvider"
         ).exported);
+        assertFalse(component(
+                info.receivers,
+                "com.cozyla.widgets.countdown.CountdownWidgetProvider"
+        ).exported);
+        assertFalse(component(
+                info.receivers,
+                "com.cozyla.widgets.weather.WeatherWidgetProvider"
+        ).exported);
+        assertFalse(component(
+                info.receivers,
+                "com.cozyla.widgets.photos.PhotoFrameWidgetProvider"
+        ).exported);
         assertTrue(hasComponent(
                 info.activities,
                 "com.cozyla.widgets.calendar.CalendarWidgetConfigureActivity"
@@ -61,6 +84,22 @@ public class CalendarWidgetManifestTest {
                 info.activities,
                 "com.cozyla.widgets.chores.ChoreWheelConfigureActivity"
         ));
+        assertTrue(hasComponent(
+                info.activities,
+                "com.cozyla.widgets.weather.WeatherConfigureActivity"
+        ));
+        assertTrue(hasComponent(
+                info.activities,
+                "com.cozyla.widgets.photos.PhotoFrameConfigureActivity"
+        ));
+        assertFalse(component(
+                info.activities,
+                "com.cozyla.widgets.chores.ChoreWheelSpinActivity"
+        ).exported);
+        assertTrue(component(
+                info.activities,
+                "com.cozyla.widgets.countdown.CountdownActionActivity"
+        ).exported);
         ServiceInfo jobService = service(
                 info.services,
                 "com.cozyla.widgets.calendar.CalendarWidgetUpdateJobService"
@@ -70,6 +109,30 @@ public class CalendarWidgetManifestTest {
                 JobService.PERMISSION_BIND,
                 jobService.permission
         );
+        assertJobService(info, "com.cozyla.widgets.quote.QuoteWidgetUpdateJobService");
+        assertJobService(info, "com.cozyla.widgets.weather.WeatherWidgetUpdateJobService");
+        assertWidgetRefreshReceiverHandlesPackageReplacement(context);
+    }
+
+    private static void assertWidgetRefreshReceiverHandlesPackageReplacement(Context context) {
+        Intent intent = new Intent(
+                Intent.ACTION_PACKAGE_REPLACED,
+                Uri.parse("package:" + context.getPackageName())
+        );
+        intent.setPackage(context.getPackageName());
+        List<ResolveInfo> receivers = context.getPackageManager().queryBroadcastReceivers(intent, 0);
+        for (ResolveInfo receiver : receivers) {
+            if ("com.cozyla.widgets.WidgetRefreshReceiver".equals(receiver.activityInfo.name)) {
+                return;
+            }
+        }
+        throw new AssertionError("WidgetRefreshReceiver must handle ACTION_PACKAGE_REPLACED");
+    }
+
+    private static void assertJobService(PackageInfo info, String className) {
+        ServiceInfo jobService = service(info.services, className);
+        assertTrue(jobService.exported);
+        org.junit.Assert.assertEquals(JobService.PERMISSION_BIND, jobService.permission);
     }
 
     private static boolean hasComponent(ActivityInfo[] components, String className) {
